@@ -1,0 +1,54 @@
+{
+	"name": "harvestsync",
+	"description": "Sync harvest with your google sheets",
+	"version": "1.0.0",
+	"homepage": "",
+	"author": {
+		"name": "Dominik Wilkowski",
+		"email": "Hi@Dominik-Wilkowski.com",
+		"url": "https://dominik-wilkowski.com/"
+	},
+	"contributors": [
+		{
+			"name": "Dominik Wilkowski",
+			"email": "Hi@Dominik-Wilkowski.com",
+			"url": "https://dominik-wilkowski.com/"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/dominikwilkowski/harvestsync.git"
+	},
+	"bugs": {
+		"url": "https://github.com/dominikwilkowski/harvestsync/issues"
+	},
+	"licenses": [
+		{
+			"type": "GPL-3.0",
+			"url": "https://github.com/dominikwilkowski/harvestsync/blob/master/LICENSE"
+		}
+	],
+	"license": "GPL-3.0",
+	"scripts": {
+		"test": "yarn test:format",
+		"test:format": "prettier --list-different \"**/*.{js,md,mdx,json,html}\"",
+		"format": "prettier --write \"**/*.{js,md,mdx,json,html}\"",
+		"nuke": "rm -rf node_modules && rm yarn.lock"
+	},
+	"dependencies": {
+		"axios": "^0.20.0",
+		"chalk": "^4.1.0",
+		"date-fns": "^2.16.1",
+		"googleapis": "^59.0.0"
+	},
+	"devDependencies": {
+		"prettier": "^2.1.1"
+	},
+	"files": [
+		"src/*.js",
+		"bin/*"
+	],
+	"bin": {
+		"harvestsync": "./bin/index.js"
+	}
+}
