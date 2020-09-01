@@ -55,8 +55,8 @@ async function updateSheet(projectSettings, data, project, projects) {
 
 	try {
 		await clearSheet({
-			spreadsheetId: projectSettings.GOOGLE_SPREADSHEET_ID,
-			range: 'A1:ZZZ9999',
+			spreadsheetId: projectSettings.spreadsheetID,
+			range: `${projectSettings.tabName}!A1:ZZZ9999`,
 			auth: oauth2Client,
 		});
 		mark.ok(3, project, projects);
@@ -67,8 +67,8 @@ async function updateSheet(projectSettings, data, project, projects) {
 	try {
 		await enterData(
 			{
-				spreadsheetId: projectSettings.GOOGLE_SPREADSHEET_ID,
-				range: projectSettings.GOOGLE_SPREADSHEET_TAB,
+				spreadsheetId: projectSettings.spreadsheetID,
+				range: projectSettings.tabName,
 				valueInputOption: 'RAW',
 				insertDataOption: 'OVERWRITE',
 				resource: {
