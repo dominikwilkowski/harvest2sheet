@@ -34,3 +34,4 @@ package-lock.json
 
 # project files
 project.json
+credentials.json
