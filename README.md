@@ -85,6 +85,6 @@ Please note that all data inside that tab will be erased.
 
 ## Release History
 
-* 1.0.0 - Launch
+- 1.0.0 - Launch
 
 # };
