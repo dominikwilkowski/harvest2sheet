@@ -36,7 +36,6 @@
 		"nuke": "rm -rf node_modules && rm yarn.lock"
 	},
 	"dependencies": {
-		"axios": "^0.20.0",
 		"chalk": "^4.1.0",
 		"date-fns": "^2.16.1",
 		"googleapis": "^59.0.0"

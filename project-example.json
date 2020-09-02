@@ -6,10 +6,16 @@
 	"GOOGLE_REFRESH_TOKEN": "Add your google refresh token here",
 	"tasks": {
 		"project1": {
+			"harvestProject": 42,
+			"from": "2020-08-01T00:00:00",
+			"to": "2020-08-31T23:59:59",
 			"spreadsheetID": "Add your google sheets ID here",
 			"tabName": "Add your google sheet tab name here"
 		},
 		"project2": {
+			"harvestProject": 42,
+			"from": "2020-08-01T00:00:00",
+			"to": "2020-08-31T23:59:59",
 			"spreadsheetID": "Add your google sheets ID here",
 			"tabName": "Add your google sheet tab name here"
 		}

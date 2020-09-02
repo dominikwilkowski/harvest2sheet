@@ -1,6 +1,39 @@
-const lastDayOfMonth = require('date-fns/lastDayOfMonth');
+const parseISO = require('date-fns/parseISO');
+const querystring = require('querystring');
 const format = require('date-fns/format');
-const axios = require('axios');
+const https = require('https');
+
+function makeRequest(path, params, projectSettings) {
+	return new Promise((resolve, reject) => {
+		const options = {
+			hostname: 'api.harvestapp.com',
+			path: `${path}?${querystring.stringify(params)}`,
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${projectSettings.HARVEST_ACCESS_TOKEN}`,
+				'Harvest-Account-Id': projectSettings.HARVEST_ACCOUNT_ID,
+				'User-Agent': 'HarvestSync',
+			},
+		};
+
+		https
+			.request(options, (response) => {
+				let data = '';
+
+				response.on('data', (chunk) => {
+					data += chunk;
+				});
+
+				response.on('end', () => {
+					resolve(JSON.parse(data));
+				});
+			})
+			.on('error', (error) => {
+				reject(error);
+			})
+			.end();
+	});
+}
 
 function clean(text) {
 	if (!text) {
@@ -10,8 +43,9 @@ function clean(text) {
 }
 
 async function getHarvestData(projectSettings) {
-	const fromTime = new Date(2020, 7);
-	const toTime = lastDayOfMonth(new Date(2020, 7, 1, 23, 59, 59));
+	const errors = [];
+	const fromTime = parseISO(projectSettings.from);
+	const toTime = parseISO(projectSettings.to);
 	const url = 'https://api.harvestapp.com/v2/time_entries';
 	let csv = [
 		[
@@ -38,20 +72,21 @@ async function getHarvestData(projectSettings) {
 		],
 	];
 
-	const {
-		data: { time_entries: data },
-	} = await axios.get(url, {
-		params: {
-			from: format(fromTime, 'yyyyMMdd'),
-			to: format(toTime, 'yyyyMMdd'),
-			project_id: 25774345,
-		},
-		headers: {
-			Authorization: `Bearer ${projectSettings.HARVEST_ACCESS_TOKEN}`,
-			'Harvest-Account-Id': projectSettings.HARVEST_ACCOUNT_ID,
-			'User-Agent': 'HarvestSync',
-		},
-	});
+	let data;
+	try {
+		const { time_entries } = await makeRequest(
+			'/v2/time_entries',
+			{
+				from: format(fromTime, 'yyyyMMdd'),
+				to: format(toTime, 'yyyyMMdd'),
+				project_id: projectSettings.harvestProject,
+			},
+			projectSettings
+		);
+		data = time_entries;
+	} catch (error) {
+		errors.push(error);
+	}
 
 	data.reverse().map((entry) => {
 		const newLine = [];
@@ -78,7 +113,10 @@ async function getHarvestData(projectSettings) {
 		csv.push(newLine);
 	});
 
-	return csv;
+	return {
+		csv,
+		errors: errors.length ? errors.join('\n') : null,
+	};
 }
 
 module.exports = {

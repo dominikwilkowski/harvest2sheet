@@ -1,26 +1,38 @@
 const chalk = require('chalk');
 const path = require('path');
 
-const SETTINGS = require(path.normalize(`${process.cwd()}/project.json`));
+let SETTINGS;
+try {
+	SETTINGS = require(path.normalize(`${process.cwd()}/project.json`));
+} catch (error) {
+	console.error(
+		chalk.red(
+			`Was not able to open the "${chalk.bold(
+				'project.json'
+			)}".\nMake sure you have that file in the same folder you run this app in.`
+		)
+	);
+	process.exit(1);
+}
 
 if (!SETTINGS.HARVEST_ACCESS_TOKEN) {
-	console.error(chalk.red(`Missing project entry "HARVEST_ACCESS_TOKEN"`));
+	console.error(chalk.red('Missing project entry "HARVEST_ACCESS_TOKEN"'));
 	process.exit(1);
 }
 if (!SETTINGS.HARVEST_ACCOUNT_ID) {
-	console.error(chalk.red(`Missing project entry "HARVEST_ACCOUNT_ID"`));
+	console.error(chalk.red('Missing project entry "HARVEST_ACCOUNT_ID"'));
 	process.exit(1);
 }
 if (!SETTINGS.GOOGLE_ID) {
-	console.error(chalk.red(`Missing project entry "GOOGLE_ID"`));
+	console.error(chalk.red('Missing project entry "GOOGLE_ID"'));
 	process.exit(1);
 }
 if (!SETTINGS.GOOGLE_SECRET) {
-	console.error(chalk.red(`Missing project entry "GOOGLE_SECRET"`));
+	console.error(chalk.red('Missing project entry "GOOGLE_SECRET"'));
 	process.exit(1);
 }
 if (!SETTINGS.GOOGLE_REFRESH_TOKEN) {
-	console.error(chalk.red(`Missing project entry "GOOGLE_REFRESH_TOKEN"`));
+	console.error(chalk.red('Missing project entry "GOOGLE_REFRESH_TOKEN"'));
 	process.exit(1);
 }
 
