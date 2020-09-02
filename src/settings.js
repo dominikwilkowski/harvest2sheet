@@ -9,7 +9,9 @@ try {
 		chalk.red(
 			`Was not able to open the "${chalk.bold(
 				'project.json'
-			)}".\nMake sure you have that file in the same folder you run this app in.`
+			)}".\nMake sure you have that file in the same folder you run this app in.\nYou can create a new "${chalk.bold(
+				'project.json'
+			)}" by running "${chalk.bold('harvestsync login')}".`
 		)
 	);
 	process.exit(1);

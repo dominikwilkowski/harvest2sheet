@@ -72,31 +72,36 @@ function updateSheet(projectSettings, data, project, projects) {
 		} catch (error) {
 			errors.push(error);
 			mark.fail(3, project, projects);
-			reject(errors.join('\n'));
-		}
-
-		try {
-			await enterData(
-				{
-					spreadsheetId: projectSettings.spreadsheetID,
-					range: projectSettings.tabName,
-					valueInputOption: 'RAW',
-					insertDataOption: 'OVERWRITE',
-					resource: {
-						values: data,
-					},
-					auth: oauth2Client,
-				},
-				data
-			);
-			mark.ok(2, project, projects);
-		} catch (error) {
-			errors.push(error);
 			mark.fail(2, project, projects);
 			reject(errors.join('\n'));
 		}
 
-		resolve(errors.length ? errors.join('\n') : null);
+		if (!errors.length) {
+			try {
+				await enterData(
+					{
+						spreadsheetId: projectSettings.spreadsheetID,
+						range: projectSettings.tabName,
+						valueInputOption: 'RAW',
+						insertDataOption: 'OVERWRITE',
+						resource: {
+							values: data,
+						},
+						auth: oauth2Client,
+					},
+					data
+				);
+				mark.ok(2, project, projects);
+			} catch (error) {
+				errors.push(error);
+				mark.fail(2, project, projects);
+				reject(errors.join('\n'));
+			}
+		}
+
+		if (!errors.length) {
+			resolve(errors.length ? errors.join('\n') : null);
+		}
 	});
 }
 
