@@ -4,7 +4,7 @@ const { login } = require('./login.js');
 const { mark } = require('./log.js');
 const chalk = require('chalk');
 
-function harvestSync() {
+function harvest2sheet() {
 	if (process.argv.includes('login')) {
 		login();
 	} else {
@@ -77,5 +77,5 @@ async function sync() {
 }
 
 module.exports = {
-	harvestSync,
+	harvest2sheet,
 };

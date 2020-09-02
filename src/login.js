@@ -124,7 +124,7 @@ async function login() {
 		console.log(
 			`\n${chalk.green(
 				`The "${chalk.bold('project.json')}" was successfully created.`
-			)}\nYou can now add your tasks into it and run "${chalk.bold('harvestsync')}"`
+			)}\nYou can now add your tasks into it and run "${chalk.bold('harvest2sheet')}"`
 		);
 	}
 

@@ -11,7 +11,7 @@ try {
 				'project.json'
 			)}".\nMake sure you have that file in the same folder you run this app in.\nYou can create a new "${chalk.bold(
 				'project.json'
-			)}" by running "${chalk.bold('harvestsync login')}".`
+			)}" by running "${chalk.bold('harvest2sheet login')}".`
 		)
 	);
 	process.exit(1);

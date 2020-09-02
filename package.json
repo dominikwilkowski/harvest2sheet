@@ -1,5 +1,5 @@
 {
-	"name": "harvestsync",
+	"name": "harvest2sheet",
 	"description": "Sync harvest with your google sheets",
 	"version": "1.0.0",
 	"homepage": "",
@@ -17,15 +17,15 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/dominikwilkowski/harvestsync.git"
+		"url": "git://github.com/dominikwilkowski/harvest2sheet.git"
 	},
 	"bugs": {
-		"url": "https://github.com/dominikwilkowski/harvestsync/issues"
+		"url": "https://github.com/dominikwilkowski/harvest2sheet/issues"
 	},
 	"licenses": [
 		{
 			"type": "GPL-3.0",
-			"url": "https://github.com/dominikwilkowski/harvestsync/blob/master/LICENSE"
+			"url": "https://github.com/dominikwilkowski/harvest2sheet/blob/master/LICENSE"
 		}
 	],
 	"license": "GPL-3.0",
@@ -48,6 +48,6 @@
 		"bin/*"
 	],
 	"bin": {
-		"harvestsync": "./bin/index.js"
+		"harvest2sheet": "./bin/index.js"
 	}
 }
