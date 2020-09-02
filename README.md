@@ -1,8 +1,8 @@
 # HarvestSync
 
-Allows you to download time sheet data from a project within [Harvest](https://www.getharvest.com/) into [Google sheets](https://docs.google.com/spreadsheets).
+> Allows you to download time sheet data from a project within [Harvest](https://www.getharvest.com/) into [Google sheets](https://docs.google.com/spreadsheets).
 
-<p align="center"><img src="https://raw.githubusercontent.com/dominikwilkowski/harvestsync/released/assets/harvestsync.gif" alt="Running harvestsync can batch several tasks together"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/dominikwilkowski/harvestsync/released/assets/harvestsync.gif" width="468" alt="Running harvestsync can batch several tasks together"></p>
 
 ## Install
 
@@ -14,7 +14,7 @@ Install via:
 npm install -g harvestsync
 ```
 
-## Configure your tasks
+## Configure
 
 `harvestsync` requires a `project.json` file to run it's tasks off of.
 
