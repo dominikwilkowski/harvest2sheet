@@ -83,4 +83,8 @@ The name of the tab you want to add the harvest data.
 
 Please note that all data inside that tab will be erased.
 
+## Release History
+
+* 1.0.0 - Launch
+
 # };
