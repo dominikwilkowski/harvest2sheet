@@ -2,7 +2,7 @@
 
 > Allows you to download time sheet data from a project within [Harvest](https://www.getharvest.com/) into [Google sheets](https://docs.google.com/spreadsheets).
 
-<p align="center"><img src="https://raw.githubusercontent.com/dominikwilkowski/harvest2sheet/released/assets/harvest2sheet.gif" width="854" alt="Running harvest2sheet can batch several tasks together"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/dominikwilkowski/harvest2sheet/released/assets/harvest2sheet.gif" alt="Running harvest2sheet can batch several tasks together"></p>
 
 ## Install
 
