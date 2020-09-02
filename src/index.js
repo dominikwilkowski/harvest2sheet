@@ -4,6 +4,9 @@ const { login } = require('./login.js');
 const { mark } = require('./log.js');
 const chalk = require('chalk');
 
+/**
+ * The main function that checks for cli options
+ */
 function harvest2sheet() {
 	if (process.argv.includes('login')) {
 		login();
@@ -12,7 +15,11 @@ function harvest2sheet() {
 	}
 }
 
+/**
+ * Sync data from harvest to google sheets
+ */
 async function sync() {
+	// we include it here as it checks for the existence of the `project.json` which doesn't have to exist for the login route
 	const { SETTINGS } = require('./settings.js');
 
 	let errors = '';

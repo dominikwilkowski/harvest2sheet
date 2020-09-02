@@ -3,6 +3,15 @@ const querystring = require('querystring');
 const format = require('date-fns/format');
 const https = require('https');
 
+/**
+ * Make a request to the harvest API
+ *
+ * @param  {string} path            - The path of the API route
+ * @param  {object} params          - The parameters to be encoded as query string
+ * @param  {object} projectSettings - This projects settings
+ *
+ * @return {object}                 - The returning data
+ */
 function makeRequest(path, params, projectSettings) {
 	return new Promise((resolve, reject) => {
 		const options = {
@@ -35,13 +44,13 @@ function makeRequest(path, params, projectSettings) {
 	});
 }
 
-function clean(text) {
-	if (!text) {
-		return '';
-	}
-	return text.toString().replace(/\n/g, ' ').replace(/,/g, ' ');
-}
-
+/**
+ * Get time entries out of harvest between two points in time
+ *
+ * @param  {object} projectSettings - This projects settings
+ *
+ * @return {array}                  - The time entries
+ */
 async function getHarvestData(projectSettings) {
 	const errors = [];
 	const fromTime = parseISO(projectSettings.from);
@@ -90,26 +99,26 @@ async function getHarvestData(projectSettings) {
 
 	data.reverse().map((entry) => {
 		const newLine = [];
-		/* Date                   */ newLine.push(clean(entry.spent_date));
-		/* Client                 */ newLine.push(clean(entry.client.name));
-		/* Project                */ newLine.push(clean(entry.project.name));
-		/* Project Code           */ newLine.push(clean(entry.project.node));
-		/* Task                   */ newLine.push(clean(entry.task.name));
-		/* Notes                  */ newLine.push(clean(entry.notes));
-		/* Hours                  */ newLine.push(clean(entry.hours));
-		/* Hours Rounded          */ newLine.push(clean(entry.rounded_hours));
-		/* Billable?              */ newLine.push(clean(entry.billable ? 'Yes' : 'No'));
-		/* Invoiced?              */ newLine.push(clean(entry.invoiced ? 'Yes' : 'No'));
-		/* First Name             */ newLine.push(clean(entry.user.name));
-		/* Last Name              */ newLine.push(clean(entry.user.name));
-		/* Roles                  */ newLine.push(clean('TM Production'));
-		/* Employee?              */ newLine.push(clean('Maybe'));
-		/* Billable Rate          */ newLine.push(clean(entry.billable_rate));
-		/* Billable Amount        */ newLine.push(clean(entry.rounded_hours * entry.billable_rate));
-		/* Cost Rate              */ newLine.push(clean(entry.cost_rate));
-		/* Cost Amount            */ newLine.push(clean(entry.rounded_hours * entry.cost_rate));
-		/* Currency               */ newLine.push(clean('Australian Dollar - AUD'));
-		/* External Reference URL */ newLine.push(clean(''));
+		/* Date                   */ newLine.push(entry.spent_date);
+		/* Client                 */ newLine.push(entry.client.name);
+		/* Project                */ newLine.push(entry.project.name);
+		/* Project Code           */ newLine.push(entry.project.node);
+		/* Task                   */ newLine.push(entry.task.name);
+		/* Notes                  */ newLine.push(entry.notes);
+		/* Hours                  */ newLine.push(entry.hours);
+		/* Hours Rounded          */ newLine.push(entry.rounded_hours);
+		/* Billable?              */ newLine.push(entry.billable ? 'Yes' : 'No');
+		/* Invoiced?              */ newLine.push(entry.invoiced ? 'Yes' : 'No');
+		/* First Name             */ newLine.push(entry.user.name);
+		/* Last Name              */ newLine.push(entry.user.name);
+		/* Roles                  */ newLine.push('TM Production');
+		/* Employee?              */ newLine.push('Maybe');
+		/* Billable Rate          */ newLine.push(entry.billable_rate);
+		/* Billable Amount        */ newLine.push(entry.rounded_hours * entry.billable_rate);
+		/* Cost Rate              */ newLine.push(entry.cost_rate);
+		/* Cost Amount            */ newLine.push(entry.rounded_hours * entry.cost_rate);
+		/* Currency               */ newLine.push('Australian Dollar - AUD');
+		/* External Reference URL */ newLine.push('');
 		csv.push(newLine);
 	});
 

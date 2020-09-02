@@ -3,6 +3,13 @@ const { mark } = require('./log.js');
 
 const sheets = google.sheets('v4');
 
+/**
+ * Retrieve the access token from google
+ *
+ * @param  {object} oauth2Client - The auth object instance
+ *
+ * @return {string}              - The access token
+ */
 function getOauth(oauth2Client) {
 	return new Promise((resolve, reject) => {
 		oauth2Client.refreshAccessToken((error, tokens) => {
@@ -15,6 +22,11 @@ function getOauth(oauth2Client) {
 	});
 }
 
+/**
+ * Clear a spreadsheet
+ *
+ * @param  {object} options - The options for clearing the sheet
+ */
 function clearSheet(options) {
 	return new Promise((resolve, reject) => {
 		sheets.spreadsheets.values.clear(options, (error, response) => {
@@ -26,6 +38,12 @@ function clearSheet(options) {
 	});
 }
 
+/**
+ * Enter data into a sheet
+ *
+ * @param  {object} options - The options for entering data
+ * @param  {array}  data    - The actual data in a nested array
+ */
 function enterData(options, data) {
 	return new Promise((resolve, reject) => {
 		sheets.spreadsheets.values.append(options, (error, response) => {
@@ -37,6 +55,16 @@ function enterData(options, data) {
 	});
 }
 
+/**
+ * Updating a google sheet with data
+ *
+ * @param  {object} projectSettings - This projects settings
+ * @param  {array}  data            - The data to be entered in a nested array
+ * @param  {number} project         - The index of the loop
+ * @param  {number} projects        - The length of all projects
+ *
+ * @return {string|null}            - A string of errors if there are any
+ */
 function updateSheet(projectSettings, data, project, projects) {
 	return new Promise(async (resolve, reject) => {
 		const errors = [];

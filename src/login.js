@@ -4,6 +4,14 @@ const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
 
+/**
+ * Asking for user input via readline
+ *
+ * @param  {string} question - The question we want to display
+ * @param  {object} rl       - The readline instance
+ *
+ * @return {string}          - The user input
+ */
 function question(question, rl) {
 	return new Promise((resolve, reject) => {
 		rl.question(question, (input) => {
@@ -12,6 +20,14 @@ function question(question, rl) {
 	});
 }
 
+/**
+ * Getting the refresh token from google
+ *
+ * @param  {object} oAuth2Client - The auth object instance
+ * @param  {string} accessToken  - The access token
+ *
+ * @return {string}              - The refresh token from google
+ */
 function getToken(oAuth2Client, accessToken) {
 	return new Promise((resolve, reject) => {
 		oAuth2Client.getToken(accessToken, (error, token) => {
@@ -29,6 +45,9 @@ function getToken(oAuth2Client, accessToken) {
 	});
 }
 
+/**
+ * Lead the user through the signing in journey and ask for each data to generate the `project.json`
+ */
 async function login() {
 	const rl = readline
 		.createInterface({

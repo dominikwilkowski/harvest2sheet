@@ -85,6 +85,7 @@ Please note that all data inside that tab will be erased.
 
 ## Release History
 
+- 1.0.1 - added support for multi line time entries
 - 1.0.0 - Launch
 
 # };

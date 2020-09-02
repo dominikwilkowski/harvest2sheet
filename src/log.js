@@ -1,7 +1,12 @@
 const chalk = require('chalk');
 
+/**
+ * An object with login methods that allows us to tick things of async
+ *
+ * @type {Object}
+ */
 const mark = {
-	errors: {},
+	errors: {}, // we keep track if a project has already failed
 	ok: (position, project, projects) => {
 		if (mark.errors[project]) {
 			mark.fail(position, project, projects);
