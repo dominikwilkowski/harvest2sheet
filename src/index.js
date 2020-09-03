@@ -36,12 +36,29 @@ async function sync() {
 			console.log('               Entered data into Google sheet');
 			console.log('               Task finished');
 
+			const defaultOutput = [
+				'date',
+				'user',
+				'client',
+				'project',
+				'task',
+				'hours',
+				'rounded_hours',
+				'notes',
+				'billable_rate',
+				'billable_amount',
+				'cost_rate',
+				'cost_amount',
+				'currency',
+			];
+
 			const projectSettings = {
 				HARVEST_ACCESS_TOKEN: SETTINGS.HARVEST_ACCESS_TOKEN,
 				HARVEST_ACCOUNT_ID: SETTINGS.HARVEST_ACCOUNT_ID,
 				GOOGLE_ID: SETTINGS.GOOGLE_ID,
 				GOOGLE_SECRET: SETTINGS.GOOGLE_SECRET,
 				GOOGLE_REFRESH_TOKEN: SETTINGS.GOOGLE_REFRESH_TOKEN,
+				output: SETTINGS.output || defaultOutput,
 				...settings,
 			};
 

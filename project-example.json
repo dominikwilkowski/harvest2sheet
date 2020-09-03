@@ -19,5 +19,20 @@
 			"spreadsheetID": "Add your google sheets ID here",
 			"tabName": "Add your google sheet tab name here"
 		}
-	}
+	},
+	"output": [
+		"date",
+		"user",
+		"client",
+		"project",
+		"task",
+		"hours",
+		"rounded_hours",
+		"notes",
+		"billable_rate",
+		"billable_amount",
+		"cost_rate",
+		"cost_amount",
+		"currency"
+	]
 }

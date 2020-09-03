@@ -56,30 +56,114 @@ async function getHarvestData(projectSettings) {
 	const fromTime = parseISO(projectSettings.from);
 	const toTime = parseISO(projectSettings.to);
 	const url = 'https://api.harvestapp.com/v2/time_entries';
-	let csv = [
-		[
-			'Date',
-			'Client',
-			'Project',
-			'Project Code',
-			'Task',
-			'Notes',
-			'Hours',
-			'Hours Rounded',
-			'Billable?',
-			'Invoiced?',
-			'First Name',
-			'Last Name',
-			'Roles',
-			'Employee?',
-			'Billable Rate',
-			'Billable Amount',
-			'Cost Rate',
-			'Cost Amount',
-			'Currency',
-			'External Reference URL',
-		],
-	];
+	const outputMap = {
+		date: {
+			name: 'Date',
+			value: (item) => item.spent_date,
+		},
+		hours: {
+			name: 'Hours',
+			value: (item) => item.hours,
+		},
+		rounded_hours: {
+			name: 'Rounded Hours',
+			value: (item) => item.rounded_hours,
+		},
+		notes: {
+			name: 'Notes',
+			value: (item) => item.notes,
+		},
+		locked: {
+			name: 'Locked',
+			value: (item) => (item.is_locked ? 'Yes' : 'No'),
+		},
+		locked_reason: {
+			name: 'Locked Reason',
+			value: (item) => item.locked_reason,
+		},
+		closed: {
+			name: 'Closed',
+			value: (item) => (item.is_closed ? 'Yes' : 'No'),
+		},
+		billed: {
+			name: 'Billed',
+			value: (item) => (item.is_billed ? 'Yes' : 'No'),
+		},
+		timer_started_at: {
+			name: 'Timer Started At',
+			value: (item) => item.timer_started_at,
+		},
+		started_time: {
+			name: 'Started Timer',
+			value: (item) => item.started_time,
+		},
+		ended_time: {
+			name: 'Ended Timer',
+			value: (item) => item.ended_time,
+		},
+		running: {
+			name: 'Running',
+			value: (item) => (item.is_running ? 'Yes' : 'No'),
+		},
+		billable: {
+			name: 'Billable',
+			value: (item) => item.billable,
+		},
+		budgeted: {
+			name: 'Budgeted',
+			value: (item) => item.budgeted,
+		},
+		billable_rate: {
+			name: 'Billable Rate',
+			value: (item) => item.billable_rate,
+		},
+		billable_amount: {
+			name: 'Billable Amount',
+			value: (item) => item.rounded_hours * item.billable_rate,
+		},
+		cost_rate: {
+			name: 'Cost Rate',
+			value: (item) => item.cost_rate,
+		},
+		cost_amount: {
+			name: 'Cost Amount',
+			value: (item) => item.rounded_hours * item.cost_rate,
+		},
+		created_at: {
+			name: 'Created At',
+			value: (item) => format(parseISO(item.created_at), 'yyyy-MM-dd'),
+		},
+		updated_at: {
+			name: 'Updated At',
+			value: (item) => item.updated_at,
+		},
+		user: {
+			name: 'User',
+			value: (item) => item.user.name,
+		},
+		client: {
+			name: 'Client',
+			value: (item) => item.client.name,
+		},
+		currency: {
+			name: 'Currency',
+			value: (item) => item.client.currency,
+		},
+		project: {
+			name: 'Project',
+			value: (item) => item.project.name,
+		},
+		project_code: {
+			name: 'Project Code',
+			value: (item) => item.project.code,
+		},
+		task: {
+			name: 'Task',
+			value: (item) => item.task.name,
+		},
+	};
+
+	const csv = [projectSettings.output.map((item) => outputMap[item].name)];
 
 	let data;
 	try {
@@ -98,28 +182,7 @@ async function getHarvestData(projectSettings) {
 	}
 
 	data.reverse().map((entry) => {
-		const newLine = [];
-		/* Date                   */ newLine.push(entry.spent_date);
-		/* Client                 */ newLine.push(entry.client.name);
-		/* Project                */ newLine.push(entry.project.name);
-		/* Project Code           */ newLine.push(entry.project.node);
-		/* Task                   */ newLine.push(entry.task.name);
-		/* Notes                  */ newLine.push(entry.notes);
-		/* Hours                  */ newLine.push(entry.hours);
-		/* Hours Rounded          */ newLine.push(entry.rounded_hours);
-		/* Billable?              */ newLine.push(entry.billable ? 'Yes' : 'No');
-		/* Invoiced?              */ newLine.push(entry.invoiced ? 'Yes' : 'No');
-		/* First Name             */ newLine.push(entry.user.name);
-		/* Last Name              */ newLine.push(entry.user.name);
-		/* Roles                  */ newLine.push('TM Production');
-		/* Employee?              */ newLine.push('Maybe');
-		/* Billable Rate          */ newLine.push(entry.billable_rate);
-		/* Billable Amount        */ newLine.push(entry.rounded_hours * entry.billable_rate);
-		/* Cost Rate              */ newLine.push(entry.cost_rate);
-		/* Cost Amount            */ newLine.push(entry.rounded_hours * entry.cost_rate);
-		/* Currency               */ newLine.push('Australian Dollar - AUD');
-		/* External Reference URL */ newLine.push('');
-		csv.push(newLine);
+		csv.push(projectSettings.output.map((item) => outputMap[item].value(entry)));
 	});
 
 	return {

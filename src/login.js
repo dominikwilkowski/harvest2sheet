@@ -87,7 +87,7 @@ async function login() {
 	);
 
 	console.log(
-		'\n  Now log into google with your Thinkmill account and visit https://developers.google.com/sheets/api/quickstart/nodejs'
+		'\n  Now log into google with google account that created the spreadsheet and visit https://developers.google.com/sheets/api/quickstart/nodejs'
 	);
 	console.log(`  Click the blue button "${chalk.bold('Enable the Google Sheets API')}"`);
 	console.log(`  Choose "${chalk.bold('Desktop app')}" and click "${chalk.bold('Create')}"\n`);
@@ -132,6 +132,21 @@ async function login() {
 						tabName: 'your tab name',
 					},
 				},
+				output: [
+					'date',
+					'user',
+					'client',
+					'project',
+					'task',
+					'hours',
+					'rounded_hours',
+					'notes',
+					'billable_rate',
+					'billable_amount',
+					'cost_rate',
+					'cost_amount',
+					'currency',
+				],
 			},
 			null,
 			'\t'
