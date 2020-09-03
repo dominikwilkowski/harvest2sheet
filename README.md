@@ -165,6 +165,7 @@ Choose from the below items:
 
 ## Release History
 
+- 1.1.1 - fixed settings eror handling
 - 1.1.0 - added support for shaping the output
 - 1.0.1 - added support for multi line time entries
 - 1.0.0 - Launch
