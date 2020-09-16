@@ -11,7 +11,7 @@ const chalk = require('chalk');
 function harvest2sheet() {
 	if (process.argv.includes('login')) {
 		login();
-	} else if(process.argv.includes('-v')) {
+	} else if (process.argv.includes('-v')) {
 		console.log(`v${version}`);
 		process.exit(0);
 	} else {
