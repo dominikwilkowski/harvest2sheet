@@ -153,6 +153,7 @@ Choose from the below items:
 
 ## Release History
 
+- 1.2.2 - fixed date range for harvest
 - 1.2.1 - fixed isDate detection, added version flag support
 - 1.2.0 - added global dates, caught more errors
 - 1.1.1 - fixed settings error handling

@@ -73,7 +73,7 @@ if (!process.argv[2]) {
 	process.exit(1);
 }
 
-SETTINGS.fromDate = parseISO(`${process.argv[2]}-01T00:00:00`);
+SETTINGS.fromDate = parseISO(`${process.argv[2]}-01T00:00:00.000Z`);
 if (!isDate(SETTINGS.fromDate) || SETTINGS.fromDate.toString() === 'Invalid Date') {
 	console.error(
 		chalk.red(

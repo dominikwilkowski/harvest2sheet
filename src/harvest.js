@@ -169,8 +169,8 @@ async function getHarvestData(projectSettings) {
 		const { time_entries } = await makeRequest(
 			'/v2/time_entries',
 			{
-				from: projectSettings.fromDate,
-				to: projectSettings.toDate,
+				from: format(projectSettings.fromDate, 'yyyyMMdd'),
+				to: format(projectSettings.toDate, 'yyyyMMdd'),
 				project_id: projectSettings.harvestProject,
 			},
 			projectSettings
