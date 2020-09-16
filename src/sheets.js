@@ -1,3 +1,4 @@
+const format = require('date-fns/format');
 const { google } = require('googleapis');
 const { mark } = require('./log.js');
 
@@ -42,11 +43,26 @@ function clearSheet(options) {
  * Enter data into a sheet
  *
  * @param  {object} options - The options for entering data
- * @param  {array}  data    - The actual data in a nested array
  */
-function enterData(options, data) {
+function enterData(options) {
 	return new Promise((resolve, reject) => {
 		sheets.spreadsheets.values.append(options, (error, response) => {
+			if (error) {
+				reject(error);
+			}
+			resolve();
+		});
+	});
+}
+
+/**
+ * Batch update data into sheet
+ *
+ * @param  {object} options - The options for entering data
+ */
+function batchUpdate(options) {
+	return new Promise((resolve, reject) => {
+		sheets.spreadsheets.batchUpdate(options, (error, response) => {
 			if (error) {
 				reject(error);
 			}
@@ -90,10 +106,41 @@ function updateSheet(projectSettings, data, project, projects) {
 			access_token: tokens,
 		});
 
+		const tabName = `H|${format(projectSettings.fromDate, `LLL`)}'${format(
+			projectSettings.fromDate,
+			`yy`
+		)}`;
+
+		// creating a new tab
+		try {
+			await batchUpdate({
+				spreadsheetId: projectSettings.spreadsheetID,
+				auth: oauth2Client,
+				resource: {
+					requests: [
+						{
+							addSheet: {
+								properties: {
+									title: tabName,
+									tabColor: {
+										red: 155,
+										green: 155,
+										blue: 155,
+									},
+								},
+							},
+						},
+					],
+				},
+			});
+		} catch (error) {
+			/* ignoring if the tab already exists*/
+		}
+
 		try {
 			await clearSheet({
 				spreadsheetId: projectSettings.spreadsheetID,
-				range: `${projectSettings.tabName}!A1:ZZZ9999`,
+				range: `${tabName}!A1:ZZZ9999`,
 				auth: oauth2Client,
 			});
 			mark.ok(3, project, projects);
@@ -109,7 +156,7 @@ function updateSheet(projectSettings, data, project, projects) {
 				await enterData(
 					{
 						spreadsheetId: projectSettings.spreadsheetID,
-						range: projectSettings.tabName,
+						range: tabName,
 						valueInputOption: 'RAW',
 						insertDataOption: 'OVERWRITE',
 						resource: {

@@ -1,3 +1,7 @@
+const lastDayOfMonth = require('date-fns/lastDayOfMonth');
+const parseISO = require('date-fns/parseISO');
+const endOfDay = require('date-fns/endOfDay');
+const isDate = require('date-fns/isDate');
 const chalk = require('chalk');
 const path = require('path');
 
@@ -45,22 +49,10 @@ Object.entries(SETTINGS.tasks).map(async ([name, settings]) => {
 		);
 		process.exit(1);
 	}
-	if (!settings.tabName) {
-		console.error(chalk.red(`Missing entry "tabName" inside "${name}" task in your project.json`));
-		process.exit(1);
-	}
 	if (!settings.harvestProject) {
 		console.error(
 			chalk.red(`Missing entry "harvestProject" inside "${name}" task in your project.json`)
 		);
-		process.exit(1);
-	}
-	if (!settings.from) {
-		console.error(chalk.red(`Missing entry "from" inside "${name}" task in your project.json`));
-		process.exit(1);
-	}
-	if (!settings.to) {
-		console.error(chalk.red(`Missing entry "to" inside "${name}" task in your project.json`));
 		process.exit(1);
 	}
 });
@@ -69,6 +61,30 @@ if (SETTINGS.output && !Array.isArray(SETTINGS.output)) {
 	console.error(chalk.red('The "output" needs to be an array in your project.json'));
 	process.exit(1);
 }
+
+if (!process.argv[2]) {
+	console.error(
+		chalk.red(
+			`Please define the date you want to run.\nAn example for this would be:\n${chalk.yellow(
+				'harvest2sheet 2020-03'
+			)}\nWhich means March 2020`
+		)
+	);
+	process.exit(1);
+}
+
+SETTINGS.fromDate = parseISO(`${process.argv[2]}-01T00:00:00`);
+if (!isDate(SETTINGS.fromDate)) {
+	console.error(
+		chalk.red(
+			`Please define the date in the right format.\nAn example for this would be:\n${chalk.yellow(
+				'harvest2sheet 2020-03'
+			)}\nWhich means March 2020`
+		)
+	);
+	process.exit(1);
+}
+SETTINGS.toDate = endOfDay(lastDayOfMonth(SETTINGS.fromDate));
 
 module.exports = {
 	SETTINGS,

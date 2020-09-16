@@ -59,6 +59,8 @@ async function sync() {
 				GOOGLE_SECRET: SETTINGS.GOOGLE_SECRET,
 				GOOGLE_REFRESH_TOKEN: SETTINGS.GOOGLE_REFRESH_TOKEN,
 				output: SETTINGS.output || defaultOutput,
+				fromDate: SETTINGS.fromDate,
+				toDate: SETTINGS.toDate,
 				...settings,
 			};
 

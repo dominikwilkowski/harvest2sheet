@@ -53,8 +53,6 @@ function makeRequest(path, params, projectSettings) {
  */
 async function getHarvestData(projectSettings) {
 	const errors = [];
-	const fromTime = parseISO(projectSettings.from);
-	const toTime = parseISO(projectSettings.to);
 	const url = 'https://api.harvestapp.com/v2/time_entries';
 	const outputMap = {
 		date: {
@@ -163,27 +161,29 @@ async function getHarvestData(projectSettings) {
 		},
 	};
 
-	const csv = [projectSettings.output.map((item) => outputMap[item].name)];
+	const csv = [
+		projectSettings.output.map((item) => (outputMap[item] ? outputMap[item].name : 'unknown')),
+	];
 
-	let data;
 	try {
 		const { time_entries } = await makeRequest(
 			'/v2/time_entries',
 			{
-				from: format(fromTime, 'yyyyMMdd'),
-				to: format(toTime, 'yyyyMMdd'),
+				from: projectSettings.fromDate,
+				to: projectSettings.toDate,
 				project_id: projectSettings.harvestProject,
 			},
 			projectSettings
 		);
-		data = time_entries;
+
+		time_entries.reverse().map((entry) => {
+			csv.push(
+				projectSettings.output.map((item) => (outputMap[item] ? outputMap[item].value(entry) : ''))
+			);
+		});
 	} catch (error) {
 		errors.push(error);
 	}
-
-	data.reverse().map((entry) => {
-		csv.push(projectSettings.output.map((item) => outputMap[item].value(entry)));
-	});
 
 	return {
 		csv,

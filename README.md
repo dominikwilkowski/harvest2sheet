@@ -24,6 +24,18 @@ To start the wizard run:
 harvest2sheet login
 ```
 
+## Run
+
+To run the program make sure you specify which month you want to target.
+
+```sh
+harvest2sheet 2020-08
+```
+
+`harvest2sheet` will then create a sheet (if it doesn't already exist) in your spreadsheet and fill it with the time entries found in harvest for that month.
+
+The sheet name will be in the format of `H|Aug'20` and have gray as a color.
+
 ## Configure
 
 `harvest2sheet` requires a `project.json` file to run its tasks off of.
@@ -40,17 +52,11 @@ The `project.json` format is as follows:
 	"tasks": {
 		"project1": {
 			"harvestProject": 42,
-			"from": "2020-08-01T00:00:00",
-			"to": "2020-08-31T23:59:59",
-			"spreadsheetID": "Add your google sheets ID here",
-			"tabName": "Add your google sheet tab name here"
+			"spreadsheetID": "Add your google sheets ID here"
 		},
 		"project2": {
 			"harvestProject": 42,
-			"from": "2020-08-01T00:00:00",
-			"to": "2020-08-31T23:59:59",
-			"spreadsheetID": "Add your google sheets ID here",
-			"tabName": "Add your google sheet tab name here"
+			"spreadsheetID": "Add your google sheets ID here"
 		}
 	},
 	"output": [
@@ -83,30 +89,12 @@ The harvest project ID. Find it by navigating to the project inside the harvest 
 
 An example might be `https://yourorg.harvestapp.com/projects/1234567` in which case the `harvestProject` is `1234567`.
 
-#### `from`
-
-This is a time from which you like to get the harvest data.
-
-The format is: `[year]-[month]-[day]T[hour]:[minute]:[second]`.
-
-#### `to`
-
-This is a time to which you like to get the harvest data.
-
-The format is: `[year]-[month]-[day]T[hour]:[minute]:[second]`.
-
 #### `spreadsheetID`
 
 This is the spreadsheet ID. Find it by navigating to your spreadsheet in the web app and look at the URL.
 
 An example might be `https://docs.google.com/spreadsheets/d/1ZZS15TTMxQRjeX2nI-u4zJMQJu0QzhlKRgOC17jLG6X/edit#gid=0`
 in which case the `spreadsheetID` is `1ZZS15TTMxQRjeX2nI-u4zJMQJu0QzhlKRgOC17jLG6X`.
-
-#### `tabName`
-
-The name of the tab you want to add the harvest data.
-
-Please note that all data inside that tab will be erased.
 
 ### The `output` array
 
@@ -165,7 +153,8 @@ Choose from the below items:
 
 ## Release History
 
-- 1.1.1 - fixed settings eror handling
+- 1.2.0 - added global dates and caught more errors
+- 1.1.1 - fixed settings error handling
 - 1.1.0 - added support for shaping the output
 - 1.0.1 - added support for multi line time entries
 - 1.0.0 - Launch
