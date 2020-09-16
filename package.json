@@ -1,7 +1,7 @@
 {
 	"name": "harvest2sheet",
 	"description": "Sync harvest with your google sheets",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"homepage": "",
 	"author": {
 		"name": "Dominik Wilkowski",

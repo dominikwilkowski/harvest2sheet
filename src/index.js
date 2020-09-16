@@ -1,5 +1,6 @@
 const { getHarvestData } = require('./harvest.js');
 const { updateSheet } = require('./sheets.js');
+const { version } = require('../package.json');
 const { login } = require('./login.js');
 const { mark } = require('./log.js');
 const chalk = require('chalk');
@@ -10,6 +11,9 @@ const chalk = require('chalk');
 function harvest2sheet() {
 	if (process.argv.includes('login')) {
 		login();
+	} else if(process.argv.includes('-v')) {
+		console.log(`v${version}`);
+		process.exit(0);
 	} else {
 		sync();
 	}

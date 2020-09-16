@@ -74,7 +74,7 @@ if (!process.argv[2]) {
 }
 
 SETTINGS.fromDate = parseISO(`${process.argv[2]}-01T00:00:00`);
-if (!isDate(SETTINGS.fromDate)) {
+if (!isDate(SETTINGS.fromDate) || SETTINGS.fromDate.toString() === 'Invalid Date') {
 	console.error(
 		chalk.red(
 			`Please define the date in the right format.\nAn example for this would be:\n${chalk.yellow(

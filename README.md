@@ -153,7 +153,8 @@ Choose from the below items:
 
 ## Release History
 
-- 1.2.0 - added global dates and caught more errors
+- 1.2.1 - fixed isDate detection, added version flag support
+- 1.2.0 - added global dates, caught more errors
 - 1.1.1 - fixed settings error handling
 - 1.1.0 - added support for shaping the output
 - 1.0.1 - added support for multi line time entries
