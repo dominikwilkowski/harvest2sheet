@@ -33,5 +33,5 @@ package-lock.json
 .idea
 
 # project files
-project.json
-credentials.json
+cli/project.json
+cli/credentials.json

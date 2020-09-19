@@ -25,7 +25,7 @@
 	"licenses": [
 		{
 			"type": "GPL-3.0",
-			"url": "https://github.com/dominikwilkowski/harvest2sheet/blob/master/LICENSE"
+			"url": "https://github.com/dominikwilkowski/harvest2sheet/blob/released/LICENSE"
 		}
 	],
 	"license": "GPL-3.0",
@@ -41,7 +41,7 @@
 		"googleapis": "^59.0.0"
 	},
 	"devDependencies": {
-		"prettier": "^2.1.1"
+		"prettier": "^2.1.2"
 	},
 	"files": [
 		"src/*.js",
