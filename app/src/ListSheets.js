@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
 import { useState } from 'react';
 
+import { SheetCard } from './primitives/SheetCard';
 import { Wrapper } from './primitives/Wrapper';
 import { harvestSync } from './harvestSync';
 import { googleSync } from './googleSync';
@@ -115,28 +116,21 @@ export function ListSheets() {
 						key={id}
 						css={{
 							opacity: loading ? 0.2 : 1,
+							marginTop: '1.5rem',
+							'@media (min-width: 40rem)': {
+								marginTop: '0.5rem',
+							},
 						}}
 					>
-						<input
+						<SheetCard
 							id={id}
-							type="checkbox"
-							checked={selected.includes(id)}
-							onChange={() => toggle(id)}
+							name={name}
+							hProjectName={hProjectName}
+							tabName={tabName}
+							selected={selected}
+							toggle={toggle}
+							deleteSheet={deleteSheet}
 						/>
-						<label htmlFor={id}>
-							<strong>{name}</strong>
-							{hProjectName} -> {tabName}
-						</label>
-						<Link to={`/edit/${id}`}>
-							<span role="img" aria-label="Edit">
-								✏️
-							</span>
-						</Link>
-						<button type="button" onClick={() => deleteSheet(id)}>
-							<span role="img" aria-label="Delete">
-								🗑
-							</span>
-						</button>
 					</li>
 				))}
 			</ul>
