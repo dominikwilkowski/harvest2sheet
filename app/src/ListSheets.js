@@ -76,16 +76,25 @@ export function ListSheets() {
 					alignItems: 'baseline',
 				}}
 			>
-				<IconButton
-					look="add"
-					as={Link}
-					to="/add"
+				<div
 					css={{
 						justifySelf: 'start',
 					}}
 				>
-					Add new
-				</IconButton>
+					<IconButton look="add" as={Link} to="/add">
+						Add new
+					</IconButton>
+					<IconButton
+						look="adjust"
+						as={Link}
+						to="/output"
+						css={{
+							marginLeft: '0.5rem',
+						}}
+					>
+						Output
+					</IconButton>
+				</div>
 				<form
 					onSubmit={(event) => sync(event, tabName)}
 					css={{

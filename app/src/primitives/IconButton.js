@@ -46,6 +46,42 @@ export function IconButton({
 	});
 
 	const styleMap = {
+		adjust: {
+			':before': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '1rem',
+				width: '0.75rem',
+				height: '1rem',
+				marginTop: '-0.5rem',
+				background: '#383E48',
+				borderRadius: '3px 3px 0 0',
+				transition: 'background 0.2s ease',
+			},
+			':after': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '1.075rem',
+				width: '0.6rem',
+				height: '0.6rem',
+				marginTop: '0.2rem',
+				background: '#eee',
+				transform: 'rotate(45deg)',
+				transition: 'background 0.2s ease',
+			},
+			':hover': {
+				background: '#005FCC',
+				color: '#fff',
+			},
+			':hover:before': {
+				background: '#fff',
+			},
+			':hover:after': {
+				background: '#005FCC',
+			},
+		},
 		logout: {
 			padding: '0.5rem 1rem',
 			background: '#fff',
