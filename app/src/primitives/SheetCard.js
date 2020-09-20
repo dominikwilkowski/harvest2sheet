@@ -3,7 +3,19 @@
 import { Link } from 'react-router-dom';
 import { jsx } from '@emotion/core';
 
-export function SheetCard({ id, name, hProjectName, tabName, selected, toggle, deleteSheet }) {
+import { IconButton } from './IconButton';
+import { Code } from './Code';
+
+export function SheetCard({
+	id,
+	name,
+	hProjectName,
+	tabName,
+	gSheetIDName,
+	selected,
+	toggle,
+	deleteSheet,
+}) {
 	return (
 		<div
 			css={{
@@ -16,13 +28,14 @@ export function SheetCard({ id, name, hProjectName, tabName, selected, toggle, d
 				},
 			}}
 		>
-			<span
+			<label
 				css={{
 					position: 'relative',
 					overflow: 'hidden',
 					display: 'block',
 					width: '3rem',
 					height: '3rem',
+					cursor: 'pointer',
 				}}
 			>
 				<input
@@ -73,11 +86,12 @@ export function SheetCard({ id, name, hProjectName, tabName, selected, toggle, d
 						},
 					}}
 				/>
-			</span>
+			</label>
 			<label
 				htmlFor={id}
 				css={{
 					display: 'block',
+					cursor: 'pointer',
 				}}
 			>
 				<strong
@@ -87,7 +101,9 @@ export function SheetCard({ id, name, hProjectName, tabName, selected, toggle, d
 				>
 					{name}
 				</strong>
-				{hProjectName} -> {tabName}
+				<Code>{hProjectName}</Code>
+				<Code>{gSheetIDName}</Code>
+				<Code>{tabName}</Code>
 			</label>
 			<div
 				css={{
@@ -102,102 +118,12 @@ export function SheetCard({ id, name, hProjectName, tabName, selected, toggle, d
 					},
 				}}
 			>
-				<Link
-					to={`/edit/${id}`}
-					css={{
-						position: 'relative',
-						display: 'block',
-						padding: '0.5rem 0 0.5rem 2.5rem',
-						textAlign: 'left',
-						background: '#eee',
-						color: '#383E48',
-						textDecoration: 'none',
-						fontSize: '0.75rem',
-						lineHeight: 1,
-						borderRadius: '3px',
-						transition: 'background 0.2s ease, color 0.2s ease',
-						':before': {
-							content: '""',
-							position: 'absolute',
-							top: '50%',
-							marginTop: '-0.5rem',
-							left: '1rem',
-							width: '0.9rem',
-							height: '1rem',
-							border: '2px solid #383E48',
-							transition: 'border 0.2s ease',
-						},
-						':after': {
-							content: '""',
-							position: 'absolute',
-							top: '2px',
-							left: '1.65rem',
-							background: '#383E48',
-							width: '4px',
-							height: '1rem',
-							transform: 'rotate(45deg)',
-							borderRadius: '1px 1px 50% 50%',
-							boxShadow: '0 0 0 2px #eee',
-							transition: 'background 0.2s ease, box-shadow 0.2s ease',
-						},
-						':hover': {
-							background: '#008800',
-							color: '#fff',
-						},
-						':hover:before': {
-							borderColor: '#fff',
-						},
-						':hover:after': {
-							background: '#fff',
-							boxShadow: '0 0 0 2px #008800',
-						},
-					}}
-				>
+				<IconButton look="edit" as={Link} to={`/edit/${id}`}>
 					Edit
-				</Link>
-				<button
-					type="button"
-					onClick={() => deleteSheet(id)}
-					css={{
-						position: 'relative',
-						apperance: 'none',
-						background: '#eee',
-						color: '#383E48',
-						border: 'none',
-						padding: '0.5rem 0 0.5rem 2.5rem',
-						fontSize: '0.75rem',
-						lineHeight: 1,
-						borderRadius: '3px',
-						transition: 'background 0.2s ease, color 0.2s ease',
-						textAlign: 'left',
-						cursor: 'pointer',
-						':before, :after': {
-							content: '""',
-							position: 'absolute',
-							width: '1rem',
-							height: '0.25rem',
-							background: '#383E48',
-							borderRadius: '2px',
-							transform: 'rotate(45deg)',
-							top: '50%',
-							marginTop: '-0.125rem',
-							left: '1rem',
-							transition: 'background 0.2s ease',
-						},
-						':after': {
-							transform: 'rotate(-45deg)',
-						},
-						':hover': {
-							background: '#ee0000',
-							color: '#fff',
-						},
-						':hover:before, :hover:after': {
-							background: '#fff',
-						},
-					}}
-				>
+				</IconButton>
+				<IconButton confirm type="button" look="delete" onClick={() => deleteSheet(id)}>
 					Delete
-				</button>
+				</IconButton>
 			</div>
 		</div>
 	);

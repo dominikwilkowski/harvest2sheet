@@ -4,8 +4,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
+import { getProjectName } from './harvestSync';
 import { Wrapper } from './primitives/Wrapper';
 import { Button } from './primitives/Button';
+import { getSheetInfo } from './googleSync';
 import { Input } from './primitives/Input';
 
 export function Sheet({ match }) {
@@ -18,6 +20,7 @@ export function Sheet({ match }) {
 	let hProjectDefault = '';
 	let hProjectNameDefault = '';
 	let gSheetIDDefault = '';
+	let gSheetIDNameDefault = '';
 	let nameDefault = '';
 	if (sheetID) {
 		const thisSheet = sheets.filter(({ id }) => id === sheetID);
@@ -25,6 +28,7 @@ export function Sheet({ match }) {
 			hProjectDefault = thisSheet[0].hProject;
 			hProjectNameDefault = thisSheet[0].hProjectName;
 			gSheetIDDefault = thisSheet[0].gSheetID;
+			gSheetIDNameDefault = thisSheet[0].gSheetIDName;
 			nameDefault = thisSheet[0].name;
 		}
 	}
@@ -33,6 +37,7 @@ export function Sheet({ match }) {
 	const [hProject, setHProject] = useState(hProjectDefault);
 	const [hProjectName, setHProjectName] = useState(hProjectNameDefault);
 	const [gSheetID, setGSheetID] = useState(gSheetIDDefault);
+	const [gSheetIDName, setGSheetIDName] = useState(gSheetIDNameDefault);
 	const [name, setName] = useState(nameDefault);
 	const history = useHistory();
 
@@ -40,19 +45,28 @@ export function Sheet({ match }) {
 
 	const getHarvestName = async () => {
 		setLoading(true);
+		setHProjectName('');
 		try {
-			const response = await fetch(`https://api.harvestapp.com/v2/projects/${hProject}`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${LOGIN.HARVEST_ACCESS_TOKEN}`,
-					'Harvest-Account-Id': LOGIN.HARVEST_ACCOUNT_ID,
-					'User-Agent': 'Harvest2Sheet',
-				},
-			});
-			const data = await response.json();
-			setHProjectName(data.name);
+			const { name } = await getProjectName(LOGIN, hProject);
+			setHProjectName(name);
 		} catch (error) {
 			setHProjectName('- not found -');
+		}
+		setLoading(false);
+	};
+
+	const getSheetName = async () => {
+		setLoading(true);
+		setGSheetIDName('');
+		try {
+			const {
+				result: {
+					properties: { title },
+				},
+			} = await getSheetInfo(LOGIN, gSheetID);
+			setGSheetIDName(title);
+		} catch (error) {
+			setGSheetIDName('- not found -');
 		}
 		setLoading(false);
 	};
@@ -60,10 +74,17 @@ export function Sheet({ match }) {
 	const addSheet = (event) => {
 		event.preventDefault();
 
-		if (hProjectName !== '- not found -') {
+		if (
+			hProjectName !== '- not found -' &&
+			hProjectName !== '' &&
+			gSheetIDName !== '- not found -' &&
+			gSheetIDName !== ''
+		) {
 			if (sheetID) {
 				sheets = sheets.map((sheet) =>
-					sheet.id === sheetID ? { id: sheet.id, name, hProject, hProjectName, gSheetID } : sheet
+					sheet.id === sheetID
+						? { id: sheet.id, name, hProject, hProjectName, gSheetID, gSheetIDName }
+						: sheet
 				);
 			} else {
 				sheets.push({
@@ -72,6 +93,7 @@ export function Sheet({ match }) {
 					hProject,
 					hProjectName,
 					gSheetID,
+					gSheetIDName,
 				});
 			}
 			localStorage.setItem('harvest2sheetSheets', JSON.stringify(sheets));
@@ -81,6 +103,7 @@ export function Sheet({ match }) {
 
 	return (
 		<Wrapper>
+			<h2>{sheetID ? 'Edit a' : 'Add a new'} sheet</h2>
 			<form
 				onSubmit={addSheet}
 				css={{
@@ -107,7 +130,10 @@ export function Sheet({ match }) {
 						id="hProject"
 						label="Harvest Project ID"
 						value={hProject}
-						onChange={(event) => setHProject(event.target.value)}
+						onChange={(event) => {
+							setHProject(event.target.value);
+							setHProjectName('');
+						}}
 						onBlur={getHarvestName}
 					/>
 					<Input
@@ -127,7 +153,23 @@ export function Sheet({ match }) {
 						id="gSheetID"
 						label="Spreadsheet ID"
 						value={gSheetID}
-						onChange={(event) => setGSheetID(event.target.value)}
+						onChange={(event) => {
+							setGSheetID(event.target.value);
+							setGSheetIDName('');
+						}}
+						onBlur={getSheetName}
+					/>
+					<Input
+						required
+						id="gSheetIDName"
+						label="Sheet Name"
+						value={gSheetIDName}
+						disabled
+						loading={loading}
+						readOnly
+						css={{
+							...(gSheetIDName === '- not found -' ? { boxShadow: '0 0 0 3px red' } : {}),
+						}}
 					/>
 				</ul>
 				<Button look="muted" to="/" as={Link}>
@@ -140,7 +182,7 @@ export function Sheet({ match }) {
 						float: 'right',
 					}}
 				>
-					{`${sheetID ? 'Edit' : 'Add'} sheet`}
+					{sheetID ? 'Edit' : 'Add'} sheet
 				</Button>
 			</form>
 		</Wrapper>

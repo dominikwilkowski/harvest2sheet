@@ -22,6 +22,23 @@ export async function harvestLogin(LOGIN) {
 	}
 }
 
+export async function getProjectName(LOGIN, project) {
+	try {
+		const response = await fetch(`https://api.harvestapp.com/v2/projects/${project}`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${LOGIN.HARVEST_ACCESS_TOKEN}`,
+				'Harvest-Account-Id': LOGIN.HARVEST_ACCOUNT_ID,
+				'User-Agent': 'Harvest2Sheet',
+			},
+		});
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		throw new Error('Harvest sync failed. Please check your credentials.');
+	}
+}
+
 /**
  * Get time entries out of harvest between two points in time
  *

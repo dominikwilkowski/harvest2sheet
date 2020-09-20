@@ -4,6 +4,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { jsx } from '@emotion/core';
 import { Fragment } from 'react';
 
+import { IconButton } from './primitives/IconButton';
 import { ListSheets } from './ListSheets';
 import { Sheet } from './Sheet';
 
@@ -31,7 +32,8 @@ export function Home({ handleLogout }) {
 			>
 				Harvest 2 Sheet
 			</h1>
-			<button
+			<IconButton
+				look="logout"
 				onClick={handleLogout}
 				css={{
 					position: 'absolute',
@@ -40,7 +42,7 @@ export function Home({ handleLogout }) {
 				}}
 			>
 				Logout
-			</button>
+			</IconButton>
 
 			<Router>
 				<Switch>

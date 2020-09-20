@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
 import { useState } from 'react';
 
+import { IconButton } from './primitives/IconButton';
 import { SheetCard } from './primitives/SheetCard';
 import { Wrapper } from './primitives/Wrapper';
 import { harvestSync } from './harvestSync';
@@ -47,6 +48,7 @@ export function ListSheets() {
 				try {
 					const timeData = await harvestSync(LOGIN, hProject, date);
 					await googleSync(LOGIN, gSheetID, date, timeData.csv, tabName);
+					setSelected([]);
 				} catch (error) {
 					console.error(error);
 				}
@@ -66,27 +68,56 @@ export function ListSheets() {
 
 	return (
 		<Wrapper size="lg">
-			<h2>List</h2>
-			<Link to="/add">Add new sheet</Link>
-			<form onSubmit={(event) => sync(event, tabName)}>
-				<input
-					type="text"
-					value={date}
-					onChange={(event) => setDate(event.target.value)}
-					pattern="\d{4}-\d{2}"
+			<h2>Sheets</h2>
+			<div
+				css={{
+					display: 'grid',
+					gridTemplateColumns: '1fr 1fr',
+					alignItems: 'baseline',
+				}}
+			>
+				<IconButton
+					look="add"
+					as={Link}
+					to="/add"
 					css={{
-						width: '7em',
-						padding: '0.5rem',
-						textAlign: 'center',
-						':invalid': {
-							boxShadow: '0 0 0 3px red',
-						},
+						justifySelf: 'start',
 					}}
-				/>
-				<button type="submit" disabled={!selected.length}>
-					Sync
-				</button>
-			</form>
+				>
+					Add new
+				</IconButton>
+				<form
+					onSubmit={(event) => sync(event, tabName)}
+					css={{
+						justifySelf: 'end',
+					}}
+				>
+					<input
+						type="text"
+						value={date}
+						onChange={(event) => setDate(event.target.value)}
+						pattern="\d{4}-\d{2}"
+						title="Please use the format year(4 numbers)-month(2 numbers). E.g.: 2020-09 or 2023-03"
+						css={{
+							display: 'inline-block',
+							apperance: 'none',
+							background: '#fff',
+							border: '1px solid #383E48',
+							width: '7em',
+							padding: '0.5rem',
+							lineHeight: 1,
+							marginRight: '1rem',
+							textAlign: 'center',
+							':invalid': {
+								boxShadow: '0 0 0 3px #ee0000',
+							},
+						}}
+					/>
+					<IconButton look="sync" type="submit" disabled={!selected.length}>
+						Sync
+					</IconButton>
+				</form>
+			</div>
 
 			<ul
 				css={{
@@ -111,12 +142,16 @@ export function ListSheets() {
 					},
 				}}
 			>
-				{sheets.map(({ id, name, hProjectName }) => (
+				{sheets.map(({ id, name, hProjectName, gSheetIDName }, i) => (
 					<li
 						key={id}
 						css={{
 							opacity: loading ? 0.2 : 1,
 							marginTop: '1.5rem',
+							':not(:first-of-type)': {
+								borderTop: '2px dashed #eee',
+								paddingTop: '0.5rem',
+							},
 							'@media (min-width: 40rem)': {
 								marginTop: '0.5rem',
 							},
@@ -127,6 +162,7 @@ export function ListSheets() {
 							name={name}
 							hProjectName={hProjectName}
 							tabName={tabName}
+							gSheetIDName={gSheetIDName}
 							selected={selected}
 							toggle={toggle}
 							deleteSheet={deleteSheet}
