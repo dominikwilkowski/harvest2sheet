@@ -18,7 +18,7 @@ export async function harvestLogin(LOGIN) {
 		});
 		await response.json();
 	} catch (error) {
-		throw 'Harvest login failed. Please check your credentials.';
+		throw new Error('Harvest login failed. Please check your credentials.');
 	}
 }
 
