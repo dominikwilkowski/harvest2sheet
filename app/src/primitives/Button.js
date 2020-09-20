@@ -7,15 +7,19 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 		default: {
 			background: '#008800',
 			color: '#fff',
-			':hover': {
-				boxShadow: '0 0 0 2px white, 0 0 0 3px #008800',
-			},
+			':hover': props.disabled
+				? {}
+				: {
+						boxShadow: '0 0 0 2px white, 0 0 0 3px #008800',
+				  },
 		},
 		muted: {
 			border: '1px solid #767676',
-			':hover': {
-				boxShadow: '0 0 0 2px white, 0 0 0 3px #767676',
-			},
+			':hover': props.disabled
+				? {}
+				: {
+						boxShadow: '0 0 0 2px white, 0 0 0 3px #767676',
+				  },
 		},
 	};
 

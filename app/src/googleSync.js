@@ -60,17 +60,39 @@ async function enterData(spreadsheetID, tabName, data) {
 	});
 }
 
-function initClient(LOGIN) {
-	return new Promise((resolve, reject) => {
-		window.gapi.load('client:auth2', async () => {
-			await window.gapi.client.init({
-				apiKey: LOGIN.GOOGLE_API_KEY,
-				clientId: LOGIN.GOOGLE_CLIENT_ID,
-				discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-				scope: 'https://www.googleapis.com/auth/spreadsheets',
+export function googleLogin(LOGIN, retry = 1) {
+	return new Promise(async (resolve, reject) => {
+		if (retry > 2) {
+			reject('Google login failed. Check you credentials.');
+		}
+		try {
+			await window.gapi.load('client:auth2', async (thing) => {
+				try {
+					await window.gapi.client.init({
+						apiKey: LOGIN.GOOGLE_API_KEY,
+						clientId: LOGIN.GOOGLE_CLIENT_ID,
+						discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+						scope: 'https://www.googleapis.com/auth/spreadsheets',
+					});
+				} catch (error) {
+					reject('Google login failed. Check you credentials.');
+				}
+				const signedIn = window.gapi.auth2.getAuthInstance().isSignedIn.get();
+				if (signedIn) {
+					resolve();
+				} else {
+					try {
+						await window.gapi.auth2.getAuthInstance().signIn();
+						await googleLogin(LOGIN, retry + 1);
+						resolve();
+					} catch (error) {
+						reject(error);
+					}
+				}
 			});
-			resolve();
-		});
+		} catch (error) {
+			reject(error);
+		}
 	});
 }
 
@@ -84,7 +106,10 @@ function initClient(LOGIN) {
  * @param  {string} tabName       - The name of the tab inside the spreadsheet
  */
 export async function googleSync(LOGIN, spreadsheetID, date, data, tabName) {
-	await initClient(LOGIN);
+	if (!window.gapi.client) {
+		// we have to re init google only once per session
+		await googleLogin(LOGIN);
+	}
 	await createTab(spreadsheetID, tabName);
 	await clearSheet(spreadsheetID, tabName);
 	await enterData(spreadsheetID, tabName, data);

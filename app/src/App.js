@@ -3,6 +3,8 @@
 import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
+import { harvestLogin } from './harvestSync';
+import { googleLogin } from './googleSync';
 import { LoginForm } from './LoginForm';
 import { Home } from './Home';
 
@@ -10,14 +12,18 @@ export function App() {
 	const [login, setLogin] = useState(
 		JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}')
 	);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
 	const [hToken, setHToken] = useState('');
 	const [hID, setHID] = useState('');
 	const [gClientID, setGClientID] = useState('');
 	const [gAPIKey, setGAPIKey] = useState('');
 
-	const handleLogin = (event) => {
+	const handleLogin = async (event) => {
 		event.preventDefault();
+		setLoading(true);
+
 		if (hToken && hID && gClientID && gAPIKey) {
 			const login = {
 				HARVEST_ACCESS_TOKEN: hToken,
@@ -25,8 +31,18 @@ export function App() {
 				GOOGLE_CLIENT_ID: gClientID,
 				GOOGLE_API_KEY: gAPIKey,
 			};
-			localStorage.setItem('harvest2sheetLogin', JSON.stringify(login));
-			setLogin(login);
+
+			try {
+				await harvestLogin(login);
+				await googleLogin(login);
+
+				localStorage.setItem('harvest2sheetLogin', JSON.stringify(login));
+				setLogin(login);
+				setLoading(false);
+			} catch (error) {
+				setError(error.toString());
+				setLoading(false);
+			}
 		}
 	};
 
@@ -53,6 +69,8 @@ export function App() {
 			{!hasLogin ? (
 				<LoginForm
 					handleLogin={handleLogin}
+					loading={loading}
+					error={error}
 					inputLines={[
 						{ id: 'hToken', label: 'Harvest access token', value: hToken, setValue: setHToken },
 						{ id: 'hID', label: 'Harvest account ID', value: hID, setValue: setHID },

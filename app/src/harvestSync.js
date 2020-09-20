@@ -6,6 +6,22 @@ import format from 'date-fns/format';
 
 import { harvestKeys } from './harvestKeys';
 
+export async function harvestLogin(LOGIN) {
+	try {
+		const response = await fetch(`https://api.harvestapp.com/v2/users/me`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${LOGIN.HARVEST_ACCESS_TOKEN}`,
+				'Harvest-Account-Id': LOGIN.HARVEST_ACCOUNT_ID,
+				'User-Agent': 'Harvest2Sheet',
+			},
+		});
+		await response.json();
+	} catch (error) {
+		throw 'Harvest login failed. Please check your credentials.';
+	}
+}
+
 /**
  * Get time entries out of harvest between two points in time
  *
