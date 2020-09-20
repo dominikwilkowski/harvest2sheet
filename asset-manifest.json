@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/harvest2sheet/static/js/main.375fb74a.chunk.js",
+    "main.js.map": "/harvest2sheet/static/js/main.375fb74a.chunk.js.map",
+    "runtime-main.js": "/harvest2sheet/static/js/runtime-main.a4e55032.js",
+    "runtime-main.js.map": "/harvest2sheet/static/js/runtime-main.a4e55032.js.map",
+    "static/js/2.f22636ab.chunk.js": "/harvest2sheet/static/js/2.f22636ab.chunk.js",
+    "static/js/2.f22636ab.chunk.js.map": "/harvest2sheet/static/js/2.f22636ab.chunk.js.map",
+    "index.html": "/harvest2sheet/index.html",
+    "precache-manifest.87a20f63357b2f671344fc8c07bee0d5.js": "/harvest2sheet/precache-manifest.87a20f63357b2f671344fc8c07bee0d5.js",
+    "service-worker.js": "/harvest2sheet/service-worker.js",
+    "static/js/2.f22636ab.chunk.js.LICENSE.txt": "/harvest2sheet/static/js/2.f22636ab.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a4e55032.js",
+    "static/js/2.f22636ab.chunk.js",
+    "static/js/main.375fb74a.chunk.js"
+  ]
+}
