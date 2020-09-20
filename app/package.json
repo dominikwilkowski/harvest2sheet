@@ -37,7 +37,7 @@
 		"test": "yarn test:format",
 		"test:format": "prettier --list-different \"**/*.{js,md,mdx,json,html}\"",
 		"format": "prettier --write \"**/*.{js,md,mdx,json,html}\"",
-		"deploy:app": "yarn build && gh-pages -d build",
+		"deploy": "yarn build && gh-pages -d build",
 		"nuke": "rm -rf node_modules && rm yarn.lock"
 	},
 	"dependencies": {

@@ -73,7 +73,7 @@ export function ListSheets() {
 				css={{
 					display: 'grid',
 					gridTemplateColumns: '1fr 1fr',
-					alignItems: 'baseline',
+					alignItems: 'center',
 				}}
 			>
 				<div
