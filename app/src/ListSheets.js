@@ -93,13 +93,18 @@ export function ListSheets() {
 			<div
 				css={{
 					display: 'grid',
-					gridTemplateColumns: '1fr 1fr',
+					gridTemplateColumns: '1fr',
 					alignItems: 'center',
+					'@media (min-width: 28.75rem)': {
+						gridTemplateColumns: '1fr 1fr',
+					},
 				}}
 			>
 				<div
 					css={{
-						justifySelf: 'start',
+						'@media (min-width: 28.75rem)': {
+							justifySelf: 'start',
+						},
 					}}
 				>
 					<IconButton look="add" as={Link} to="/add">
@@ -119,7 +124,11 @@ export function ListSheets() {
 				<form
 					onSubmit={(event) => sync(event, tabName)}
 					css={{
-						justifySelf: 'end',
+						marginTop: '1rem',
+						'@media (min-width: 28.75rem)': {
+							justifySelf: 'end',
+							marginTop: 0,
+						},
 					}}
 				>
 					<input

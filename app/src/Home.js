@@ -38,9 +38,13 @@ export function Home({ handleLogout }) {
 				look="logout"
 				onClick={handleLogout}
 				css={{
-					position: 'absolute',
-					top: '1rem',
-					right: '1rem',
+					display: 'block',
+					margin: '0 auto',
+					'@media (min-width: 41.875rem)': {
+						position: 'absolute',
+						top: '1rem',
+						right: '1rem',
+					},
 				}}
 			>
 				Logout
