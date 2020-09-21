@@ -25,7 +25,7 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 
 	return (
 		<Tag
-			disabled={loading ? true : false}
+			disabled={loading}
 			css={{
 				position: 'relative',
 				display: 'inline-block',

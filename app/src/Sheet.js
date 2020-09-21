@@ -33,7 +33,8 @@ export function Sheet({ match }) {
 		}
 	}
 
-	const [loading, setLoading] = useState(false);
+	const [loadingH, setLoadingH] = useState(false);
+	const [loadingG, setLoadingG] = useState(false);
 	const [hProject, setHProject] = useState(hProjectDefault);
 	const [hProjectName, setHProjectName] = useState(hProjectNameDefault);
 	const [gSheetID, setGSheetID] = useState(gSheetIDDefault);
@@ -44,7 +45,7 @@ export function Sheet({ match }) {
 	const LOGIN = JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}');
 
 	const getHarvestName = async () => {
-		setLoading(true);
+		setLoadingH(true);
 		setHProjectName('');
 		try {
 			const { name } = await getProjectName(LOGIN, hProject);
@@ -52,11 +53,11 @@ export function Sheet({ match }) {
 		} catch (error) {
 			setHProjectName('- not found -');
 		}
-		setLoading(false);
+		setLoadingH(false);
 	};
 
 	const getSheetName = async () => {
-		setLoading(true);
+		setLoadingG(true);
 		setGSheetIDName('');
 		try {
 			const {
@@ -68,7 +69,7 @@ export function Sheet({ match }) {
 		} catch (error) {
 			setGSheetIDName('- not found -');
 		}
-		setLoading(false);
+		setLoadingG(false);
 	};
 
 	const addSheet = (event) => {
@@ -144,7 +145,7 @@ export function Sheet({ match }) {
 						label="Harvest Project Name"
 						value={hProjectName}
 						disabled
-						loading={loading}
+						loading={loadingH}
 						readOnly
 						css={{
 							...(hProjectName === '- not found -' || hProjectName === '' || !hProjectName
@@ -169,7 +170,7 @@ export function Sheet({ match }) {
 						label="Sheet Name"
 						value={gSheetIDName}
 						disabled
-						loading={loading}
+						loading={loadingG}
 						readOnly
 						css={{
 							...(gSheetIDName === '- not found -' || gSheetIDName === '' || !gSheetIDName
@@ -191,7 +192,7 @@ export function Sheet({ match }) {
 					</Button>
 					<Button
 						type="submit"
-						loading={loading}
+						loading={loadingH || loadingG}
 						css={{
 							justifySelf: 'end',
 						}}
