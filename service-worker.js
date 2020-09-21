@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/harvest2sheet/precache-manifest.c68aa3e8f151179404954093ffd3bba9.js"
+  "/harvest2sheet/precache-manifest.e274dd0027af2082118ee78f3e72bb50.js"
 );
 
 self.addEventListener('message', (event) => {
