@@ -46,7 +46,7 @@ export async function getProjectName(LOGIN, project) {
  *
  * @return {array}                  - The time entries
  */
-export async function harvestSync(LOGIN, harvestProject, date) {
+export async function harvestSync(LOGIN, harvestProject, date, output) {
 	const errors = [];
 	const fromDate = parseISO(`${date}-01T00:00:00.000Z`);
 	if (!isDate(fromDate) || fromDate.toString() === 'Invalid Date') {
@@ -54,23 +54,6 @@ export async function harvestSync(LOGIN, harvestProject, date) {
 		return;
 	}
 	const toDate = endOfDay(lastDayOfMonth(fromDate));
-
-	const output = [
-		// TODO
-		'date',
-		'user',
-		'client',
-		'project',
-		'task',
-		'hours',
-		'rounded_hours',
-		'notes',
-		'billable_rate',
-		'billable_amount',
-		'cost_rate',
-		'cost_amount',
-		'currency',
-	];
 
 	const csv = [output.map((item) => (harvestKeys[item] ? harvestKeys[item].name : 'unknown'))];
 

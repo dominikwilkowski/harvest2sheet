@@ -12,6 +12,7 @@ export function SheetCard({
 	hProjectName,
 	tabName,
 	gSheetIDName,
+	output,
 	selected,
 	toggle,
 	deleteSheet,
@@ -104,6 +105,7 @@ export function SheetCard({
 				<Code>{hProjectName}</Code>
 				<Code>{gSheetIDName}</Code>
 				<Code>{tabName}</Code>
+				<Code>{output.length} columns</Code>
 			</label>
 			<div
 				css={{

@@ -64,7 +64,7 @@ export function Sheet({ match }) {
 					properties: { title },
 				},
 			} = await getSheetInfo(LOGIN, gSheetID);
-			setGSheetIDName(title);
+			setGSheetIDName(title || '');
 		} catch (error) {
 			setGSheetIDName('- not found -');
 		}
@@ -77,8 +77,10 @@ export function Sheet({ match }) {
 		if (
 			hProjectName !== '- not found -' &&
 			hProjectName !== '' &&
+			hProjectName &&
 			gSheetIDName !== '- not found -' &&
-			gSheetIDName !== ''
+			gSheetIDName !== '' &&
+			gSheetIDName
 		) {
 			if (sheetID) {
 				sheets = sheets.map((sheet) =>
@@ -145,7 +147,9 @@ export function Sheet({ match }) {
 						loading={loading}
 						readOnly
 						css={{
-							...(hProjectName === '- not found -' ? { boxShadow: '0 0 0 3px red' } : {}),
+							...(hProjectName === '- not found -' || hProjectName === '' || !hProjectName
+								? { boxShadow: '0 0 0 3px red' }
+								: {}),
 						}}
 					/>
 					<Input
@@ -168,22 +172,33 @@ export function Sheet({ match }) {
 						loading={loading}
 						readOnly
 						css={{
-							...(gSheetIDName === '- not found -' ? { boxShadow: '0 0 0 3px red' } : {}),
+							...(gSheetIDName === '- not found -' || gSheetIDName === '' || !gSheetIDName
+								? { boxShadow: '0 0 0 3px red' }
+								: {}),
 						}}
 					/>
 				</ul>
-				<Button look="muted" to="/" as={Link}>
-					Cancel
-				</Button>
-				<Button
-					type="submit"
-					loading={loading}
+
+				<div
 					css={{
-						float: 'right',
+						display: 'grid',
+						gridTemplateColumns: '1fr 1fr',
+						justifyItems: 'start',
 					}}
 				>
-					{sheetID ? 'Edit' : 'Add'} sheet
-				</Button>
+					<Button look="muted" to="/" as={Link}>
+						Cancel
+					</Button>
+					<Button
+						type="submit"
+						loading={loading}
+						css={{
+							justifySelf: 'end',
+						}}
+					>
+						{sheetID ? 'Edit' : 'Add'} sheet
+					</Button>
+				</div>
 			</form>
 		</Wrapper>
 	);

@@ -17,7 +17,6 @@ export function Wrapper({ children, size = 'md' }) {
 				margin: '1rem auto',
 				padding: '2rem 1rem',
 				boxShadow: '0 0 1rem 0.25rem rgba(0, 0, 0, 0.4)',
-				overflow: 'hidden',
 				'@media (min-width: 37.5rem)': {
 					padding: '2rem',
 				},

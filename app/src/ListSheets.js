@@ -14,6 +14,27 @@ import { googleSync } from './googleSync';
 
 export function ListSheets() {
 	const LOGIN = JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}');
+	let output = JSON.parse(localStorage.getItem('harvest2sheetOutput') || '[]');
+
+	if (output.length === 0) {
+		output = [
+			'date',
+			'user',
+			'client',
+			'project',
+			'task',
+			'hours',
+			'rounded_hours',
+			'notes',
+			'billable_rate',
+			'billable_amount',
+			'cost_rate',
+			'cost_amount',
+			'currency',
+		];
+
+		localStorage.setItem('harvest2sheetOutput', JSON.stringify(output));
+	}
 
 	const [sheets, setSheets] = useState(
 		JSON.parse(localStorage.getItem('harvest2sheetSheets') || '[]')
@@ -46,7 +67,7 @@ export function ListSheets() {
 		await Promise.all(
 			selectedSheets.map(async ({ hProject, gSheetID }) => {
 				try {
-					const timeData = await harvestSync(LOGIN, hProject, date);
+					const timeData = await harvestSync(LOGIN, hProject, date, output);
 					await googleSync(LOGIN, gSheetID, date, timeData.csv, tabName);
 					setSelected([]);
 				} catch (error) {
@@ -172,6 +193,7 @@ export function ListSheets() {
 							hProjectName={hProjectName}
 							tabName={tabName}
 							gSheetIDName={gSheetIDName}
+							output={output}
 							selected={selected}
 							toggle={toggle}
 							deleteSheet={deleteSheet}
