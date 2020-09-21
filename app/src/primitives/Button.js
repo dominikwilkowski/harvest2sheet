@@ -5,20 +5,14 @@ import { jsx, keyframes } from '@emotion/core';
 export function Button({ children, loading, look = 'default', as: Tag = 'button', ...props }) {
 	const styleMap = {
 		default: {
-			background: '#008800',
-			color: '#fff',
-			':hover': props.disabled
-				? {}
-				: {
-						boxShadow: '0 0 0 2px white, 0 0 0 3px #008800',
-				  },
+			'--gradient': 'linear-gradient(to right, rgb(1, 255, 251) 0%, rgb(183, 1, 255) 100%)',
 		},
 		muted: {
-			border: '1px solid #767676',
-			':hover': props.disabled
+			'--gradient': 'linear-gradient(to right, #ccc 0%, #555 50%, #ccc 100%)',
+			':hover:before, :focus:before': props.disabled
 				? {}
 				: {
-						boxShadow: '0 0 0 2px white, 0 0 0 3px #767676',
+						filter: 'invert(1)',
 				  },
 		},
 	};
@@ -36,36 +30,74 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 				position: 'relative',
 				display: 'inline-block',
 				border: 'none',
-				borderRadius: '1px',
+				background: '#fff',
 				apperance: 'none',
 				fontSize: '1rem',
 				cursor: 'pointer',
 				lineHeight: 1,
-				padding: '1rem 1.5rem',
+				padding: '3px',
+				borderRadius: '6px',
 				margin: '1rem 0 0 0',
 				textDecoration: 'none',
+				':before': {
+					content: '""',
+					position: 'absolute',
+					top: 0,
+					right: 0,
+					bottom: 0,
+					left: 0,
+					background: 'var(--gradient)', //'linear-gradient(to right, var(--color1) 0%, var(--color2) 100%)',
+					borderRadius: '8px',
+					transition: 'filter 0.3s ease',
+					zIndex: 1,
+				},
 				':after': {
 					content: '""',
 					display: loading ? 'block' : 'none',
 					position: 'absolute',
-					top: '12px',
+					top: '50%',
 					left: '50%',
 					marginLeft: '-0.75rem',
+					marginTop: '-0.75rem',
 					width: '1.5rem',
 					height: '1.5rem',
-					border: '3px solid #aaa',
+					border: '3px solid #ccc',
 					borderTopColor: '#000',
 					borderRadius: '100%',
 					animation: `${rotation} 0.6s linear infinite`,
+					zIndex: 2,
 				},
 				':disabled': {
 					opacity: 0.4,
+				},
+				':hover:before, :focus:before': props.disabled
+					? {}
+					: {
+							filter: 'hue-rotate(180deg)',
+					  },
+				':focus': {
+					outline: 'none',
+				},
+				':focus-visible': {
+					outline: '3px dashed #000',
+					outlineOffset: '3px',
 				},
 				...(styleMap[look] ? styleMap[look] : {}),
 			}}
 			{...props}
 		>
-			{children}
+			<span
+				css={{
+					position: 'relative',
+					display: 'block',
+					background: '#fff',
+					padding: '0.5rem 2.5rem',
+					borderRadius: '6px',
+					zIndex: 2,
+				}}
+			>
+				{children}
+			</span>
 		</Tag>
 	);
 }

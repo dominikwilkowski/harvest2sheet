@@ -73,7 +73,7 @@ export function IconButton({
 				transition: 'border 0.2s ease',
 			},
 			':hover': {
-				background: '#005FCC',
+				background: '#005fcc',
 				color: '#fff',
 			},
 			':hover:before, :hover:after': {
@@ -137,7 +137,7 @@ export function IconButton({
 				transform: 'rotate(-90deg)',
 			},
 			':hover': {
-				background: '#005FCC',
+				background: '#005fcc',
 				color: '#fff',
 			},
 			':hover:before, :hover:after': {
@@ -242,12 +242,12 @@ export function IconButton({
 				background: '#eee',
 				color: '#383E48',
 				border: 'none',
+				borderRadius: '6px',
 				padding: '0.5rem 1rem 0.5rem 2.5rem',
 				fontSize: '0.75rem',
 				textDecoration: 'none',
 				textAlign: 'center',
 				lineHeight: 1,
-				borderRadius: '3px',
 				transition: 'background 0.2s ease, color 0.2s ease',
 				overflow: 'hidden',
 				cursor: 'pointer',

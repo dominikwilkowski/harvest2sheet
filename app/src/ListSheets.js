@@ -174,7 +174,7 @@ export function ListSheets() {
 						marginTop: '-2.5rem',
 						width: '5rem',
 						height: '5rem',
-						border: '0.75rem solid #aaa',
+						border: '0.75rem solid #ccc',
 						borderTopColor: '#383E48',
 						borderRadius: '100%',
 						animation: `${rotation} 0.5s linear infinite`,
