@@ -6,6 +6,7 @@ import { Fragment } from 'react';
 
 import { IconButton } from './primitives/IconButton';
 import { ListSheets } from './ListSheets';
+import { version } from '../package.json';
 import { Output } from './Output';
 import { Sheet } from './Sheet';
 
@@ -53,6 +54,17 @@ export function Home({ handleLogout }) {
 					<Route exact path="/edit/:sheetID" component={Sheet} />
 				</Switch>
 			</Router>
+			<span
+				css={{
+					display: 'block',
+					padding: '1rem',
+					textAlign: 'right',
+					color: '#fff',
+					fontSize: '0.5rem',
+				}}
+			>
+				v{version}
+			</span>
 		</Fragment>
 	);
 }
