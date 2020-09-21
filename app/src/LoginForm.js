@@ -80,15 +80,17 @@ export function LoginForm({ handleLogin, inputLines, loading, error }) {
 							/>
 						))}
 					</ul>
-					<Button
-						type="submit"
-						disabled={loading}
+					<div
 						css={{
-							float: 'right',
+							display: 'grid',
+							gridTemplateColumns: '1fr',
+							justifyItems: 'end',
 						}}
 					>
-						Save login
-					</Button>
+						<Button type="submit" disabled={loading}>
+							Save login
+						</Button>
+					</div>
 					{error && (
 						<span
 							css={{

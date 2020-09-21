@@ -40,7 +40,11 @@ export function App() {
 				setLogin(login);
 				setLoading(false);
 			} catch (error) {
-				setError(error.toString());
+				if (typeof error === 'object') {
+					setError(`Can't login. Check that you allow popups in the browser.`);
+				} else {
+					setError(error.toString());
+				}
 				setLoading(false);
 			}
 		}
