@@ -2,7 +2,7 @@
 
 import { jsx, keyframes } from '@emotion/core';
 
-export function Input({ id, label, loading = false, ...props }) {
+export function Input({ id, label, loading = false, help = '', ...props }) {
 	const rotation = keyframes({
 		to: {
 			transform: 'rotate( 360deg )',
@@ -15,27 +15,26 @@ export function Input({ id, label, loading = false, ...props }) {
 				marginBottom: '0.5rem',
 				'@media (min-width: 37.5rem)': {
 					display: 'grid',
-					gridTemplateColumns: '16rem auto',
+					gridTemplateColumns: '17rem auto',
 				},
 			}}
 		>
 			<label
 				htmlFor={id}
 				css={{
-					display: 'block',
-					margin: '1rem 0 0.5rem 0',
+					display: 'inline-block',
+					margin: '1rem 0.5rem 0.5rem 0',
 					fontSize: '1.5rem',
 					alignSelf: 'center',
 					whiteSpace: 'nowrap',
 					'@media (min-width: 37.5rem)': {
-						display: 'inline-block',
 						margin: '0 0.5rem 0 0',
 					},
 				}}
 			>
 				{label}
 			</label>
-			<span
+			<div
 				css={{
 					position: 'relative',
 					':after': {
@@ -59,7 +58,7 @@ export function Input({ id, label, loading = false, ...props }) {
 					type="text"
 					css={{
 						fontSize: '1.5rem',
-						padding: '0.5rem',
+						padding: help ? '0.5rem 1.5rem 0.5rem 0.5rem' : '0.5rem',
 						margin: 0,
 						border: '1px solid #767676',
 						borderRadius: '0.2rem',
@@ -77,7 +76,82 @@ export function Input({ id, label, loading = false, ...props }) {
 					}}
 					{...props}
 				/>
-			</span>
+				{help && (
+					<button
+						type="button"
+						aria-label="Help"
+						css={{
+							position: 'absolute',
+							top: '5px',
+							right: '5px',
+							display: 'inline-block',
+							background: '#fff',
+							apperance: 'none',
+							fontSize: '1rem',
+							cursor: 'pointer',
+							lineHeight: 1,
+							border: '1px solid #383E48',
+							borderRadius: '100%',
+							width: '1rem',
+							height: '1rem',
+							padding: 0,
+							margin: 0,
+							':before': {
+								content: '""',
+								position: 'absolute',
+								top: '50%',
+								left: '50%',
+								background: '#383E48',
+								borderRadius: '2px',
+								width: '2px',
+								height: '8px',
+								margin: '-4px 0 0 -1px',
+							},
+							':focus': {
+								outline: 'none',
+								boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+							},
+						}}
+					>
+						<div
+							css={{
+								display: 'none',
+								position: 'absolute',
+								width: 'max-content',
+								maxWidth: '93vw',
+								right: '-0.4rem',
+								top: '2.6rem',
+								zIndex: 3,
+								background: '#fff',
+								border: '3px solid #005fcc',
+								padding: '0.5rem',
+								whiteSpace: 'nowrap',
+								textAlign: 'right',
+								':before': {
+									content: '""',
+									position: 'absolute',
+									top: '-1.7rem',
+									right: '0.6rem',
+									width: '3px',
+									height: '1.7rem',
+									background: '#005fcc',
+								},
+								'button:focus > &, button:active > &, button:hover > &': {
+									display: 'block',
+								},
+								'& img': {
+									maxWidth: '100%',
+								},
+								'@media (min-width: 63.75rem)': {
+									maxWidth: '59.375rem',
+								},
+							}}
+						>
+							{help}
+						</div>
+					</button>
+				)}
+			</div>
 		</li>
 	);
 }

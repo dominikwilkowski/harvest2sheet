@@ -46,7 +46,7 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 					right: 0,
 					bottom: 0,
 					left: 0,
-					background: 'var(--gradient)', //'linear-gradient(to right, var(--color1) 0%, var(--color2) 100%)',
+					background: 'var(--gradient)',
 					borderRadius: '8px',
 					transition: 'filter 0.3s ease',
 					zIndex: 1,

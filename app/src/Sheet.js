@@ -10,6 +10,9 @@ import { Button } from './primitives/Button';
 import { getSheetInfo } from './googleSync';
 import { Input } from './primitives/Input';
 
+import hProjectIDImg from './assets/harvest-project-id.png';
+import gSheetIDImg from './assets/spreadsheet-id.png';
+
 export function Sheet({ match }) {
 	let {
 		params: { sheetID },
@@ -124,8 +127,15 @@ export function Sheet({ match }) {
 					<Input
 						required
 						id="name"
-						label="Sheet name"
+						label="Name"
 						value={name}
+						help={
+							<span>
+								The name of this item
+								<br />
+								Only important for you to organise your items
+							</span>
+						}
 						onChange={(event) => setName(event.target.value)}
 					/>
 					<Input
@@ -133,6 +143,12 @@ export function Sheet({ match }) {
 						id="hProject"
 						label="Harvest Project ID"
 						value={hProject}
+						help={
+							<img
+								src={hProjectIDImg}
+								alt="The project ID can be found in the url of the project website in harvest."
+							/>
+						}
 						onChange={(event) => {
 							setHProject(event.target.value);
 							setHProjectName('');
@@ -158,6 +174,12 @@ export function Sheet({ match }) {
 						id="gSheetID"
 						label="Spreadsheet ID"
 						value={gSheetID}
+						help={
+							<img
+								src={gSheetIDImg}
+								alt="The spreadsheet ID can be found in the url of the google spreadsheet."
+							/>
+						}
 						onChange={(event) => {
 							setGSheetID(event.target.value);
 							setGSheetIDName('');

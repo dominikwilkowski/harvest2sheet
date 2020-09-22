@@ -68,13 +68,14 @@ export function LoginForm({ handleLogin, inputLines, loading, error }) {
 							opacity: loading ? 0.4 : 1,
 						}}
 					>
-						{inputLines.map(({ id, label, value, setValue }) => (
+						{inputLines.map(({ id, label, value, setValue, help }) => (
 							<Input
 								required
 								key={id}
 								id={id}
 								label={label}
 								value={value}
+								help={help}
 								disabled={loading}
 								onChange={(event) => setValue(event.target.value)}
 							/>

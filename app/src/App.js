@@ -8,6 +8,9 @@ import { googleLogin } from './googleSync';
 import { LoginForm } from './LoginForm';
 import { Home } from './Home';
 
+import harvestAccess from './assets/harvest-access.png';
+import harvestAccessTokenID from './assets/harvest-token-id.png';
+
 export function App() {
 	const [login, setLogin] = useState(
 		JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}')
@@ -57,6 +60,34 @@ export function App() {
 		? !!login.HARVEST_ACCESS_TOKEN || !!login.HARVEST_ACCOUNT_ID || !!login.GOOGLE_API_KEY
 		: false;
 
+	const HTokenHelp = () => (
+		<div>
+			Log into <strong>https://id.getharvest.com/developers</strong>
+			<br />
+			and create a Personal Access Tokens
+			<br />
+			<img src={harvestAccess} alt="" css={{ width: '30rem !important' }} />
+			<br />
+			Copy the "Your Token" and paste it here
+			<br />
+			<img src={harvestAccessTokenID} alt="" css={{ width: '30rem !important' }} />
+		</div>
+	);
+
+	const HAccountID = () => (
+		<div>
+			Log into <strong>https://id.getharvest.com/developers</strong>
+			<br />
+			and create a Personal Access Tokens
+			<br />
+			<img src={harvestAccess} alt="" css={{ width: '30rem !important' }} />
+			<br />
+			Copy the "Account ID" and paste it here
+			<br />
+			<img src={harvestAccessTokenID} alt="" css={{ width: '30rem !important' }} />
+		</div>
+	);
+
 	return (
 		<main
 			css={{
@@ -71,9 +102,27 @@ export function App() {
 					loading={loading}
 					error={error}
 					inputLines={[
-						{ id: 'hToken', label: 'Harvest access token', value: hToken, setValue: setHToken },
-						{ id: 'hID', label: 'Harvest account ID', value: hID, setValue: setHID },
-						{ id: 'gAPIKey', label: 'Google API key', value: gAPIKey, setValue: setGAPIKey },
+						{
+							id: 'hToken',
+							label: 'Harvest access token',
+							value: hToken,
+							setValue: setHToken,
+							help: <HTokenHelp />,
+						},
+						{
+							id: 'hID',
+							label: 'Harvest account ID',
+							value: hID,
+							setValue: setHID,
+							help: <HTokenHelp />,
+						},
+						{
+							id: 'gAPIKey',
+							label: 'Google API key',
+							value: gAPIKey,
+							setValue: setGAPIKey,
+							help: 'Ask Dom for it',
+						},
 					]}
 				/>
 			) : (
