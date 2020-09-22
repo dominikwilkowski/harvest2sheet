@@ -82,6 +82,9 @@ export function Output() {
 						MultiValue: SortableMultiValue,
 					}}
 					closeMenuOnSelect={false}
+					css={{
+						zIndex: 3,
+					}}
 				/>
 
 				<div

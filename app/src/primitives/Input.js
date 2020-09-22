@@ -48,7 +48,7 @@ export function Input({ id, label, loading = false, ...props }) {
 						width: '1.5rem',
 						height: '1.5rem',
 						border: '3px solid #ccc',
-						borderTopColor: '#000',
+						borderTopColor: '#383E48',
 						borderRadius: '100%',
 						animation: `${rotation} 0.6s linear infinite`,
 					},

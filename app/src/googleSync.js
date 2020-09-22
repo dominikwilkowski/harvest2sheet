@@ -74,7 +74,7 @@ export function googleLogin(LOGIN, retry = 1) {
 					try {
 						await window.gapi.client.init({
 							apiKey: LOGIN.GOOGLE_API_KEY,
-							clientId: LOGIN.GOOGLE_CLIENT_ID,
+							clientId: '75225162198-vsj9mtn0o9tf0ru487t4he9a90mrd2mp.apps.googleusercontent.com',
 							discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
 							scope: 'https://www.googleapis.com/auth/spreadsheets',
 						});

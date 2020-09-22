@@ -62,7 +62,7 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 					width: '1.5rem',
 					height: '1.5rem',
 					border: '3px solid #ccc',
-					borderTopColor: '#000',
+					borderTopColor: '#383E48',
 					borderRadius: '100%',
 					animation: `${rotation} 0.6s linear infinite`,
 					zIndex: 2,
@@ -70,17 +70,14 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 				':disabled': {
 					opacity: 0.4,
 				},
-				':hover:before, :focus:before': props.disabled
+				':hover:before': props.disabled
 					? {}
 					: {
 							filter: 'hue-rotate(180deg)',
 					  },
 				':focus': {
 					outline: 'none',
-				},
-				':focus-visible': {
-					outline: '3px dashed #000',
-					outlineOffset: '3px',
+					boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
 				},
 				...(styleMap[look] ? styleMap[look] : {}),
 			}}

@@ -17,18 +17,16 @@ export function App() {
 
 	const [hToken, setHToken] = useState('');
 	const [hID, setHID] = useState('');
-	const [gClientID, setGClientID] = useState('');
 	const [gAPIKey, setGAPIKey] = useState('');
 
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		setLoading(true);
 
-		if (hToken && hID && gClientID && gAPIKey) {
+		if (hToken && hID && gAPIKey) {
 			const login = {
 				HARVEST_ACCESS_TOKEN: hToken,
 				HARVEST_ACCOUNT_ID: hID,
-				GOOGLE_CLIENT_ID: gClientID,
 				GOOGLE_API_KEY: gAPIKey,
 			};
 
@@ -56,10 +54,7 @@ export function App() {
 	};
 
 	const hasLogin = login
-		? !!login.HARVEST_ACCESS_TOKEN ||
-		  !!login.HARVEST_ACCOUNT_ID ||
-		  !!login.GOOGLE_CLIENT_ID ||
-		  !!login.GOOGLE_API_KEY
+		? !!login.HARVEST_ACCESS_TOKEN || !!login.HARVEST_ACCOUNT_ID || !!login.GOOGLE_API_KEY
 		: false;
 
 	return (
@@ -78,12 +73,6 @@ export function App() {
 					inputLines={[
 						{ id: 'hToken', label: 'Harvest access token', value: hToken, setValue: setHToken },
 						{ id: 'hID', label: 'Harvest account ID', value: hID, setValue: setHID },
-						{
-							id: 'gClientID',
-							label: 'Google client ID',
-							value: gClientID,
-							setValue: setGClientID,
-						},
 						{ id: 'gAPIKey', label: 'Google API key', value: gAPIKey, setValue: setGAPIKey },
 					]}
 				/>

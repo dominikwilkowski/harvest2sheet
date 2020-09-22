@@ -251,6 +251,10 @@ export function IconButton({
 				transition: 'background 0.2s ease, color 0.2s ease',
 				overflow: 'hidden',
 				cursor: 'pointer',
+				':focus': {
+					outline: 'none',
+					boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+				},
 				...(styleMap[look] ? styleMap[look] : {}),
 			}}
 			onClick={handleClick}

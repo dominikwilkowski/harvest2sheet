@@ -150,6 +150,10 @@ export function ListSheets() {
 							':invalid': {
 								boxShadow: '0 0 0 3px #ee0000',
 							},
+							':focus': {
+								outline: 'none',
+								boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+							},
 						}}
 					/>
 					<IconButton look="sync" type="submit" disabled={!selected.length}>
