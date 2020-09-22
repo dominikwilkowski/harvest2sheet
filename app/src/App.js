@@ -74,20 +74,6 @@ export function App() {
 		</div>
 	);
 
-	const HAccountID = () => (
-		<div>
-			Log into <strong>https://id.getharvest.com/developers</strong>
-			<br />
-			and create a Personal Access Tokens
-			<br />
-			<img src={harvestAccess} alt="" css={{ width: '30rem !important' }} />
-			<br />
-			Copy the "Account ID" and paste it here
-			<br />
-			<img src={harvestAccessTokenID} alt="" css={{ width: '30rem !important' }} />
-		</div>
-	);
-
 	return (
 		<main
 			css={{
