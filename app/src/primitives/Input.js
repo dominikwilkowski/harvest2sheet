@@ -106,7 +106,7 @@ export function Input({ id, label, loading = false, help = '', ...props }) {
 								width: '100%',
 								textAlign: 'center',
 							},
-							':focus': {
+							':focus, :hover': {
 								outline: 'none',
 								boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
 							},
