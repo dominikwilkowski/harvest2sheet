@@ -9,6 +9,8 @@ ReactDOM.render(
 		<Global
 			styles={{
 				html: {
+					'--color1': 'rgb(1, 255, 251)',
+					'--color2': 'rgb(183, 1, 255)',
 					background:
 						'rgb(183, 1, 255) -webkit-radial-gradient(left bottom, var(--color1), var(--color2)) repeat fixed 0% 0%',
 					height: '100%',
