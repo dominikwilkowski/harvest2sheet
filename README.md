@@ -2,7 +2,7 @@
 
 > Allows you to download time sheet data from a project within [Harvest](https://www.getharvest.com/) into [Google sheets](https://docs.google.com/spreadsheets).
 
-You can use the Web app or the cli
+You can use the **Web App** or the **CLI**
 
 ## [App](app/)
 
