@@ -46,6 +46,108 @@ export function IconButton({
 	});
 
 	const styleMap = {
+		'import-export': {
+			':before, :after': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '14px',
+				width: '10px',
+				height: '10px',
+				marginTop: '-5px',
+				border: '3px solid #383E48',
+				borderRadius: '100% 0 100% 100%',
+				transform: 'rotate(45deg)',
+				transition: 'border 0.2s ease',
+			},
+			':after': {
+				left: '25px',
+				borderRadius: '100% 100% 100% 0',
+			},
+			':hover': {
+				background: '#005fcc',
+				color: '#fff',
+			},
+			':hover:before, :hover:after': {
+				borderColor: '#fff',
+			},
+		},
+		import: {
+			':before': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '20px',
+				width: '3px',
+				height: '10px',
+				marginTop: '-6px',
+				background: '#383E48',
+				borderRadius: '2px',
+				transition: 'background 0.2s ease',
+			},
+			':after': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '17px',
+				width: '9px',
+				height: '9px',
+				marginTop: '-3px',
+				border: '3px solid #383E48',
+				borderStyle: 'none solid solid none',
+				transform: 'rotate(45deg)',
+				borderRadius: '2px',
+				transition: 'border 0.2s ease',
+			},
+			':hover': {
+				background: '#005fcc',
+				color: '#fff',
+			},
+			':hover:before': {
+				background: '#fff',
+			},
+			':hover:after': {
+				borderColor: '#fff',
+			},
+		},
+		export: {
+			':before': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '17px',
+				width: '9px',
+				height: '9px',
+				marginTop: '-6px',
+				border: '3px solid #383E48',
+				borderStyle: 'solid none none solid',
+				transform: 'rotate(45deg)',
+				borderRadius: '2px',
+				transition: 'border 0.2s ease',
+			},
+			':after': {
+				content: '""',
+				position: 'absolute',
+				top: '50%',
+				left: '20px',
+				width: '3px',
+				height: '10px',
+				marginTop: '-4px',
+				background: '#383E48',
+				borderRadius: '2px',
+				transition: 'background 0.2s ease',
+			},
+			':hover': {
+				background: '#005fcc',
+				color: '#fff',
+			},
+			':hover:before': {
+				borderColor: '#fff',
+			},
+			':hover:after': {
+				background: '#fff',
+			},
+		},
 		adjust: {
 			':before': {
 				content: '""',

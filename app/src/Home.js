@@ -5,6 +5,7 @@ import { jsx } from '@emotion/core';
 import { Fragment } from 'react';
 
 import { IconButton } from './primitives/IconButton';
+import { ImportExport } from './ImportExport';
 import { ListSheets } from './ListSheets';
 import { version } from '../package.json';
 import { ListOutput } from './ListOutput';
@@ -59,6 +60,7 @@ export function Home({ handleLogout }) {
 					<Route exact path="/output" component={ListOutput} />
 					<Route exact path="/output/add" component={Output} />
 					<Route exact path="/output/:itemID" component={Output} />
+					<Route exact path="/import-export" component={ImportExport} />
 				</Switch>
 			</Router>
 			<span
