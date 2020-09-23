@@ -5,7 +5,7 @@ import { jsx, keyframes } from '@emotion/core';
 export function Button({ children, loading, look = 'default', as: Tag = 'button', ...props }) {
 	const styleMap = {
 		default: {
-			'--gradient': 'linear-gradient(to right, rgb(1, 255, 251) 0%, rgb(183, 1, 255) 100%)',
+			'--gradient': 'linear-gradient(to right, var(--color1) 0%, var(--color2) 100%)',
 		},
 		muted: {
 			'--gradient': 'linear-gradient(to right, #ccc 0%, #555 50%, #ccc 100%)',

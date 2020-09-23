@@ -10,13 +10,8 @@ ReactDOM.render(
 			styles={{
 				html: {
 					background:
-						'rgb(183, 1, 255) -webkit-radial-gradient(left bottom, rgb(1, 255, 251), rgb(183, 1, 255)) repeat fixed 0% 0%',
+						'rgb(183, 1, 255) -webkit-radial-gradient(left bottom, var(--color1), var(--color2)) repeat fixed 0% 0%',
 					height: '100%',
-
-					// background: #B2E2B8;
-					// background: -webkit-radial-gradient(bottom left, #B2E2B8, #CDDDA2);
-					// background: -moz-radial-gradient(bottom left, #B2E2B8, #CDDDA2);
-					// background: radial-gradient(to top right, #B2E2B8, #CDDDA2);
 				},
 				body: {
 					fontFamily:

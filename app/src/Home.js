@@ -1,8 +1,8 @@
 /** @jsx jsx */
 
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import { jsx } from '@emotion/core';
-import { Fragment } from 'react';
+import { jsx, Global } from '@emotion/core';
+import { Fragment, useState } from 'react';
 
 import { IconButton } from './primitives/IconButton';
 import { ImportExport } from './ImportExport';
@@ -13,8 +13,42 @@ import { Output } from './Output';
 import { Sheet } from './Sheet';
 
 export function Home({ handleLogout }) {
+	const [colors, setColors] = useState(['rgb(1, 255, 251)', 'rgb(183, 1, 255)']);
+	const [index, setIndex] = useState(0);
+
+	const easterEgg = () => {
+		const colorSets = [
+			['rgb(1, 255, 251)', 'rgb(183, 1, 255)'],
+			['#f857a6', '#ff5858'],
+			['#2BC0E4', '#EAECC6'],
+			['#7474BF', '#348AC7'],
+			['#A9C9FF', '#FFBBEC'],
+			['#3D7EAA', '#FFE47A'],
+			['#08AEEA', '#2AF598'],
+			['#5f2c82', '#49a09d'],
+			['#00DBDE', '#FC00FF'],
+			['#FC354C', '#0ABFBC'],
+			['#f2709c', '#ff9472'],
+			['green', 'red'],
+			['red', 'blue'],
+			['#888', '#888'],
+		];
+		const newIndex = index + 1 > colorSets.length - 1 ? 0 : index + 1;
+		setIndex(newIndex);
+
+		setColors(colorSets[newIndex]);
+	};
+
 	return (
 		<Fragment>
+			<Global
+				styles={{
+					html: {
+						'--color1': colors[0],
+						'--color2': colors[1],
+					},
+				}}
+			/>
 			<h1
 				css={{
 					fontFamily:
@@ -63,7 +97,7 @@ export function Home({ handleLogout }) {
 					<Route exact path="/import-export" component={ImportExport} />
 				</Switch>
 			</Router>
-			<span
+			<div
 				css={{
 					display: 'block',
 					padding: '1rem',
@@ -72,8 +106,8 @@ export function Home({ handleLogout }) {
 					fontSize: '0.5rem',
 				}}
 			>
-				v{version}
-			</span>
+				<span onClick={easterEgg}>v{version}</span>
+			</div>
 		</Fragment>
 	);
 }
