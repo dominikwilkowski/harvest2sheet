@@ -120,12 +120,12 @@ export function Input({ id, label, loading = false, help = '', ...props }) {
 								maxWidth: '93vw',
 								right: '-0.4rem',
 								top: '2.6rem',
-								zIndex: 3,
 								background: '#fff',
 								border: '3px solid #005fcc',
 								padding: '0.5rem',
 								whiteSpace: 'nowrap',
 								textAlign: 'right',
+								zIndex: 4,
 								':before': {
 									content: '""',
 									position: 'absolute',
