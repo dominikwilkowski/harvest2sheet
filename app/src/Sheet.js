@@ -132,6 +132,13 @@ export function Sheet({ match }) {
 
 	const colourStyles = {
 		container: (styles) => (output ? styles : { ...styles, boxShadow: '0 0 0 3px red' }),
+		control: (styles) => ({
+			...styles,
+			borderColor: '#767676',
+			fontSize: '1.5rem',
+			padding: '0.25rem 0',
+			':hover': { borderColor: '#767676', ...styles[':hover'] },
+		}),
 	};
 
 	return (

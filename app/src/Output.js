@@ -91,10 +91,15 @@ export function Output({ match }) {
 	const colourStyles = {
 		container: (styles) =>
 			columns && columns.length ? styles : { ...styles, boxShadow: '0 0 0 3px red' },
+		control: (styles) => ({
+			...styles,
+			borderColor: '#767676',
+			':hover': { borderColor: '#767676', ...styles[':hover'] },
+		}),
 	};
 
 	return (
-		<Wrapper>
+		<Wrapper size="sm">
 			<h2>{itemID ? 'Edit' : 'Add'} Output</h2>
 
 			<form
@@ -117,13 +122,14 @@ export function Output({ match }) {
 						label="Name"
 						value={name}
 						onChange={(event) => setName(event.target.value)}
+						maxWidth="8rem"
 					/>
 					<li
 						css={{
 							marginBottom: '0.5rem',
 							'@media (min-width: 37.5rem)': {
 								display: 'grid',
-								gridTemplateColumns: '17rem auto',
+								gridTemplateColumns: '8rem auto',
 							},
 						}}
 					>

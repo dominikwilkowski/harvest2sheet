@@ -2,7 +2,7 @@
 
 import { jsx, keyframes } from '@emotion/core';
 
-export function Input({ id, label, loading = false, help = '', ...props }) {
+export function Input({ id, label, maxWidth = '17rem', loading = false, help = '', ...props }) {
 	const rotation = keyframes({
 		to: {
 			transform: 'rotate( 360deg )',
@@ -15,7 +15,7 @@ export function Input({ id, label, loading = false, help = '', ...props }) {
 				marginBottom: '0.5rem',
 				'@media (min-width: 37.5rem)': {
 					display: 'grid',
-					gridTemplateColumns: '17rem auto',
+					gridTemplateColumns: `${maxWidth} auto`,
 				},
 			}}
 		>

@@ -4,7 +4,7 @@ import { jsx } from '@emotion/core';
 
 export function Wrapper({ children, size = 'md' }) {
 	const sizeMap = {
-		sm: '30rem',
+		sm: '50rem',
 		md: '60rem',
 		lg: '93.75rem',
 	};

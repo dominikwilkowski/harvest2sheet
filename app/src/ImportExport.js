@@ -90,7 +90,7 @@ export function ImportExport() {
 				css={{
 					borderTop: '2px dashed #eee',
 					paddingTop: '0.5rem',
-					marginBottom: 0,
+					marginBottom: '1rem',
 				}}
 			>
 				Import
@@ -99,16 +99,21 @@ export function ImportExport() {
 			<form onSubmit={importFile}>
 				<div
 					css={{
+						position: 'relative',
 						marginLeft: '1rem',
 					}}
 				>
 					<input
 						id="file"
 						type="file"
+						required
 						onChange={(event) => setFile(event.target.files[0])}
 						css={{
+							position: 'absolute',
 							opacity: 0,
 							width: '1px',
+							left: '0.5rem',
+							height: '1.5rem',
 						}}
 					/>
 					<label
@@ -120,7 +125,7 @@ export function ImportExport() {
 							height: '1.5rem',
 							borderRadius: '6px',
 							border: '3px solid #383E48',
-							marginBottom: '0.5rem',
+							margin: '0.5rem 0',
 							':before': {
 								content: '"Browse"',
 								display: 'flex',
