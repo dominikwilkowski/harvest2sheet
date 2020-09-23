@@ -38,6 +38,11 @@ export function ImportExport() {
 						writeSheets(data.sheets);
 					}
 					if (overrideOutput && data.output) {
+						// reset relationship
+						if (!overrideSheets) {
+							const newSheets = sheets.map(({ output, ...rest }) => ({ output: 1, ...rest }));
+							writeSheets(newSheets);
+						}
 						writeOutput(data.output);
 					}
 					history.push('/');
