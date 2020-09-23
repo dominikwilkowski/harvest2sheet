@@ -7,6 +7,7 @@ import { Fragment } from 'react';
 import { IconButton } from './primitives/IconButton';
 import { ListSheets } from './ListSheets';
 import { version } from '../package.json';
+import { ListOutput } from './ListOutput';
 import { Output } from './Output';
 import { Sheet } from './Sheet';
 
@@ -54,8 +55,10 @@ export function Home({ handleLogout }) {
 				<Switch>
 					<Route exact path="/" component={ListSheets} />
 					<Route exact path="/add" component={Sheet} />
-					<Route exact path="/output" component={Output} />
 					<Route exact path="/edit/:sheetID" component={Sheet} />
+					<Route exact path="/output" component={ListOutput} />
+					<Route exact path="/output/add" component={Output} />
+					<Route exact path="/output/:itemID" component={Output} />
 				</Switch>
 			</Router>
 			<span

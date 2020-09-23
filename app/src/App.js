@@ -3,6 +3,7 @@
 import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
+import { getLogin, writeLogin } from './storage';
 import { harvestLogin } from './harvestSync';
 import { googleLogin } from './googleSync';
 import { LoginForm } from './LoginForm';
@@ -12,9 +13,7 @@ import harvestAccess from './assets/harvest-access.png';
 import harvestAccessTokenID from './assets/harvest-token-id.png';
 
 export function App() {
-	const [login, setLogin] = useState(
-		JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}')
-	);
+	const [login, setLogin] = useState(getLogin());
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 
@@ -37,7 +36,7 @@ export function App() {
 				await harvestLogin(login);
 				await googleLogin(login);
 
-				localStorage.setItem('harvest2sheetLogin', JSON.stringify(login));
+				writeLogin(login);
 				setLogin(login);
 				setLoading(false);
 			} catch (error) {
@@ -52,7 +51,7 @@ export function App() {
 	};
 
 	const handleLogout = () => {
-		localStorage.setItem('harvest2sheetLogin', '{}');
+		writeLogin({});
 		setLogin({});
 	};
 

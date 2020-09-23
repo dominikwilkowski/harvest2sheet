@@ -108,7 +108,9 @@ export function SheetCard({
 				<Code>{hProjectName}</Code>
 				<Code>{gSheetIDName}</Code>
 				<Code>{tabName}</Code>
-				<Code>{output.length} columns</Code>
+				<Code>
+					{output.name} ({output.columns.length} columns)
+				</Code>
 			</label>
 			<div
 				css={{

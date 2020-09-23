@@ -2,8 +2,10 @@
 
 import { Link, useHistory } from 'react-router-dom';
 import { jsx } from '@emotion/core';
+import Select from 'react-select';
 import { useState } from 'react';
 
+import { getLogin, getSheets, writeSheets, getOutput } from './storage';
 import { getProjectName } from './harvestSync';
 import { Wrapper } from './primitives/Wrapper';
 import { Button } from './primitives/Button';
@@ -19,20 +21,30 @@ export function Sheet({ match }) {
 	} = match;
 	sheetID = parseInt(sheetID);
 
-	let sheets = JSON.parse(localStorage.getItem('harvest2sheetSheets') || '[]');
+	const storageOutput = getOutput();
+	const outputOptions = storageOutput.map(({ id, name }) => ({
+		label: name,
+		value: id,
+	}));
+
+	let storageSheets = getSheets();
 	let hProjectDefault = '';
 	let hProjectNameDefault = '';
 	let gSheetIDDefault = '';
 	let gSheetIDNameDefault = '';
 	let nameDefault = '';
+	let outputDefault = '';
 	if (sheetID) {
-		const thisSheet = sheets.filter(({ id }) => id === sheetID);
+		const thisSheet = storageSheets.filter(({ id }) => id === sheetID);
 		if (thisSheet.length === 1) {
 			hProjectDefault = thisSheet[0].hProject;
 			hProjectNameDefault = thisSheet[0].hProjectName;
 			gSheetIDDefault = thisSheet[0].gSheetID;
 			gSheetIDNameDefault = thisSheet[0].gSheetIDName;
 			nameDefault = thisSheet[0].name;
+			outputDefault = storageOutput
+				.filter(({ id }) => id === thisSheet[0].output)
+				.map(({ id, name }) => ({ label: name, value: id }))[0];
 		}
 	}
 
@@ -43,9 +55,10 @@ export function Sheet({ match }) {
 	const [gSheetID, setGSheetID] = useState(gSheetIDDefault);
 	const [gSheetIDName, setGSheetIDName] = useState(gSheetIDNameDefault);
 	const [name, setName] = useState(nameDefault);
+	const [output, setOutput] = useState(outputDefault);
 	const history = useHistory();
 
-	const LOGIN = JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}');
+	const LOGIN = getLogin();
 
 	const getHarvestName = async () => {
 		setLoadingH(true);
@@ -84,27 +97,41 @@ export function Sheet({ match }) {
 			hProjectName &&
 			gSheetIDName !== '- not found -' &&
 			gSheetIDName !== '' &&
-			gSheetIDName
+			gSheetIDName &&
+			output
 		) {
 			if (sheetID) {
-				sheets = sheets.map((sheet) =>
+				storageSheets = storageSheets.map((sheet) =>
 					sheet.id === sheetID
-						? { id: sheet.id, name, hProject, hProjectName, gSheetID, gSheetIDName }
+						? {
+								id: sheet.id,
+								name,
+								hProject,
+								hProjectName,
+								gSheetID,
+								gSheetIDName,
+								output: output.value,
+						  }
 						: sheet
 				);
 			} else {
-				sheets.push({
-					id: sheets.length ? sheets[sheets.length - 1].id + 1 : 1,
+				storageSheets.push({
+					id: storageSheets.length ? storageSheets[storageSheets.length - 1].id + 1 : 1,
 					name,
 					hProject,
 					hProjectName,
 					gSheetID,
 					gSheetIDName,
+					output: output.value,
 				});
 			}
-			localStorage.setItem('harvest2sheetSheets', JSON.stringify(sheets));
+			writeSheets(storageSheets);
 			history.push('/');
 		}
+	};
+
+	const colourStyles = {
+		container: (styles) => (output ? styles : { ...styles, boxShadow: '0 0 0 3px red' }),
 	};
 
 	return (
@@ -200,6 +227,40 @@ export function Sheet({ match }) {
 								: {}),
 						}}
 					/>
+					<li
+						css={{
+							position: 'relative',
+							zIndex: 3,
+							marginBottom: '0.5rem',
+							'@media (min-width: 37.5rem)': {
+								display: 'grid',
+								gridTemplateColumns: '17rem auto',
+							},
+						}}
+					>
+						<label
+							htmlFor="output"
+							css={{
+								display: 'inline-block',
+								margin: '1rem 0.5rem 0.5rem 0',
+								fontSize: '1.5rem',
+								alignSelf: 'center',
+								whiteSpace: 'nowrap',
+								'@media (min-width: 37.5rem)': {
+									margin: '0 0.5rem 0 0',
+								},
+							}}
+						>
+							Output
+						</label>
+						<Select
+							inputId="output"
+							options={outputOptions}
+							value={output}
+							onChange={setOutput}
+							styles={colourStyles}
+						/>
+					</li>
 				</ul>
 
 				<div

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import format from 'date-fns/format';
 import { useState } from 'react';
 
+import { getLogin, getSheets, writeSheets, getOutput, writeOutput } from './storage';
 import { IconButton } from './primitives/IconButton';
 import { SheetCard } from './primitives/SheetCard';
 import { Wrapper } from './primitives/Wrapper';
@@ -13,39 +14,47 @@ import { harvestSync } from './harvestSync';
 import { googleSync } from './googleSync';
 
 export function ListSheets() {
-	const LOGIN = JSON.parse(localStorage.getItem('harvest2sheetLogin') || '{}');
-	let output = JSON.parse(localStorage.getItem('harvest2sheetOutput') || '[]');
+	const LOGIN = getLogin();
+	const storageSheets = getSheets();
+	let output = getOutput();
 
 	if (output.length === 0) {
 		output = [
-			'date',
-			'user',
-			'client',
-			'project',
-			'task',
-			'hours',
-			'rounded_hours',
-			'notes',
-			'billable_rate',
-			'billable_amount',
-			'cost_rate',
-			'cost_amount',
-			'currency',
+			{
+				id: 1,
+				name: 'Default',
+				columns: [
+					'date',
+					'user',
+					'client',
+					'project',
+					'task',
+					'hours',
+					'rounded_hours',
+					'notes',
+					'billable_rate',
+					'billable_amount',
+					'cost_rate',
+					'cost_amount',
+					'currency',
+				],
+			},
 		];
 
-		localStorage.setItem('harvest2sheetOutput', JSON.stringify(output));
+		writeSheets(storageSheets.map((sheet) => ({ output: 1, ...sheet })));
+		writeOutput(output);
 	}
 
-	const [sheets, setSheets] = useState(
-		JSON.parse(localStorage.getItem('harvest2sheetSheets') || '[]')
-	);
+	const [sheets, setSheets] = useState(storageSheets);
 	const [date, setDate] = useState(format(new Date(), 'yyyy-MM'));
 	const [loading, setLoading] = useState(false);
 	const [selected, setSelected] = useState([]);
 
+	const getOutputByID = (ID) => output.filter(({ id }) => id === ID)[0];
+
 	const deleteSheet = (sheetID) => {
 		const newSheet = sheets.filter(({ id }) => id !== sheetID);
-		localStorage.setItem('harvest2sheetSheets', JSON.stringify(newSheet));
+		writeSheets(newSheet);
 		setSheets(newSheet);
 	};
 
@@ -65,9 +74,9 @@ export function ListSheets() {
 		setLoading(true);
 		const selectedSheets = sheets.filter(({ id }) => selected.includes(id));
 		await Promise.all(
-			selectedSheets.map(async ({ hProject, gSheetID }) => {
+			selectedSheets.map(async ({ hProject, gSheetID, output }) => {
 				try {
-					const timeData = await harvestSync(LOGIN, hProject, date, output);
+					const timeData = await harvestSync(LOGIN, hProject, date, getOutputByID(output).columns);
 					await googleSync(LOGIN, gSheetID, date, timeData.csv, tabName);
 					setSelected([]);
 				} catch (error) {
@@ -185,7 +194,7 @@ export function ListSheets() {
 					},
 				}}
 			>
-				{sheets.map(({ id, name, hProjectName, gSheetIDName }, i) => (
+				{sheets.map(({ id, name, hProjectName, gSheetIDName, output = 1 }, i) => (
 					<li
 						key={id}
 						css={{
@@ -206,7 +215,7 @@ export function ListSheets() {
 							hProjectName={hProjectName}
 							tabName={tabName}
 							gSheetIDName={gSheetIDName}
-							output={output}
+							output={getOutputByID(output)}
 							selected={selected}
 							toggle={toggle}
 							deleteSheet={deleteSheet}

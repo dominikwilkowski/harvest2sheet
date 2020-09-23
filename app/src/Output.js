@@ -6,9 +6,11 @@ import Select, { components } from 'react-select';
 import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
+import { getOutput, writeOutput } from './storage';
 import { Wrapper } from './primitives/Wrapper';
 import { Button } from './primitives/Button';
 import { harvestKeys } from './harvestKeys';
+import { Input } from './primitives/Input';
 
 function arrayMove(array, from, to) {
 	array = array.slice();
@@ -27,21 +29,34 @@ const SortableMultiValue = SortableElement((props) => {
 
 const SortableSelect = SortableContainer(Select);
 
-export function Output() {
-	const storageOutput = JSON.parse(localStorage.getItem('harvest2sheetOutput') || '[]').map(
-		(item) => ({
-			value: item,
-			label: harvestKeys[item].name,
-		})
-	);
-	const [output, setOutput] = useState(storageOutput);
+export function Output({ match }) {
+	let {
+		params: { itemID },
+	} = match;
+	itemID = parseInt(itemID);
+
+	let storageOutput = getOutput();
+	let nameDefault = '';
+	let columnsDefault = [];
+	if (itemID) {
+		const thisOutput = storageOutput.filter(({ id }) => id === itemID);
+		if (thisOutput.length === 1) {
+			nameDefault = thisOutput[0].name;
+			columnsDefault = thisOutput[0].columns.map((item) => ({
+				value: item,
+				label: harvestKeys[item].name,
+			}));
+		}
+	}
+	const [name, setName] = useState(nameDefault);
+	const [columns, setColumns] = useState(columnsDefault);
 	const history = useHistory();
 
-	const onChange = (selectedOptions) => setOutput(selectedOptions);
+	const onChange = (selectedOptions) => setColumns(selectedOptions);
 
 	const onSortEnd = ({ oldIndex, newIndex }) => {
-		const newValue = arrayMove(output, oldIndex, newIndex);
-		setOutput(newValue);
+		const newValue = arrayMove(columns, oldIndex, newIndex);
+		setColumns(newValue);
 	};
 
 	const selectableItems = Object.entries(harvestKeys).map(([key, { name }]) => ({
@@ -52,13 +67,35 @@ export function Output() {
 	const saveOutput = (event) => {
 		event.preventDefault();
 
-		localStorage.setItem('harvest2sheetOutput', JSON.stringify(output.map(({ value }) => value)));
-		history.push('/');
+		if (columns.length > 0) {
+			if (itemID) {
+				storageOutput = storageOutput.map((output) =>
+					output.id === itemID
+						? { id: output.id, name, columns: columns.map(({ value }) => value) }
+						: output
+				);
+			} else {
+				storageOutput.push({
+					id: storageOutput.length ? storageOutput[storageOutput.length - 1].id + 1 : 1,
+					name,
+					columns: columns.map(({ value }) => value),
+				});
+			}
+			writeOutput(storageOutput);
+			history.push('/output');
+		} else {
+			//
+		}
+	};
+
+	const colourStyles = {
+		container: (styles) =>
+			columns && columns.length ? styles : { ...styles, boxShadow: '0 0 0 3px red' },
 	};
 
 	return (
 		<Wrapper>
-			<h2>Output</h2>
+			<h2>{itemID ? 'Edit' : 'Add'} Output</h2>
 
 			<form
 				onSubmit={saveOutput}
@@ -67,25 +104,66 @@ export function Output() {
 					padding: 0,
 				}}
 			>
-				<p>Select the columns to be written into the spreadsheets</p>
-				<SortableSelect
-					axis="xy"
-					onSortEnd={onSortEnd}
-					distance={4}
-					// small fix for https://github.com/clauderic/react-sortable-hoc/pull/352
-					getHelperDimensions={({ node }) => node.getBoundingClientRect()}
-					isMulti
-					options={selectableItems}
-					value={output}
-					onChange={onChange}
-					components={{
-						MultiValue: SortableMultiValue,
-					}}
-					closeMenuOnSelect={false}
+				<ul
 					css={{
-						zIndex: 3,
+						listStyle: 'none',
+						padding: 0,
+						margin: 0,
 					}}
-				/>
+				>
+					<Input
+						required
+						id="name"
+						label="Name"
+						value={name}
+						onChange={(event) => setName(event.target.value)}
+					/>
+					<li
+						css={{
+							marginBottom: '0.5rem',
+							'@media (min-width: 37.5rem)': {
+								display: 'grid',
+								gridTemplateColumns: '17rem auto',
+							},
+						}}
+					>
+						<label
+							htmlFor="columns"
+							css={{
+								display: 'inline-block',
+								margin: '1rem 0.5rem 0.5rem 0',
+								fontSize: '1.5rem',
+								alignSelf: 'center',
+								whiteSpace: 'nowrap',
+								'@media (min-width: 37.5rem)': {
+									margin: '0 0.5rem 0 0',
+								},
+							}}
+						>
+							Columns
+						</label>
+						<SortableSelect
+							inputId="columns"
+							axis="xy"
+							onSortEnd={onSortEnd}
+							distance={4}
+							// small fix for https://github.com/clauderic/react-sortable-hoc/pull/352
+							getHelperDimensions={({ node }) => node.getBoundingClientRect()}
+							isMulti
+							options={selectableItems}
+							value={columns}
+							styles={colourStyles}
+							onChange={onChange}
+							components={{
+								MultiValue: SortableMultiValue,
+							}}
+							closeMenuOnSelect={false}
+							css={{
+								zIndex: 3,
+							}}
+						/>
+					</li>
+				</ul>
 
 				<div
 					css={{
@@ -94,7 +172,7 @@ export function Output() {
 						justifyItems: 'start',
 					}}
 				>
-					<Button look="muted" to="/" as={Link}>
+					<Button look="muted" to="/output" as={Link}>
 						Cancel
 					</Button>
 					<Button
