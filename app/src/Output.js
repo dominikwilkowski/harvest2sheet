@@ -90,7 +90,7 @@ export function Output({ match }) {
 
 	const colourStyles = {
 		container: (styles) =>
-			columns && columns.length ? styles : { ...styles, boxShadow: '0 0 0 3px red' },
+			columns && columns.length ? styles : { ...styles, boxShadow: '0 0 0 3px var(--danger)' },
 		control: (styles) => ({
 			...styles,
 			borderColor: '#767676',

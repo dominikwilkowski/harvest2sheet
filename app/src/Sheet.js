@@ -131,7 +131,7 @@ export function Sheet({ match }) {
 	};
 
 	const colourStyles = {
-		container: (styles) => (output ? styles : { ...styles, boxShadow: '0 0 0 3px red' }),
+		container: (styles) => (output ? styles : { ...styles, boxShadow: '0 0 0 3px var(--danger)' }),
 		control: (styles) => ({
 			...styles,
 			borderColor: '#767676',
@@ -199,7 +199,7 @@ export function Sheet({ match }) {
 						readOnly
 						css={{
 							...(hProjectName === '- not found -' || hProjectName === '' || !hProjectName
-								? { boxShadow: '0 0 0 3px red' }
+								? { boxShadow: '0 0 0 3px var(--danger)' }
 								: {}),
 						}}
 					/>
@@ -230,7 +230,7 @@ export function Sheet({ match }) {
 						readOnly
 						css={{
 							...(gSheetIDName === '- not found -' || gSheetIDName === '' || !gSheetIDName
-								? { boxShadow: '0 0 0 3px red' }
+								? { boxShadow: '0 0 0 3px var(--danger)' }
 								: {}),
 						}}
 					/>

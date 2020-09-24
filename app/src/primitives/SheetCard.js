@@ -56,7 +56,7 @@ export function SheetCard({
 						width: '2rem',
 						height: '2rem',
 						margin: '0.5rem',
-						border: '4px solid #383E48',
+						border: '4px solid var(--text)',
 						borderRadius: '3px',
 						':before': {
 							content: '""',
@@ -66,8 +66,8 @@ export function SheetCard({
 							right: '0.4rem',
 							width: '1.5rem',
 							height: '0.8rem',
-							borderBottom: '4px solid #383E48',
-							borderLeft: '4px solid #383E48',
+							borderBottom: '4px solid var(--text)',
+							borderLeft: '4px solid var(--text)',
 							transform: 'rotate(-45deg)',
 							zIndex: 2,
 						},
@@ -86,7 +86,7 @@ export function SheetCard({
 							display: 'block',
 						},
 						'input:focus + &': {
-							boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+							boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 						},
 					}}
 				/>

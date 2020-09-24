@@ -9,10 +9,16 @@ ReactDOM.render(
 		<Global
 			styles={{
 				html: {
-					'--color1': 'rgb(1, 255, 251)',
-					'--color2': 'rgb(183, 1, 255)',
+					'--bg-color1': 'rgb(1, 255, 251)',
+					'--bg-color2': 'rgb(183, 1, 255)',
+					'--alt-bg': '#eee',
+					'--text': '#383E48',
+					'--info': '#005fcc',
+					'--confirm': '#008800',
+					'--danger': '#ee0000',
+					'--focus': '#005fcc',
 					background:
-						'rgb(183, 1, 255) -webkit-radial-gradient(left bottom, var(--color1), var(--color2)) repeat fixed 0% 0%',
+						'rgb(183, 1, 255) -webkit-radial-gradient(left bottom, var(--bg-color1), var(--bg-color2)) repeat fixed 0% 0%',
 					height: '100%',
 				},
 				body: {
@@ -21,10 +27,10 @@ ReactDOM.render(
 					lineHeight: 1.2,
 					margin: 0,
 					padding: 0,
-					color: '#383E48',
+					color: 'var(--text)',
 				},
 				a: {
-					color: '#383E48',
+					color: 'var(--text)',
 				},
 				'*, *:before, *:after': {
 					boxSizing: 'border-box',

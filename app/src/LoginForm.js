@@ -54,7 +54,7 @@ export function LoginForm({ handleLogin, inputLines, loading, error }) {
 							width: '5rem',
 							height: '5rem',
 							border: '0.75rem solid #aaa',
-							borderTopColor: '#383E48',
+							borderTopColor: 'var(--text)',
 							borderRadius: '100%',
 							animation: `${rotation} 0.5s linear infinite`,
 						},
@@ -97,7 +97,7 @@ export function LoginForm({ handleLogin, inputLines, loading, error }) {
 							css={{
 								display: 'inline-block',
 								marginTop: '1rem',
-								color: 'red',
+								color: 'var(--danger)',
 							}}
 						>
 							{error}

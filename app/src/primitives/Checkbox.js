@@ -31,7 +31,7 @@ export function Checkbox({ id, label, ...props }) {
 						top: 0,
 						width: '1rem',
 						height: '1rem',
-						border: '3px solid #383E48',
+						border: '3px solid var(--text)',
 						borderRadius: '3px',
 					},
 					':after': {
@@ -42,7 +42,7 @@ export function Checkbox({ id, label, ...props }) {
 						top: '4px',
 						width: '6px',
 						height: '6px',
-						border: '2px solid #383E48',
+						border: '2px solid var(--text)',
 						borderStyle: 'none solid solid none',
 						transform: 'rotate(45deg)',
 					},
@@ -50,7 +50,7 @@ export function Checkbox({ id, label, ...props }) {
 						display: 'block',
 					},
 					'input:focus + &': {
-						boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+						boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 					},
 				}}
 			>

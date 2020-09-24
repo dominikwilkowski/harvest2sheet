@@ -160,18 +160,18 @@ export function ListSheets() {
 							display: 'inline-block',
 							apperance: 'none',
 							background: '#fff',
-							border: '1px solid #383E48',
+							border: '1px solid var(--text)',
 							width: '7em',
 							padding: '0.5rem',
 							lineHeight: 1,
 							marginRight: '1rem',
 							textAlign: 'center',
 							':invalid': {
-								boxShadow: '0 0 0 3px #ee0000',
+								boxShadow: '0 0 0 3px var(--danger)',
 							},
 							':focus': {
 								outline: 'none',
-								boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+								boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 							},
 						}}
 					/>
@@ -198,7 +198,7 @@ export function ListSheets() {
 						width: '5rem',
 						height: '5rem',
 						border: '0.75rem solid #ccc',
-						borderTopColor: '#383E48',
+						borderTopColor: 'var(--text)',
 						borderRadius: '100%',
 						animation: `${rotation} 0.5s linear infinite`,
 					},
@@ -211,7 +211,7 @@ export function ListSheets() {
 							opacity: loading ? 0.2 : 1,
 							marginTop: '1.5rem',
 							':not(:first-of-type)': {
-								borderTop: '2px dashed #eee',
+								borderTop: '2px dashed var(--alt-bg)',
 								paddingTop: '0.5rem',
 							},
 							'@media (min-width: 40rem)': {

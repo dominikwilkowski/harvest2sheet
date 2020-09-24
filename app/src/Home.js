@@ -44,8 +44,8 @@ export function Home({ handleLogout }) {
 			<Global
 				styles={{
 					html: {
-						'--color1': colors[0],
-						'--color2': colors[1],
+						'--bg-color1': colors[0],
+						'--bg-color2': colors[1],
 					},
 				}}
 			/>

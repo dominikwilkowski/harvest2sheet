@@ -49,7 +49,7 @@ export function ListOutput() {
 							alignItems: 'center',
 							marginTop: '1.5rem',
 							':not(:first-of-type)': {
-								borderTop: '2px dashed #eee',
+								borderTop: '2px dashed var(--alt-bg)',
 								paddingTop: '0.5rem',
 							},
 							'@media (min-width: 40rem)': {
@@ -65,7 +65,7 @@ export function ListOutput() {
 								textDecoration: 'none',
 								':focus': {
 									outline: 'none',
-									boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+									boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 								},
 							}}
 						>

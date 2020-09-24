@@ -7,7 +7,7 @@ export function Code(props) {
 		<span
 			css={{
 				display: 'inline-block',
-				background: '#eee',
+				background: 'var(--alt-bg)',
 				border: '1px solid #ccc',
 				padding: '0 0.25rem',
 				borderRadius: '3px',

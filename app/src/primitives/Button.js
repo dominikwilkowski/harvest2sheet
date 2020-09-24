@@ -62,7 +62,7 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 					width: '1.5rem',
 					height: '1.5rem',
 					border: '3px solid #ccc',
-					borderTopColor: '#383E48',
+					borderTopColor: 'var(--text)',
 					borderRadius: '100%',
 					animation: `${rotation} 0.6s linear infinite`,
 					zIndex: 2,
@@ -77,7 +77,7 @@ export function Button({ children, loading, look = 'default', as: Tag = 'button'
 					  },
 				':focus': {
 					outline: 'none',
-					boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+					boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 				},
 				...(styleMap[look] ? styleMap[look] : {}),
 			}}

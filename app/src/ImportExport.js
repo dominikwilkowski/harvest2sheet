@@ -88,7 +88,7 @@ export function ImportExport() {
 
 			<h2
 				css={{
-					borderTop: '2px dashed #eee',
+					borderTop: '2px dashed var(--alt-bg)',
 					paddingTop: '0.5rem',
 					marginBottom: '1rem',
 				}}
@@ -124,7 +124,7 @@ export function ImportExport() {
 							width: '12.5rem',
 							height: '1.5rem',
 							borderRadius: '6px',
-							border: '3px solid #383E48',
+							border: '3px solid var(--text)',
 							margin: '0.5rem 0',
 							':before': {
 								content: '"Browse"',
@@ -134,7 +134,7 @@ export function ImportExport() {
 								bottom: 0,
 								top: 0,
 								width: '3.3rem',
-								background: '#383E48',
+								background: 'var(--text)',
 								color: '#fff',
 								padding: '0 6px',
 								fontSize: '0.75rem',
@@ -154,7 +154,7 @@ export function ImportExport() {
 								textAlign: 'center',
 							},
 							'input:focus + &': {
-								boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+								boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 							},
 						}}
 					/>
@@ -171,7 +171,7 @@ export function ImportExport() {
 						onChange={(event) => setOverrideOutput(event.target.checked)}
 					/>
 				</div>
-				{error && <div css={{ color: 'red' }}>{error}</div>}
+				{error && <div css={{ color: 'var(--danger)' }}>{error}</div>}
 				<IconButton
 					look="import"
 					type="submit"

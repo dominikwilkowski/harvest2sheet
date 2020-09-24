@@ -47,7 +47,7 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 						width: '1.5rem',
 						height: '1.5rem',
 						border: '3px solid #ccc',
-						borderTopColor: '#383E48',
+						borderTopColor: 'var(--text)',
 						borderRadius: '100%',
 						animation: `${rotation} 0.6s linear infinite`,
 					},
@@ -64,14 +64,14 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 						borderRadius: '0.2rem',
 						apperance: 'none',
 						width: '100%',
-						color: '#383E48',
+						color: 'var(--text)',
 						':focus': {
 							boxShadow: '0 0 0 3px #006cff',
 							borderColor: '#006cff',
 							outline: 'none',
 						},
 						':disabled': {
-							background: '#eee',
+							background: 'var(--alt-bg)',
 						},
 					}}
 					{...props}
@@ -90,7 +90,7 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 							fontSize: '1rem',
 							cursor: 'pointer',
 							lineHeight: 1,
-							border: '1px solid #383E48',
+							border: '1px solid var(--text)',
 							borderRadius: '100%',
 							width: '1rem',
 							height: '1rem',
@@ -108,7 +108,7 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 							},
 							':focus, :hover': {
 								outline: 'none',
-								boxShadow: '0 0 0 2px #fff, 0 0 0 5px #005fcc',
+								boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 							},
 						}}
 					>
@@ -121,7 +121,7 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 								right: '-0.4rem',
 								top: '2.6rem',
 								background: '#fff',
-								border: '3px solid #005fcc',
+								border: '3px solid var(--info)',
 								padding: '0.5rem',
 								whiteSpace: 'nowrap',
 								textAlign: 'right',
@@ -133,7 +133,7 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 									right: '0.6rem',
 									width: '3px',
 									height: '1.7rem',
-									background: '#005fcc',
+									background: 'var(--info)',
 								},
 								'button:focus > &, button:active > &, button:hover > &': {
 									display: 'block',
