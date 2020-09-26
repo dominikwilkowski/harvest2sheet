@@ -40,6 +40,7 @@ This will deploy this app into the `gh-pages` branch of this repo and push.
 
 ## Release History
 
+- 1.2.0 - Added select all, avatar and harvest client ID support
 - 1.1.0 - Added multiple output profiles and import/export
 - 1.0.0 - Launch
 
