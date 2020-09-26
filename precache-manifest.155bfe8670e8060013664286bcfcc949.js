@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e94f9684eca8bc3deb9bbdf399bef845",
+    "revision": "42e42f23bfaa938a21656c883ae7f33f",
     "url": "/harvest2sheet/index.html"
   },
   {
-    "revision": "f4929e5e5d7ed4c7a434",
-    "url": "/harvest2sheet/static/js/2.ee2abe0f.chunk.js"
+    "revision": "84cc1e93aeecc29e3969",
+    "url": "/harvest2sheet/static/js/2.5653461d.chunk.js"
   },
   {
     "revision": "c64c486544348f10a6d6c716950bc223",
-    "url": "/harvest2sheet/static/js/2.ee2abe0f.chunk.js.LICENSE.txt"
+    "url": "/harvest2sheet/static/js/2.5653461d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "6148d321236509f24acb",
-    "url": "/harvest2sheet/static/js/main.2fa67113.chunk.js"
+    "revision": "f094718724a8044a91af",
+    "url": "/harvest2sheet/static/js/main.0170b07b.chunk.js"
   },
   {
     "revision": "a6626191534e996adadb",
@@ -24,8 +24,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/harvest2sheet/static/media/harvest-access.07c26b4d.png"
   },
   {
-    "revision": "10b53853aa3ae243048f3e3d947599d1",
-    "url": "/harvest2sheet/static/media/harvest-project-id.10b53853.png"
+    "revision": "a2219d3e0a5477ee1f582a253ab9b6f2",
+    "url": "/harvest2sheet/static/media/harvest-client-id.a2219d3e.png"
+  },
+  {
+    "revision": "966e79e59abb8df591ff7a3e499dae1d",
+    "url": "/harvest2sheet/static/media/harvest-project-id.966e79e5.png"
   },
   {
     "revision": "946649fd4c1a32c92ee7d4bc0097b4f2",
