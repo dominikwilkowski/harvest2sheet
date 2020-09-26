@@ -69,14 +69,26 @@ export function ListSheets() {
 		}
 	};
 
+	const selectAll = () => {
+		setSelected(sheets.map((sheet) => sheet.id));
+	};
+
 	const sync = async (event, tabName) => {
 		event.preventDefault();
 		setLoading(true);
 		const selectedSheets = sheets.filter(({ id }) => selected.includes(id));
 		await Promise.all(
-			selectedSheets.map(async ({ hProject, gSheetID, output }) => {
+			selectedSheets.map(async ({ hProject, hClient, gSheetID, output }) => {
+				const hID = hProject || hClient;
+				const apiCall = hProject ? 'project_id' : 'client_id';
 				try {
-					const timeData = await harvestSync(LOGIN, hProject, date, getOutputByID(output).columns);
+					const timeData = await harvestSync(
+						LOGIN,
+						hID,
+						date,
+						getOutputByID(output).columns,
+						apiCall
+					);
 					await googleSync(LOGIN, gSheetID, date, timeData.csv, tabName);
 					setSelected([]);
 				} catch (error) {
@@ -181,6 +193,25 @@ export function ListSheets() {
 				</form>
 			</div>
 
+			<button
+				onClick={selectAll}
+				css={{
+					border: 'none',
+					background: 'transparent',
+					apperance: 'none',
+					fontSize: '0.75rem',
+					cursor: 'pointer',
+					margin: '1rem 0 0 0.5rem',
+					padding: 0,
+					':focus': {
+						outline: 'none',
+						boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
+					},
+				}}
+			>
+				Select all
+			</button>
+
 			<ul
 				css={{
 					position: 'relative',
@@ -204,7 +235,7 @@ export function ListSheets() {
 					},
 				}}
 			>
-				{sheets.map(({ id, name, hProjectName, gSheetIDName, output = 1 }, i) => (
+				{sheets.map(({ id, name, hProjectName, hClientName, gSheetIDName, output = 1 }, i) => (
 					<li
 						key={id}
 						css={{
@@ -223,6 +254,7 @@ export function ListSheets() {
 							id={id}
 							name={name}
 							hProjectName={hProjectName}
+							hClientName={hClientName}
 							tabName={tabName}
 							gSheetIDName={gSheetIDName}
 							output={getOutputByID(output)}

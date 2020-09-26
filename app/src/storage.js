@@ -2,6 +2,14 @@ const OUTPUT_KEY = 'harvest2sheetOutputs';
 const SHEETS_KEY = 'harvest2sheetSheets';
 const LOGIN_KEY = 'harvest2sheetLogin';
 
+/**
+ * Retrieve data from localStorage
+ *
+ * @param  {string} key        - The key of the data entry
+ * @param  {string} defaultVal - The default value fallback
+ *
+ * @return {any}               - The data
+ */
 function getFromStorage(key, defaultVal) {
 	const locallyStored = localStorage.getItem(key) || defaultVal;
 	try {
@@ -11,6 +19,12 @@ function getFromStorage(key, defaultVal) {
 	}
 }
 
+/**
+ * Write to localStorage
+ *
+ * @param  {string} key  - The key of the data entry
+ * @param  {any}    data - The data to be stored
+ */
 function writeToStorage(key, data) {
 	if (typeof data !== 'object') {
 		throw new Error(`Data to be written to storage is not an object but "${typeof data}"`);

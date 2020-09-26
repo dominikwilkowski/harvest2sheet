@@ -60,6 +60,12 @@ async function enterData(spreadsheetID, tabName, data) {
 	});
 }
 
+/**
+ * Login with Google API
+ *
+ * @param  {object} LOGIN - The login object
+ * @param  {number} retry - To prevent recursion issues we keep track of the instance chain
+ */
 export function googleLogin(LOGIN, retry = 1) {
 	if (window.gapi.client) {
 		// we have to re init google only once per session
@@ -101,6 +107,14 @@ export function googleLogin(LOGIN, retry = 1) {
 	}
 }
 
+/**
+ * Get infos about this spreadsheet
+ *
+ * @param  {object} LOGIN         - The login object
+ * @param  {[type]} spreadsheetID - The spreadsheet ID
+ *
+ * @return {object}               - The data returned from the Google API
+ */
 export async function getSheetInfo(LOGIN, spreadsheetID) {
 	await googleLogin(LOGIN);
 

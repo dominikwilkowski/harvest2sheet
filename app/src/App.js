@@ -33,10 +33,10 @@ export function App() {
 			};
 
 			try {
-				await harvestLogin(login);
+				const { avatar_url } = await harvestLogin(login);
 				await googleLogin(login);
 
-				writeLogin(login);
+				writeLogin({ avatar_url, ...login });
 				setLogin(login);
 				setLoading(false);
 			} catch (error) {

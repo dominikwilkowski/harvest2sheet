@@ -6,13 +6,14 @@ import Select from 'react-select';
 import { useState } from 'react';
 
 import { getLogin, getSheets, writeSheets, getOutput } from './storage';
-import { getProjectName } from './harvestSync';
+import { getProjectName, getClientName } from './harvestSync';
 import { Wrapper } from './primitives/Wrapper';
 import { Button } from './primitives/Button';
 import { getSheetInfo } from './googleSync';
 import { Input } from './primitives/Input';
 
 import hProjectIDImg from './assets/harvest-project-id.png';
+import hClientIDImg from './assets/harvest-client-id.png';
 import gSheetIDImg from './assets/spreadsheet-id.png';
 
 export function Sheet({ match }) {
@@ -30,38 +31,50 @@ export function Sheet({ match }) {
 	let storageSheets = getSheets();
 	let hProjectDefault = '';
 	let hProjectNameDefault = '';
+	let hClientDefault = '';
+	let hClientNameDefault = '';
 	let gSheetIDDefault = '';
 	let gSheetIDNameDefault = '';
 	let nameDefault = '';
 	let outputDefault = '';
+	let tabDefault = 'project';
 	if (sheetID) {
 		const thisSheet = storageSheets.filter(({ id }) => id === sheetID);
 		if (thisSheet.length === 1) {
 			hProjectDefault = thisSheet[0].hProject;
 			hProjectNameDefault = thisSheet[0].hProjectName;
+			hClientDefault = thisSheet[0].hClient;
+			hClientNameDefault = thisSheet[0].hClientName;
 			gSheetIDDefault = thisSheet[0].gSheetID;
 			gSheetIDNameDefault = thisSheet[0].gSheetIDName;
 			nameDefault = thisSheet[0].name;
 			outputDefault = storageOutput
 				.filter(({ id }) => id === thisSheet[0].output)
 				.map(({ id, name }) => ({ label: name, value: id }))[0];
+			if (hClientDefault) {
+				tabDefault = 'client';
+			}
 		}
 	}
 
-	const [loadingH, setLoadingH] = useState(false);
+	const [loadingHP, setLoadingHP] = useState(false);
+	const [loadingHC, setLoadingHC] = useState(false);
 	const [loadingG, setLoadingG] = useState(false);
 	const [hProject, setHProject] = useState(hProjectDefault);
 	const [hProjectName, setHProjectName] = useState(hProjectNameDefault);
+	const [hClient, setHClient] = useState(hClientDefault);
+	const [hClientName, setHClientName] = useState(hClientNameDefault);
 	const [gSheetID, setGSheetID] = useState(gSheetIDDefault);
 	const [gSheetIDName, setGSheetIDName] = useState(gSheetIDNameDefault);
 	const [name, setName] = useState(nameDefault);
 	const [output, setOutput] = useState(outputDefault);
+	const [tab, setTab] = useState(tabDefault);
 	const history = useHistory();
 
 	const LOGIN = getLogin();
 
-	const getHarvestName = async () => {
-		setLoadingH(true);
+	const getHProjectName = async () => {
+		setLoadingHP(true);
 		setHProjectName('');
 		try {
 			const { name } = await getProjectName(LOGIN, hProject);
@@ -69,7 +82,19 @@ export function Sheet({ match }) {
 		} catch (error) {
 			setHProjectName('- not found -');
 		}
-		setLoadingH(false);
+		setLoadingHP(false);
+	};
+
+	const getHClientName = async () => {
+		setLoadingHC(true);
+		setHProjectName('');
+		try {
+			const { name } = await getClientName(LOGIN, hClient);
+			setHClientName(name);
+		} catch (error) {
+			setHClientName('- not found -');
+		}
+		setLoadingHC(false);
 	};
 
 	const getSheetName = async () => {
@@ -91,10 +116,13 @@ export function Sheet({ match }) {
 	const addSheet = (event) => {
 		event.preventDefault();
 
+		const hasHArvestData =
+			tab === 'project'
+				? hProjectName !== '- not found -' && hProjectName !== '' && hProjectName
+				: hClientName !== '- not found -' && hClientName !== '' && hClientName;
+
 		if (
-			hProjectName !== '- not found -' &&
-			hProjectName !== '' &&
-			hProjectName &&
+			hasHArvestData &&
 			gSheetIDName !== '- not found -' &&
 			gSheetIDName !== '' &&
 			gSheetIDName &&
@@ -106,8 +134,10 @@ export function Sheet({ match }) {
 						? {
 								id: sheet.id,
 								name,
-								hProject,
-								hProjectName,
+								hProject: tab === 'project' ? hProject : '',
+								hProjectName: tab === 'project' ? hProjectName : '',
+								hClient: tab === 'client' ? hClient : '',
+								hClientName: tab === 'client' ? hClientName : '',
 								gSheetID,
 								gSheetIDName,
 								output: output.value,
@@ -118,8 +148,10 @@ export function Sheet({ match }) {
 				storageSheets.push({
 					id: storageSheets.length ? storageSheets[storageSheets.length - 1].id + 1 : 1,
 					name,
-					hProject,
-					hProjectName,
+					hProject: tab === 'project' ? hProject : '',
+					hProjectName: tab === 'project' ? hProjectName : '',
+					hClient: tab === 'client' ? hClient : '',
+					hClientName: tab === 'client' ? hClientName : '',
 					gSheetID,
 					gSheetIDName,
 					output: output.value,
@@ -139,6 +171,15 @@ export function Sheet({ match }) {
 			padding: '0.25rem 0',
 			':hover': { borderColor: '#767676', ...styles[':hover'] },
 		}),
+	};
+
+	const possibleTabs = ['project', 'client'];
+	const toggleTab = () => {
+		let index = possibleTabs.indexOf(tab) + 1;
+		if (index > possibleTabs.length - 1) {
+			index = 0;
+		}
+		setTab(possibleTabs[index]);
 	};
 
 	return (
@@ -172,11 +213,58 @@ export function Sheet({ match }) {
 						}
 						onChange={(event) => setName(event.target.value)}
 					/>
+					<li
+						css={{
+							margin: '1rem 0 0 0',
+							'@media (min-width: 37.5rem)': {
+								paddingLeft: '17rem',
+								margin: '0 0 0.5rem 0',
+							},
+						}}
+					>
+						<button
+							type="button"
+							onClick={toggleTab}
+							css={{
+								display: 'grid',
+								gridTemplateColumns: '1fr 1fr',
+								apperance: 'none',
+								background: 'transparent',
+								border: '1px solid var(--text)',
+								borderRadius: '6px',
+								fontSize: '1rem',
+								cursor: 'pointer',
+								lineHeight: 1,
+								padding: 0,
+								width: '100%',
+								overflow: 'hidden',
+								':focus': {
+									boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
+									outline: 'none',
+								},
+							}}
+						>
+							{possibleTabs.map((thisTab) => (
+								<span
+									key={thisTab}
+									css={{
+										background: thisTab === tab ? 'var(--text)' : 'var(--alt-bg)',
+										color: thisTab === tab ? '#fff' : 'var(--text)',
+										padding: '0.5rem',
+										transition: 'background 0.3s ease, color 0.3s ease',
+									}}
+								>
+									Use {thisTab} ID
+								</span>
+							))}
+						</button>
+					</li>
 					<Input
 						required
 						id="hProject"
 						label="Harvest Project ID"
 						value={hProject}
+						visible={tab === 'project'}
 						help={
 							<img
 								src={hProjectIDImg}
@@ -187,7 +275,7 @@ export function Sheet({ match }) {
 							setHProject(event.target.value);
 							setHProjectName('');
 						}}
-						onBlur={getHarvestName}
+						onBlur={getHProjectName}
 					/>
 					<Input
 						required
@@ -195,14 +283,49 @@ export function Sheet({ match }) {
 						label="Harvest Project Name"
 						value={hProjectName}
 						disabled
-						loading={loadingH}
+						loading={loadingHP}
 						readOnly
+						visible={tab === 'project'}
 						css={{
 							...(hProjectName === '- not found -' || hProjectName === '' || !hProjectName
 								? { boxShadow: '0 0 0 3px var(--danger)' }
 								: {}),
 						}}
 					/>
+					<Input
+						required
+						id="hClient"
+						label="Harvest Client ID"
+						value={hClient}
+						visible={tab === 'client'}
+						help={
+							<img
+								src={hClientIDImg}
+								alt="The project ID can be found in the url of the project website in harvest."
+							/>
+						}
+						onChange={(event) => {
+							setHClient(event.target.value);
+							setHClientName('');
+						}}
+						onBlur={getHClientName}
+					/>
+					<Input
+						required
+						id="hClientName"
+						label="Harvest Client Name"
+						value={hClientName}
+						disabled
+						loading={loadingHC}
+						readOnly
+						visible={tab === 'client'}
+						css={{
+							...(hClientName === '- not found -' || hClientName === '' || !hClientName
+								? { boxShadow: '0 0 0 3px var(--danger)' }
+								: {}),
+						}}
+					/>
+
 					<Input
 						required
 						id="gSheetID"
@@ -282,7 +405,7 @@ export function Sheet({ match }) {
 					</Button>
 					<Button
 						type="submit"
-						loading={loadingH || loadingG}
+						loading={loadingHP || loadingHC || loadingG}
 						css={{
 							justifySelf: 'end',
 						}}

@@ -10,6 +10,7 @@ export function SheetCard({
 	id,
 	name,
 	hProjectName,
+	hClientName,
 	tabName,
 	gSheetIDName,
 	output,
@@ -105,7 +106,7 @@ export function SheetCard({
 				>
 					{name}
 				</strong>
-				<Code>{hProjectName}</Code>
+				<Code>{hProjectName || hClientName}</Code>
 				<Code>{gSheetIDName}</Code>
 				<Code>{tabName}</Code>
 				<Code>

@@ -9,12 +9,14 @@ import { ImportExport } from './ImportExport';
 import { ListSheets } from './ListSheets';
 import { version } from '../package.json';
 import { ListOutput } from './ListOutput';
+import { getLogin } from './storage';
 import { Output } from './Output';
 import { Sheet } from './Sheet';
 
 export function Home({ handleLogout }) {
 	const [colors, setColors] = useState(['rgb(1, 255, 251)', 'rgb(183, 1, 255)']);
 	const [index, setIndex] = useState(0);
+	const { avatar_url } = getLogin();
 
 	const easterEgg = () => {
 		const colorSets = [
@@ -81,8 +83,22 @@ export function Home({ handleLogout }) {
 						top: '1rem',
 						right: '1rem',
 					},
+					...(avatar_url ? { paddingLeft: '2rem' } : {}),
 				}}
 			>
+				{avatar_url && (
+					<img
+						src={avatar_url}
+						alt=""
+						css={{
+							position: 'absolute',
+							left: '6px',
+							top: '3px',
+							height: '22px',
+							borderRadius: '100%',
+						}}
+					/>
+				)}
 				Logout
 			</IconButton>
 

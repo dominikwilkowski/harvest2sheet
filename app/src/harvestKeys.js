@@ -1,6 +1,11 @@
 import parseISO from 'date-fns/parseISO';
 import format from 'date-fns/format';
 
+/**
+ * All the keys the Harvest API returns
+ *
+ * @type {Object}
+ */
 export const harvestKeys = {
 	date: {
 		name: 'Date',

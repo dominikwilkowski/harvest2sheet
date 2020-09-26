@@ -2,7 +2,16 @@
 
 import { jsx, keyframes } from '@emotion/core';
 
-export function Input({ id, label, maxWidth = '17rem', loading = false, help = '', ...props }) {
+export function Input({
+	id,
+	label,
+	required,
+	maxWidth = '17rem',
+	loading = false,
+	help = '',
+	visible = true,
+	...props
+}) {
 	const rotation = keyframes({
 		to: {
 			transform: 'rotate( 360deg )',
@@ -12,9 +21,10 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 	return (
 		<li
 			css={{
+				display: visible ? 'block' : 'none',
 				marginBottom: '0.5rem',
 				'@media (min-width: 37.5rem)': {
-					display: 'grid',
+					display: visible ? 'grid' : 'none',
 					gridTemplateColumns: `${maxWidth} auto`,
 				},
 			}}
@@ -74,6 +84,7 @@ export function Input({ id, label, maxWidth = '17rem', loading = false, help = '
 							background: 'var(--alt-bg)',
 						},
 					}}
+					required={visible ? required : false}
 					{...props}
 				/>
 				{help && (
