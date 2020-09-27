@@ -185,6 +185,7 @@ export function IconButton({
 		},
 		logout: {
 			background: '#fff',
+			padding: icon ? '0.5rem 1rem 0.5rem 2rem' : '0.5rem 1rem',
 			':hover': {
 				background: 'var(--danger)',
 				color: '#fff',

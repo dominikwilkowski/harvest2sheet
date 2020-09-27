@@ -85,7 +85,6 @@ export function Home({ handleLogout }) {
 						top: '1rem',
 						right: '1rem',
 					},
-					...(avatar_url ? { paddingLeft: '2rem' } : {}),
 				}}
 			>
 				Logout
