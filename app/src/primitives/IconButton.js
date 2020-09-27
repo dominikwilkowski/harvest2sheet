@@ -7,6 +7,7 @@ export function IconButton({
 	children,
 	confirm,
 	onClick,
+	icon,
 	look = 'add',
 	as: Tag = 'button',
 	...props
@@ -183,7 +184,6 @@ export function IconButton({
 			},
 		},
 		logout: {
-			padding: '0.5rem 1rem',
 			background: '#fff',
 			':hover': {
 				background: 'var(--danger)',
@@ -345,7 +345,7 @@ export function IconButton({
 				color: 'var(--text)',
 				border: 'none',
 				borderRadius: '6px',
-				padding: '0.5rem 1rem 0.5rem 2.5rem',
+				padding: icon ? '0.5rem 1rem 0.5rem 2rem' : '0.5rem 1rem 0.5rem 2.5rem',
 				fontSize: '0.75rem',
 				textDecoration: 'none',
 				textAlign: 'center',
@@ -362,6 +362,19 @@ export function IconButton({
 			onClick={handleClick}
 			{...props}
 		>
+			{icon && (
+				<img
+					src={icon}
+					alt=""
+					css={{
+						position: 'absolute',
+						left: '6px',
+						top: '3px',
+						height: '22px',
+						borderRadius: '100%',
+					}}
+				/>
+			)}
 			{confirmScreen ? 'Sure?' : children}
 		</Tag>
 	);
