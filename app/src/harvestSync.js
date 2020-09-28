@@ -80,6 +80,30 @@ export async function getClientName(LOGIN, client) {
 	}
 }
 
+async function getTimeEntries(LOGIN, fromDate, toDate, apiCall, harvestID, page = 1) {
+	try {
+		const response = await fetch(
+			`https://api.harvestapp.com/v2/time_entries?from=${fromDate}&to=${toDate}&${apiCall}=${harvestID}&page=${page}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${LOGIN.HARVEST_ACCESS_TOKEN}`,
+					'Harvest-Account-Id': LOGIN.HARVEST_ACCOUNT_ID,
+					'User-Agent': 'Harvest2Sheet',
+				},
+			}
+		);
+		const { time_entries, total_pages } = await response.json();
+
+		return {
+			timeEntries: time_entries,
+			totalPages: parseInt(total_pages),
+		};
+	} catch (error) {
+		return error;
+	}
+}
+
 /**
  * Get time entries out of harvest between two points in time
  *
@@ -100,28 +124,48 @@ export async function harvestSync(LOGIN, harvestID, date, output, apiCall = 'pro
 	}
 	const toDate = endOfDay(lastDayOfMonth(fromDate));
 
-	const csv = [output.map((item) => (harvestKeys[item] ? harvestKeys[item].name : 'unknown'))];
+	let csv = [output.map((item) => (harvestKeys[item] ? harvestKeys[item].name : 'unknown'))];
 
 	try {
-		const response = await fetch(
-			`https://api.harvestapp.com/v2/time_entries?from=${format(fromDate, 'yyyyMMdd')}&to=${format(
-				toDate,
-				'yyyyMMdd'
-			)}&${apiCall}=${harvestID}`,
-			{
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${LOGIN.HARVEST_ACCESS_TOKEN}`,
-					'Harvest-Account-Id': LOGIN.HARVEST_ACCOUNT_ID,
-					'User-Agent': 'Harvest2Sheet',
-				},
-			}
+		const { timeEntries, totalPages } = await getTimeEntries(
+			LOGIN,
+			format(fromDate, 'yyyyMMdd'),
+			format(toDate, 'yyyyMMdd'),
+			apiCall,
+			harvestID
 		);
-		const { time_entries } = await response.json();
 
-		time_entries.reverse().forEach((entry) => {
-			csv.push(output.map((item) => (harvestKeys[item] ? harvestKeys[item].value(entry) : '')));
-		});
+		let allPages = [...timeEntries];
+
+		if (totalPages > 1) {
+			await Promise.all(
+				Array(totalPages - 1)
+					.fill()
+					.map(async (_, page) => {
+						const { timeEntries } = await getTimeEntries(
+							LOGIN,
+							format(fromDate, 'yyyyMMdd'),
+							format(toDate, 'yyyyMMdd'),
+							apiCall,
+							harvestID,
+							page + 2
+						);
+
+						allPages = [...allPages, ...timeEntries];
+					})
+			);
+		}
+
+		allPages = allPages
+			.sort(
+				(a, b) =>
+					parseInt(a.spent_date.replace(/-/g, '')) - parseInt(b.spent_date.replace(/-/g, ''))
+			)
+			.map((entry) =>
+				output.map((item) => (harvestKeys[item] ? harvestKeys[item].value(entry) : ''))
+			);
+
+		csv = [...csv, ...allPages];
 	} catch (error) {
 		errors.push(error);
 	}
