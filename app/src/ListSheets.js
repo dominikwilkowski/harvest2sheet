@@ -209,7 +209,7 @@ export function ListSheets() {
 					},
 				}}
 			>
-				Select all
+				Select all ({sheets.length})
 			</button>
 
 			<ul
