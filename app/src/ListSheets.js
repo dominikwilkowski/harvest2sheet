@@ -121,14 +121,14 @@ export function ListSheets() {
 					display: 'grid',
 					gridTemplateColumns: '1fr',
 					alignItems: 'center',
-					'@media (min-width: 28.75rem)': {
-						gridTemplateColumns: '1fr 1fr',
+					'@media (min-width: 35.625rem)': {
+						gridTemplateColumns: 'auto 1fr',
 					},
 				}}
 			>
 				<div
 					css={{
-						'@media (min-width: 28.75rem)': {
+						'@media (min-width: 35.625rem)': {
 							justifySelf: 'start',
 						},
 					}}
@@ -161,7 +161,7 @@ export function ListSheets() {
 					onSubmit={(event) => sync(event, tabName)}
 					css={{
 						marginTop: '1rem',
-						'@media (min-width: 28.75rem)': {
+						'@media (min-width: 35.625rem)': {
 							justifySelf: 'end',
 							marginTop: 0,
 						},

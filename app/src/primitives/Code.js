@@ -23,7 +23,7 @@ export function Code({ kind, ...props }) {
 				border: '1px solid #ccc',
 				padding: '0 0.25rem',
 				borderRadius: '3px',
-				margin: '0.25rem 0.25rem 0 0',
+				margin: '0.125rem',
 				fontSize: '0.75rem',
 				...(kind
 					? {

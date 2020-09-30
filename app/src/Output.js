@@ -187,7 +187,7 @@ export function Output({ match }) {
 							justifySelf: 'end',
 						}}
 					>
-						Save output
+						{itemID ? 'Edit' : 'Add'} output
 					</Button>
 				</div>
 			</form>

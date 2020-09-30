@@ -75,7 +75,6 @@ export function SheetCard({
 						css={{
 							'@media (min-width: 40rem)': {
 								position: 'relative',
-								paddingBottom: '0.25rem',
 								':before': {
 									content: '""',
 									position: 'absolute',

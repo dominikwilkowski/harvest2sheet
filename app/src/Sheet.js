@@ -418,7 +418,7 @@ export function Sheet({ match }) {
 								checked={hourSummary}
 								onChange={() => setHourSummary(!hourSummary)}
 							/>
-							Include hour summary
+							Generate summary sheet
 						</label>
 					</li>
 				</ul>
