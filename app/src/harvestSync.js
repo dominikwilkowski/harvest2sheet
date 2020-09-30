@@ -80,6 +80,18 @@ export async function getClientName(LOGIN, client) {
 	}
 }
 
+/**
+ * Retrieve time entries from Harvest API
+ *
+ * @param  {object} LOGIN     - The login object
+ * @param  {string} fromDate  - The date from which the entries should start
+ * @param  {string} toDate    - The date to which the entries should end
+ * @param  {string} apiCall   - The API call
+ * @param  {number} harvestID - The Harvest ID for that API call
+ * @param  {number} page      - The current page
+ *
+ * @return {object}           - The entries
+ */
 async function getTimeEntries(LOGIN, fromDate, toDate, apiCall, harvestID, page = 1) {
 	try {
 		const response = await fetch(
@@ -105,6 +117,77 @@ async function getTimeEntries(LOGIN, fromDate, toDate, apiCall, harvestID, page 
 }
 
 /**
+ * Get summary data from time entries
+ *
+ * @param  {array} data - The harvest data unprocessed
+ *
+ * @return {array}      - The array of arrays for entry into google sheets
+ */
+export function getSummary(data) {
+	const users = {};
+
+	data.forEach((item) => {
+		const user = harvestKeys.user.value(item);
+		const date = harvestKeys.date.value(item);
+
+		if (!users[user]) {
+			users[user] = {
+				days: 0,
+				bucket: 0,
+				entries: {},
+			};
+		}
+
+		const hours = harvestKeys.rounded_hours.value(item);
+		if (!users[user].entries[date]) {
+			users[user].entries[date] = hours;
+		} else {
+			users[user].entries[date] += hours;
+		}
+	});
+
+	const headerLine = [''];
+	const daysLine = ['Total full days'];
+	const bucketLine = ['Total remaining bucket hours'];
+	const entriesLines = [['Timesheet by dates']];
+	let longestEntries = 0;
+
+	Object.keys(users).forEach((user) => {
+		headerLine.push(user);
+
+		const allUsers = Object.entries(users[user].entries);
+		if (allUsers.length > longestEntries) {
+			longestEntries = allUsers.length;
+		}
+
+		allUsers.forEach(([_, time]) => {
+			if (Math.round(time) >= 6) {
+				users[user].days++;
+			} else {
+				users[user].bucket += time;
+			}
+		});
+
+		daysLine.push(users[user].days);
+		bucketLine.push(users[user].bucket);
+	});
+
+	for (let i = 0; i < longestEntries; i++) {
+		Object.keys(users).forEach((user) => {
+			const date = Object.keys(users[user].entries)[i];
+			const value = users[user].entries[date];
+			if (!entriesLines[i]) {
+				entriesLines[i] = [];
+				entriesLines[i].push('');
+			}
+			entriesLines[i].push(value ? `${date} ${value}h` : '');
+		});
+	}
+
+	return [headerLine, daysLine, bucketLine, [], ...entriesLines];
+}
+
+/**
  * Get time entries out of harvest between two points in time
  *
  * @param  {object} LOGIN     - The login object
@@ -125,6 +208,7 @@ export async function harvestSync(LOGIN, harvestID, date, output, apiCall = 'pro
 	const toDate = endOfDay(lastDayOfMonth(fromDate));
 
 	let csv = [output.map((item) => (harvestKeys[item] ? harvestKeys[item].name : 'unknown'))];
+	let allData;
 
 	try {
 		const { timeEntries, totalPages } = await getTimeEntries(
@@ -135,7 +219,7 @@ export async function harvestSync(LOGIN, harvestID, date, output, apiCall = 'pro
 			harvestID
 		);
 
-		let allPages = [...timeEntries];
+		allData = [...timeEntries];
 
 		if (totalPages > 1) {
 			await Promise.all(
@@ -151,27 +235,27 @@ export async function harvestSync(LOGIN, harvestID, date, output, apiCall = 'pro
 							page + 2
 						);
 
-						allPages = [...allPages, ...timeEntries];
+						allData = [...allData, ...timeEntries];
 					})
 			);
 		}
 
-		allPages = allPages
-			.sort(
-				(a, b) =>
-					parseInt(a.spent_date.replace(/-/g, '')) - parseInt(b.spent_date.replace(/-/g, ''))
-			)
-			.map((entry) =>
-				output.map((item) => (harvestKeys[item] ? harvestKeys[item].value(entry) : ''))
-			);
+		allData = allData.sort(
+			(a, b) => parseInt(a.spent_date.replace(/-/g, '')) - parseInt(b.spent_date.replace(/-/g, ''))
+		);
 
-		csv = [...csv, ...allPages];
+		const csvLines = allData.map((entry) =>
+			output.map((item) => (harvestKeys[item] ? harvestKeys[item].value(entry) : ''))
+		);
+
+		csv = [...csv, ...csvLines];
 	} catch (error) {
 		errors.push(error);
 	}
 
 	return {
 		csv,
+		allData,
 		errors: errors.length ? errors.join('\n') : null,
 	};
 }

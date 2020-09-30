@@ -29,6 +29,36 @@ async function createTab(spreadsheetID, tabName) {
 }
 
 /**
+ * Merge cells
+ *
+ * @param  {string} spreadsheetID - The spreadsheet ID to be updated
+ * @param  {array}  sheetID       - The ID of the tab inside the spreadsheet
+ */
+// async function mergeCells(spreadsheetID, sheetID) {
+// 	try {
+// 		await window.gapi.client.sheets.spreadsheets.batchUpdate({
+// 			spreadsheetId: spreadsheetID,
+// 			resource: {
+// 				requests: [
+// 					{
+// 						mergeCells: {
+// 							mergeType: 'MERGE_COLUMNS',
+// 							range: {
+// 								sheetId: sheetID,
+// 								startRowIndex: 0,
+// 								endRowIndex: 0,
+// 								startColumnIndex: 1,
+// 								endColumnIndex: 2,
+// 							}
+// 						},
+// 					},
+// 				],
+// 			},
+// 		});
+// 	} catch (error) {}
+// }
+
+/**
  * Clear a spreadsheet tab
  *
  * @param  {string} spreadsheetID - The spreadsheet ID to be updated

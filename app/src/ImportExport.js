@@ -65,7 +65,7 @@ export function ImportExport() {
 					display: 'grid',
 					gridTemplateColumns: '2rem 1fr',
 					alignItems: 'center',
-					margin: '0 0 0 1rem',
+					margin: '0 0 0 0.5rem',
 				}}
 			>
 				<Checkbox
@@ -167,7 +167,7 @@ export function ImportExport() {
 							display: 'grid',
 							gridTemplateColumns: '2rem 1fr',
 							alignItems: 'center',
-							margin: '0 0 0 1rem',
+							marginLeft: '-0.5rem',
 						}}
 					>
 						<Checkbox
@@ -183,7 +183,7 @@ export function ImportExport() {
 							display: 'grid',
 							gridTemplateColumns: '2rem 1fr',
 							alignItems: 'center',
-							margin: '0 0 0 1rem',
+							marginLeft: '-0.5rem',
 						}}
 					>
 						<Checkbox

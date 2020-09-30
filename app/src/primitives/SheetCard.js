@@ -13,6 +13,7 @@ export function SheetCard({
 	hProjectName,
 	hClientName,
 	tabName,
+	hourSummaryTabName,
 	gSheetIDName,
 	output,
 	selected,
@@ -102,6 +103,7 @@ export function SheetCard({
 					<div>
 						<Code>{gSheetIDName}</Code>
 						<Code>{tabName}</Code>
+						{hourSummaryTabName && <Code>{hourSummaryTabName}</Code>}
 						<Code>
 							{output.name} ({output.columns.length} columns)
 						</Code>

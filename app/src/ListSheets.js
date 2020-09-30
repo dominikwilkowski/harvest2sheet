@@ -7,10 +7,10 @@ import format from 'date-fns/format';
 import { useState } from 'react';
 
 import { getLogin, getSheets, writeSheets, getOutput, writeOutput } from './storage';
+import { harvestSync, getSummary } from './harvestSync';
 import { IconButton } from './primitives/IconButton';
 import { SheetCard } from './primitives/SheetCard';
 import { Wrapper } from './primitives/Wrapper';
-import { harvestSync } from './harvestSync';
 import { googleSync } from './googleSync';
 
 export function ListSheets() {
@@ -78,7 +78,7 @@ export function ListSheets() {
 		setLoading(true);
 		const selectedSheets = sheets.filter(({ id }) => selected.includes(id));
 		await Promise.all(
-			selectedSheets.map(async ({ hProject, hClient, gSheetID, output }) => {
+			selectedSheets.map(async ({ hProject, hClient, gSheetID, output, hourSummary }) => {
 				const hID = hProject || hClient;
 				const apiCall = hProject ? 'project_id' : 'client_id';
 				try {
@@ -90,6 +90,10 @@ export function ListSheets() {
 						apiCall
 					);
 					await googleSync(LOGIN, gSheetID, date, timeData.csv, tabName);
+					if (hourSummary) {
+						const data = getSummary(timeData.allData);
+						await googleSync(LOGIN, gSheetID, date, data, hourSummaryTabName);
+					}
 					setSelected([]);
 				} catch (error) {
 					console.error(error);
@@ -107,6 +111,7 @@ export function ListSheets() {
 
 	const fromDate = parseISO(`${date.length === 7 ? date : '2020-01'}-01T00:00:00.000Z`);
 	const tabName = `H|${format(fromDate, `LLL`)}'${format(fromDate, `yy`)}`;
+	const hourSummaryTabName = `${tabName}|Summary`;
 
 	return (
 		<Wrapper size="lg">
@@ -235,35 +240,38 @@ export function ListSheets() {
 					},
 				}}
 			>
-				{sheets.map(({ id, name, hProjectName, hClientName, gSheetIDName, output = 1 }, i) => (
-					<li
-						key={id}
-						css={{
-							opacity: loading ? 0.2 : 1,
-							marginTop: '1.5rem',
-							':not(:first-of-type)': {
-								borderTop: '2px dashed var(--alt-bg)',
-								paddingTop: '0.5rem',
-							},
-							'@media (min-width: 40rem)': {
-								marginTop: '0.5rem',
-							},
-						}}
-					>
-						<SheetCard
-							id={id}
-							name={name}
-							hProjectName={hProjectName}
-							hClientName={hClientName}
-							tabName={tabName}
-							gSheetIDName={gSheetIDName}
-							output={getOutputByID(output)}
-							selected={selected}
-							toggle={toggle}
-							deleteSheet={deleteSheet}
-						/>
-					</li>
-				))}
+				{sheets.map(
+					({ id, name, hProjectName, hClientName, gSheetIDName, output = 1, hourSummary }, i) => (
+						<li
+							key={id}
+							css={{
+								opacity: loading ? 0.2 : 1,
+								marginTop: '1.5rem',
+								':not(:first-of-type)': {
+									borderTop: '2px dashed var(--alt-bg)',
+									paddingTop: '0.5rem',
+								},
+								'@media (min-width: 40rem)': {
+									marginTop: '0.5rem',
+								},
+							}}
+						>
+							<SheetCard
+								id={id}
+								name={name}
+								hProjectName={hProjectName}
+								hClientName={hClientName}
+								tabName={tabName}
+								hourSummaryTabName={hourSummary ? hourSummaryTabName : null}
+								gSheetIDName={gSheetIDName}
+								output={getOutputByID(output)}
+								selected={selected}
+								toggle={toggle}
+								deleteSheet={deleteSheet}
+							/>
+						</li>
+					)
+				)}
 			</ul>
 		</Wrapper>
 	);

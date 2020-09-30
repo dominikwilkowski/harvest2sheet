@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { getLogin, getSheets, writeSheets, getOutput } from './storage';
 import { getProjectName, getClientName } from './harvestSync';
+import { Checkbox } from './primitives/Checkbox';
 import { Wrapper } from './primitives/Wrapper';
 import { Button } from './primitives/Button';
 import { getSheetInfo } from './googleSync';
@@ -37,6 +38,7 @@ export function Sheet({ match }) {
 	let gSheetIDNameDefault = '';
 	let nameDefault = '';
 	let outputDefault = '';
+	let hourSummaryDefault = true;
 	let tabDefault = 'project';
 	if (sheetID) {
 		const thisSheet = storageSheets.filter(({ id }) => id === sheetID);
@@ -51,6 +53,7 @@ export function Sheet({ match }) {
 			outputDefault = storageOutput
 				.filter(({ id }) => id === thisSheet[0].output)
 				.map(({ id, name }) => ({ label: name, value: id }))[0];
+			hourSummaryDefault = !!thisSheet[0].hourSummary;
 			if (hClientDefault) {
 				tabDefault = 'client';
 			}
@@ -68,6 +71,7 @@ export function Sheet({ match }) {
 	const [gSheetIDName, setGSheetIDName] = useState(gSheetIDNameDefault);
 	const [name, setName] = useState(nameDefault);
 	const [output, setOutput] = useState(outputDefault);
+	const [hourSummary, setHourSummary] = useState(hourSummaryDefault);
 	const [tab, setTab] = useState(tabDefault);
 	const history = useHistory();
 
@@ -141,6 +145,7 @@ export function Sheet({ match }) {
 								gSheetID,
 								gSheetIDName,
 								output: output.value,
+								hourSummary,
 						  }
 						: sheet
 				);
@@ -155,6 +160,7 @@ export function Sheet({ match }) {
 					gSheetID,
 					gSheetIDName,
 					output: output.value,
+					hourSummary,
 				});
 			}
 			writeSheets(storageSheets);
@@ -390,6 +396,30 @@ export function Sheet({ match }) {
 							onChange={setOutput}
 							styles={colourStyles}
 						/>
+					</li>
+					<li
+						css={{
+							marginBottom: '0.5rem',
+							'@media (min-width: 37.5rem)': {
+								marginLeft: '16.5rem',
+							},
+						}}
+					>
+						<label
+							css={{
+								display: 'grid',
+								gridTemplateColumns: 'auto 1fr',
+								alignItems: 'center',
+								fontSize: '1.5rem',
+							}}
+						>
+							<Checkbox
+								id="hourSummary"
+								checked={hourSummary}
+								onChange={() => setHourSummary(!hourSummary)}
+							/>
+							Include hour summary
+						</label>
 					</li>
 				</ul>
 
