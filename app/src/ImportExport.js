@@ -60,18 +60,22 @@ export function ImportExport() {
 		<Wrapper>
 			<h2>Export</h2>
 
-			<div
+			<label
 				css={{
-					marginLeft: '1rem',
+					display: 'grid',
+					gridTemplateColumns: '2rem 1fr',
+					alignItems: 'center',
+					margin: '0 0 0 1rem',
 				}}
 			>
 				<Checkbox
+					size="sm"
 					id="includeOutput"
-					label="Include Output"
 					checked={includeOutput}
 					onChange={(event) => setIncludeOutput(event.target.checked)}
 				/>
-			</div>
+				Include Output
+			</label>
 			<IconButton
 				look="export"
 				as="a"
@@ -158,18 +162,38 @@ export function ImportExport() {
 							},
 						}}
 					/>
-					<Checkbox
-						id="overrideSheets"
-						label="Override sheets"
-						checked={overrideSheets}
-						onChange={(event) => setOverrideSheets(event.target.checked)}
-					/>
-					<Checkbox
-						id="overrideOutput"
-						label="Override output"
-						checked={overrideOutput}
-						onChange={(event) => setOverrideOutput(event.target.checked)}
-					/>
+					<label
+						css={{
+							display: 'grid',
+							gridTemplateColumns: '2rem 1fr',
+							alignItems: 'center',
+							margin: '0 0 0 1rem',
+						}}
+					>
+						<Checkbox
+							size="sm"
+							id="overrideSheets"
+							checked={overrideSheets}
+							onChange={(event) => setOverrideSheets(event.target.checked)}
+						/>
+						Override sheets
+					</label>
+					<label
+						css={{
+							display: 'grid',
+							gridTemplateColumns: '2rem 1fr',
+							alignItems: 'center',
+							margin: '0 0 0 1rem',
+						}}
+					>
+						<Checkbox
+							size="sm"
+							id="overrideOutput"
+							checked={overrideOutput}
+							onChange={(event) => setOverrideOutput(event.target.checked)}
+						/>
+						Override output
+					</label>
 				</div>
 				{error && <div css={{ color: 'var(--danger)' }}>{error}</div>}
 				<IconButton

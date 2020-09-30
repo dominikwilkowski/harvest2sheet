@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { jsx } from '@emotion/core';
 
 import { IconButton } from './IconButton';
+import { Checkbox } from './Checkbox';
 import { Code } from './Code';
 
 export function SheetCard({
@@ -32,64 +33,17 @@ export function SheetCard({
 		>
 			<label
 				css={{
-					position: 'relative',
-					overflow: 'hidden',
 					display: 'block',
 					width: '3rem',
 					height: '3rem',
 					cursor: 'pointer',
 				}}
 			>
-				<input
+				<Checkbox
 					id={id}
-					type="checkbox"
 					checked={selected.includes(id)}
 					onChange={() => toggle(id)}
-					css={{
-						position: 'absolute',
-						top: '-5rem',
-						left: '-5rem',
-					}}
-				/>
-				<span
-					css={{
-						display: 'block',
-						width: '2rem',
-						height: '2rem',
-						margin: '0.5rem',
-						border: '4px solid var(--text)',
-						borderRadius: '3px',
-						':before': {
-							content: '""',
-							display: 'none',
-							position: 'absolute',
-							top: '0.7rem',
-							right: '0.4rem',
-							width: '1.5rem',
-							height: '0.8rem',
-							borderBottom: '4px solid var(--text)',
-							borderLeft: '4px solid var(--text)',
-							transform: 'rotate(-45deg)',
-							zIndex: 2,
-						},
-						':after': {
-							content: '""',
-							display: 'none',
-							position: 'absolute',
-							top: '0',
-							right: '0',
-							width: '1.1rem',
-							height: '1.5rem',
-							background: '#fff',
-							zIndex: 1,
-						},
-						'input:checked + &:before,input:checked + &:after': {
-							display: 'block',
-						},
-						'input:focus + &': {
-							boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
-						},
-					}}
+					css={{ margin: '2px' }}
 				/>
 			</label>
 			<label
@@ -106,12 +60,53 @@ export function SheetCard({
 				>
 					{name}
 				</strong>
-				<Code>{hProjectName || hClientName}</Code>
-				<Code>{gSheetIDName}</Code>
-				<Code>{tabName}</Code>
-				<Code>
-					{output.name} ({output.columns.length} columns)
-				</Code>
+				<div
+					css={{
+						'@media (min-width: 40rem)': {
+							display: 'grid',
+							gridTemplateColumns: 'auto 1fr',
+							gap: '1.75rem',
+							alignItems: 'center',
+						},
+					}}
+				>
+					<div
+						css={{
+							'@media (min-width: 40rem)': {
+								position: 'relative',
+								paddingBottom: '0.25rem',
+								':before': {
+									content: '""',
+									position: 'absolute',
+									top: '50%',
+									right: '-1.25rem',
+									height: '4px',
+									width: '1rem',
+									marginTop: '-2px',
+									background: 'var(--text)',
+								},
+								':after': {
+									content: '""',
+									position: 'absolute',
+									top: '50%',
+									right: '-1.8rem',
+									border: '6px solid var(--text)',
+									borderColor: 'transparent transparent transparent var(--text)',
+									marginTop: '-6px',
+								},
+							},
+						}}
+					>
+						<Code kind={hProjectName ? 'project' : 'client'}>{hProjectName || hClientName}</Code>
+					</div>
+					<div>
+						<Code>{gSheetIDName}</Code>
+						<Code>{tabName}</Code>
+						<Code>
+							{output.name} ({output.columns.length} columns)
+						</Code>
+					</div>
+				</div>
 			</label>
 			<div
 				css={{

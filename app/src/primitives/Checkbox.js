@@ -2,60 +2,104 @@
 
 import { jsx } from '@emotion/core';
 
-export function Checkbox({ id, label, ...props }) {
+export function Checkbox({ id, checked, onChange, size = 'lg', ...props }) {
+	const styleMap = {
+		sm: {
+			root: {
+				width: '1rem',
+				height: '1rem',
+				border: '3px solid var(--text)',
+			},
+			before: {
+				top: '-1px',
+				right: '-3px',
+				width: '0.75rem',
+				height: '0.4rem',
+				borderBottom: '2px solid var(--text)',
+				borderLeft: '2px solid var(--text)',
+			},
+			after: {
+				top: '-8px',
+				right: '-8px',
+				width: '0.55rem',
+				height: '0.85rem',
+			},
+		},
+		lg: {
+			root: {
+				width: '2rem',
+				height: '2rem',
+				border: '4px solid var(--text)',
+			},
+			before: {
+				top: '-1px',
+				right: '-5px',
+				width: '1.5rem',
+				height: '0.8rem',
+				borderBottom: '4px solid var(--text)',
+				borderLeft: '4px solid var(--text)',
+			},
+			after: {
+				top: '-10px',
+				right: '-10px',
+				width: '0.8rem',
+				height: '1.4rem',
+			},
+		},
+	};
+
 	return (
-		<div>
+		<div
+			css={{
+				position: 'relative',
+				display: 'inline-block',
+				overflow: 'hidden',
+			}}
+			{...props}
+		>
 			<input
 				id={id}
 				type="checkbox"
-				{...props}
+				checked={checked}
+				onChange={onChange}
 				css={{
 					position: 'absolute',
-					opacity: 0,
+					top: '-5rem',
+					left: '-5rem',
 				}}
 			/>
-			<label
-				htmlFor={id}
+			<span
 				css={{
 					position: 'relative',
-					display: 'inline-flex',
-					paddingLeft: '1.5rem',
-					height: '1rem',
-					marginBottom: '0.5rem',
-					alignItems: 'center',
-					cursor: 'pointer',
+					display: 'block',
+					borderRadius: '3px',
+					zIndex: 1,
+					margin: '7px',
+					...styleMap[size].root,
 					':before': {
 						content: '""',
+						display: 'none',
 						position: 'absolute',
-						left: 0,
-						top: 0,
-						width: '1rem',
-						height: '1rem',
-						border: '3px solid var(--text)',
-						borderRadius: '3px',
+						transform: 'rotate(-45deg)',
+						zIndex: 3,
+						...styleMap[size].before,
 					},
 					':after': {
 						content: '""',
 						display: 'none',
 						position: 'absolute',
-						left: '5px',
-						top: '4px',
-						width: '6px',
-						height: '6px',
-						border: '2px solid var(--text)',
-						borderStyle: 'none solid solid none',
-						transform: 'rotate(45deg)',
+						background: '#fff',
+						zIndex: 2,
+						...styleMap[size].after,
 					},
-					'input:checked + &:after': {
+					'input:checked + &:before,input:checked + &:after': {
 						display: 'block',
 					},
 					'input:focus + &': {
 						boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
 					},
 				}}
-			>
-				{label}
-			</label>
+			/>
 		</div>
 	);
 }
