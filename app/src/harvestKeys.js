@@ -9,7 +9,7 @@ import format from 'date-fns/format';
 export const harvestKeys = {
 	date: {
 		name: 'Date',
-		value: (item) => item.spent_date,
+		value: (item) => format(parseISO(item.spent_date), 'dd MMM yy'),
 	},
 	hours: {
 		name: 'Hours',
@@ -81,11 +81,11 @@ export const harvestKeys = {
 	},
 	created_at: {
 		name: 'Created At',
-		value: (item) => format(parseISO(item.created_at), 'yyyy-MM-dd'),
+		value: (item) => format(parseISO(item.created_at), 'dd MMM yy h:m:s a'),
 	},
 	updated_at: {
 		name: 'Updated At',
-		value: (item) => item.updated_at,
+		value: (item) => format(parseISO(item.updated_at), 'dd MMM yy h:m:s a'),
 	},
 	user: {
 		name: 'User',
