@@ -178,7 +178,7 @@ export function getSummary(data) {
 	});
 
 	dates.forEach((date) => {
-		const line = [format(parseISO(date), 'dd MMM yy')];
+		const line = [date];
 		Object.keys(users).forEach((user) => {
 			const value = users[user].entries[date];
 			line.push(value ? value : '');
