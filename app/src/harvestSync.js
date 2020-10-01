@@ -125,6 +125,7 @@ async function getTimeEntries(LOGIN, fromDate, toDate, apiCall, harvestID, page 
  */
 export function getSummary(data) {
 	const users = {};
+	const dates = [];
 
 	data.forEach((item) => {
 		const user = harvestKeys.user.value(item);
@@ -144,12 +145,16 @@ export function getSummary(data) {
 		} else {
 			users[user].entries[date] += hours;
 		}
+
+		if (!dates.includes(date)) {
+			dates.push(date);
+		}
 	});
 
 	const headerLine = [''];
 	const daysLine = ['Total full days'];
 	const bucketLine = ['Total remaining bucket hours'];
-	const entriesLines = [['Timesheet by dates']];
+	const entriesLines = [];
 	let longestEntries = 0;
 
 	Object.keys(users).forEach((user) => {
@@ -172,19 +177,17 @@ export function getSummary(data) {
 		bucketLine.push(users[user].bucket);
 	});
 
-	for (let i = 0; i < longestEntries; i++) {
+	dates.forEach((date) => {
+		const line = [date];
 		Object.keys(users).forEach((user) => {
-			const date = Object.keys(users[user].entries)[i];
 			const value = users[user].entries[date];
-			if (!entriesLines[i]) {
-				entriesLines[i] = [];
-				entriesLines[i].push('');
-			}
-			entriesLines[i].push(value ? `${date} ${value}h` : '');
+			line.push(value ? value : '');
 		});
-	}
 
-	return [headerLine, daysLine, bucketLine, [], ...entriesLines];
+		entriesLines.push(line);
+	});
+
+	return [headerLine, daysLine, bucketLine, [], ['Timesheet by dates'], ...entriesLines];
 }
 
 /**
