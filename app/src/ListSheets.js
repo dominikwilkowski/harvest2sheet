@@ -50,6 +50,17 @@ export function ListSheets() {
 	const [date, setDate] = useState(format(subDays(new Date(), 5), 'yyyy-MM'));
 	const [loading, setLoading] = useState(false);
 	const [selected, setSelected] = useState([]);
+	const [sort, setSort] = useState('name');
+
+	const sortSheets = () => {
+		if (sort === 'time') {
+			setSort('name');
+			setSheets(sheets.sort((a, b) => a.id - b.id));
+		} else {
+			setSort('time');
+			setSheets(sheets.sort((a, b) => (a.name < b.name ? -1 : 1)));
+		}
+	};
 
 	const getOutputByID = (ID) => output.filter(({ id }) => id === ID)[0];
 
@@ -202,13 +213,14 @@ export function ListSheets() {
 			<button
 				onClick={selectAll}
 				css={{
-					border: 'none',
+					border: '1px solid var(--text)',
+					borderRadius: '3px',
 					background: 'transparent',
 					apperance: 'none',
 					fontSize: '0.75rem',
 					cursor: 'pointer',
 					margin: '1rem 0 0 0.5rem',
-					padding: 0,
+					padding: '0.25rem',
 					':focus': {
 						outline: 'none',
 						boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
@@ -216,6 +228,26 @@ export function ListSheets() {
 				}}
 			>
 				Select all ({sheets.length})
+			</button>
+
+			<button
+				onClick={sortSheets}
+				css={{
+					border: '1px solid var(--text)',
+					borderRadius: '3px',
+					background: 'transparent',
+					apperance: 'none',
+					fontSize: '0.75rem',
+					cursor: 'pointer',
+					margin: '1rem 0 0 0.5rem',
+					padding: '0.25rem',
+					':focus': {
+						outline: 'none',
+						boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
+					},
+				}}
+			>
+				Sort by {sort}
 			</button>
 
 			<ul
