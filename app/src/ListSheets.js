@@ -3,6 +3,7 @@
 import { jsx, keyframes } from '@emotion/core';
 import parseISO from 'date-fns/parseISO';
 import { Link } from 'react-router-dom';
+import subDays from 'date-fns/subDays';
 import format from 'date-fns/format';
 import { useState } from 'react';
 
@@ -46,7 +47,7 @@ export function ListSheets() {
 	}
 
 	const [sheets, setSheets] = useState(storageSheets);
-	const [date, setDate] = useState(format(new Date(), 'yyyy-MM'));
+	const [date, setDate] = useState(format(subDays(new Date(), 5), 'yyyy-MM'));
 	const [loading, setLoading] = useState(false);
 	const [selected, setSelected] = useState([]);
 
