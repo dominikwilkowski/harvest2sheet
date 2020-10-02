@@ -23,6 +23,7 @@ export function ImportExport() {
 
 	const importFile = (event) => {
 		event.preventDefault();
+		setError('');
 
 		if (file) {
 			const reader = new FileReader();
@@ -50,6 +51,7 @@ export function ImportExport() {
 					setError(
 						`The import file could not be read. Please make sure it's in the right format "harvest2sheet.export"`
 					);
+					setFile('');
 				}
 			};
 			reader.readAsText(file);
@@ -153,6 +155,7 @@ export function ImportExport() {
 								top: 0,
 								width: '8rem',
 								overflow: 'hidden',
+								whiteSpace: 'nowrap',
 								fontSize: '0.75rem',
 								alignItems: 'center',
 								textAlign: 'center',

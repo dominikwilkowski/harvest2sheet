@@ -51,15 +51,32 @@ export function ListSheets() {
 	const [loading, setLoading] = useState(false);
 	const [selected, setSelected] = useState([]);
 	const [sort, setSort] = useState('name');
+	const [filter, setFilter] = useState('');
+
+	const sorting = (sheets, sort) => {
+		if (sort === 'time') {
+			return sheets.sort((a, b) => (a.name < b.name ? -1 : 1));
+		} else {
+			return sheets.sort((a, b) => a.id - b.id);
+		}
+	};
 
 	const sortSheets = () => {
 		if (sort === 'time') {
 			setSort('name');
-			setSheets(sheets.sort((a, b) => a.id - b.id));
+			setSheets(sorting(sheets, 'name'));
 		} else {
 			setSort('time');
-			setSheets(sheets.sort((a, b) => (a.name < b.name ? -1 : 1)));
+			setSheets(sorting(sheets, 'time'));
 		}
+	};
+
+	const filterSheets = (event) => {
+		setFilter(event.target.value);
+		const newSheet = storageSheets.filter(({ name }) =>
+			name.toLowerCase().includes(event.target.value.toLowerCase())
+		);
+		setSheets(sorting(newSheet, sort));
 	};
 
 	const getOutputByID = (ID) => output.filter(({ id }) => id === ID)[0];
@@ -219,7 +236,7 @@ export function ListSheets() {
 					apperance: 'none',
 					fontSize: '0.75rem',
 					cursor: 'pointer',
-					margin: '1rem 0 0 0.5rem',
+					margin: '1rem 0 0 0',
 					padding: '0.25rem',
 					':focus': {
 						outline: 'none',
@@ -250,12 +267,31 @@ export function ListSheets() {
 				Sort by {sort}
 			</button>
 
+			<input
+				type="text"
+				placeholder="filter"
+				value={filter}
+				onChange={filterSheets}
+				css={{
+					apperance: 'none',
+					border: '1px solid var(--text)',
+					fontSize: '0.75rem',
+					margin: '1rem 0 0 0.5rem',
+					padding: '0.25rem',
+					width: '5rem',
+					':focus': {
+						outline: 'none',
+						boxShadow: '0 0 0 2px #fff, 0 0 0 5px var(--focus)',
+					},
+				}}
+			/>
+
 			<ul
 				css={{
 					position: 'relative',
 					listStyle: 'none',
 					padding: 0,
-					margin: 0,
+					margin: '1rem 0 0 0',
 					':after': {
 						content: '""',
 						display: loading ? 'block' : 'none',
@@ -280,9 +316,10 @@ export function ListSheets() {
 							css={{
 								opacity: loading ? 0.2 : 1,
 								marginTop: '1.5rem',
+								marginLeft: '-9px',
 								':not(:first-of-type)': {
 									borderTop: '2px dashed var(--alt-bg)',
-									paddingTop: '0.5rem',
+									paddingTop: '1rem',
 								},
 								'@media (min-width: 40rem)': {
 									marginTop: '0.5rem',
