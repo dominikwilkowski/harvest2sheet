@@ -82,7 +82,7 @@ async function enterData(spreadsheetID, tabName, data) {
 	return await window.gapi.client.sheets.spreadsheets.values.append({
 		spreadsheetId: spreadsheetID,
 		range: tabName,
-		valueInputOption: 'RAW',
+		valueInputOption: 'USER_ENTERED',
 		insertDataOption: 'OVERWRITE',
 		resource: {
 			values: data,

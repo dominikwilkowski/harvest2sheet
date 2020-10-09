@@ -117,6 +117,49 @@ async function getTimeEntries(LOGIN, fromDate, toDate, apiCall, harvestID, page 
 }
 
 /**
+ * Get the column alphabetical identifier from a number
+ *
+ * @param  {integer} col - Number of column
+ *
+ * @return {string}      - The column ID
+ */
+function getCol(col) {
+	const INDEXES = [
+		'A',
+		'B',
+		'C',
+		'D',
+		'E',
+		'F',
+		'G',
+		'H',
+		'I',
+		'J',
+		'K',
+		'L',
+		'M',
+		'N',
+		'O',
+		'P',
+		'Q',
+		'R',
+		'S',
+		'T',
+		'U',
+		'V',
+		'W',
+		'X',
+		'Y',
+		'Z',
+	];
+	const index = Math.floor(col / INDEXES.length);
+
+	// making sure we can handle more than 26 cells by adding a postfix to each cell
+	// (now supports 701 which is not infinite but at least aligns with what spreadsheet apps do)
+	return `${index > 0 ? INDEXES[index - 1] : ''}${INDEXES[col - INDEXES.length * index]}`;
+}
+
+/**
  * Get summary data from time entries
  *
  * @param  {array} data - The harvest data unprocessed
@@ -154,10 +197,12 @@ export function getSummary(data) {
 	const headerLine = [''];
 	const daysLine = ['Total full days'];
 	const bucketLine = ['Total remaining bucket hours'];
+	const roundedBucketLine = ['Rounded bucket days'];
+	const allDaysLine = ['All days'];
 	const entriesLines = [];
 	let longestEntries = 0;
 
-	Object.keys(users).forEach((user) => {
+	Object.keys(users).forEach((user, i) => {
 		headerLine.push(user);
 
 		const allUsers = Object.entries(users[user].entries);
@@ -175,6 +220,9 @@ export function getSummary(data) {
 
 		daysLine.push(users[user].days);
 		bucketLine.push(users[user].bucket);
+		const col = getCol(i + 1);
+		roundedBucketLine.push(`=ROUNDUP(${col}3/8)`);
+		allDaysLine.push(`=SUM(${col}2,${col}4)`);
 	});
 
 	dates.forEach((date) => {
@@ -187,7 +235,16 @@ export function getSummary(data) {
 		entriesLines.push(line);
 	});
 
-	return [headerLine, daysLine, bucketLine, [], ['Timesheet by dates'], ...entriesLines];
+	return [
+		headerLine,
+		daysLine,
+		bucketLine,
+		roundedBucketLine,
+		allDaysLine,
+		[],
+		['Timesheet by dates'],
+		...entriesLines,
+	];
 }
 
 /**
