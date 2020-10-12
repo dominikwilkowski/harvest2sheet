@@ -40,6 +40,7 @@ This will deploy this app into the `gh-pages` branch of this repo and push.
 
 ## Release History
 
+- 1.5.1 - Fixed summary sheet `ROUND` to `ROUNDUP`
 - 1.5.0 - Added two additional rows to summary sheet
 - 1.4.0 - Added sorting, default date to five days in the past, date format changes, summary table more useful
 - 1.3.0 - Added ability to add summary tab to sheet

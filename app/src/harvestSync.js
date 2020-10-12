@@ -221,7 +221,7 @@ export function getSummary(data) {
 		daysLine.push(users[user].days);
 		bucketLine.push(users[user].bucket);
 		const col = getCol(i + 1);
-		roundedBucketLine.push(`=ROUNDUP(${col}3/8)`);
+		roundedBucketLine.push(`=ROUND(${col}3/8)`);
 		allDaysLine.push(`=SUM(${col}2,${col}4)`);
 	});
 
