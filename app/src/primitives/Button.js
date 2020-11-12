@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx, keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 
 export function Button({ children, loading, look = 'default', as: Tag = 'button', ...props }) {
 	const styleMap = {

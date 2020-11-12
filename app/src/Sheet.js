@@ -1,7 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
 import { Link, useHistory } from 'react-router-dom';
-import { jsx } from '@emotion/core';
 import Select from 'react-select';
 import { useState } from 'react';
 

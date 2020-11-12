@@ -1,7 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
 import { Link } from 'react-router-dom';
-import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
 import { getOutput, writeOutput, getSheets, writeSheets } from './storage';

@@ -1,6 +1,4 @@
-/** @jsx jsx */
-
-import { jsx } from '@emotion/core';
+/** @jsxImportSource @emotion/react */
 
 export function Checkbox({ id, checked, onChange, size = 'lg', ...props }) {
 	const styleMap = {

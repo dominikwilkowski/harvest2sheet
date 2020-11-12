@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx, keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import parseISO from 'date-fns/parseISO';
 import { Link } from 'react-router-dom';
 import subDays from 'date-fns/subDays';

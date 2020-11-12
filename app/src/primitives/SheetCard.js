@@ -1,7 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
 import { Link } from 'react-router-dom';
-import { jsx } from '@emotion/core';
 
 import { IconButton } from './IconButton';
 import { Checkbox } from './Checkbox';

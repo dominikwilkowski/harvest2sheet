@@ -1,8 +1,8 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import { jsx, Global } from '@emotion/core';
 import { Fragment, useState } from 'react';
+import { Global } from '@emotion/react';
 
 import { IconButton } from './primitives/IconButton';
 import { ImportExport } from './ImportExport';

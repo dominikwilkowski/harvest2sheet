@@ -1,9 +1,8 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { Link, useHistory } from 'react-router-dom';
 import Select, { components } from 'react-select';
-import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
 import { getOutput, writeOutput } from './storage';

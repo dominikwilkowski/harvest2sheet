@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx, keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import { useState } from 'react';
 
 export function IconButton({

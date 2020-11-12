@@ -1,6 +1,6 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx, keyframes } from '@emotion/core';
+import { keyframes } from '@emotion/react';
 import { Fragment } from 'react';
 
 import { Wrapper } from './primitives/Wrapper';

@@ -1,6 +1,5 @@
-/** @jsx jsx */
+/** @jsxImportSource @emotion/react */
 
-import { jsx } from '@emotion/core';
 import { useState } from 'react';
 
 import { getLogin, writeLogin } from './storage';
